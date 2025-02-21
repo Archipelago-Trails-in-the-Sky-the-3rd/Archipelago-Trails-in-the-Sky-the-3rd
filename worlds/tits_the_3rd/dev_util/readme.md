@@ -40,3 +40,5 @@ You can run `./update_dt21.py` to:
 
 ## hot_refresh_clm_changes.py
 You can run `./hot_refresh_clm_changes.py` while developing to automatically detect changes to `.clm` files in `ED6_DT21_CLM`, compile them through calmare, and replace the existing file in `ED6_DT21`.
+
+test

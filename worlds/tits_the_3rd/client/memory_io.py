@@ -175,7 +175,7 @@ class TitsThe3rdMemoryIO():
     def is_in_battle(self):
         """Returns True if player is currently in battle"""
         BATTLE_OFFSET = 0x67D644
-        return self._read_short(BATTLE_OFFSET) != 0
+        return self._read_short(BATTLE_OFFSET, "little") != 0
 
     def is_valid_to_receive_item(self):
         """Returns True if the player is not currently in an event or battle"""

@@ -122,7 +122,7 @@ class TitsThe3rdMemoryIO():
             raise err
         return function_offsets
 
-    def _read_bytes(self, offset, length=1):
+    def _read_bytes(self, offset, length):
         """
         Read length byte of data at <base_process_address> + offset and return it.
 
@@ -270,6 +270,6 @@ class TitsThe3rdMemoryIO():
         """
         flag_byte_offset = self.OFFSET_FLAG_0 + (flag_number // 8)
         flag_bit = flag_number % 8
-        data = self._read_bytes(flag_byte_offset)
+        data = self._read_bytes(flag_byte_offset, 1)
         flag_value = (data >> flag_bit) & 1
         return bool(flag_value)

@@ -14,7 +14,7 @@ from dataclasses import dataclass
 import json
 import os
 import struct
-from typing import Any, Dict, List, Literal
+from typing import Any, Dict, List, Literal, Optional
 
 from pymem import pymem
 
@@ -275,7 +275,7 @@ class TitsThe3rdMemoryIO():
         flag_value = (data >> flag_bit) & 1
         return bool(flag_value)
 
-    def get_scena_offset(self, scena_id: bytes):
+    def get_scena_offset(self, scena_id: bytes) -> Optional[int]:
         """Get and verify a cached scena offset. Find and cache if it does not exist"""
         if scena_id not in self.scena_offsets:
             address = self.tits_the_3rd_mem.pattern_scan_all(scena_id)
@@ -285,6 +285,7 @@ class TitsThe3rdMemoryIO():
             self.scena_offsets[scena_id] = address
 
         if self.tits_the_3rd_mem.read_bytes(self.scena_offsets[scena_id], 2) != b"AP":
+            del self.scena_offsets[scena_id]
             address = self.tits_the_3rd_mem.pattern_scan_all(scena_id)
             if not address:
                 logger.error("Could not find give item function. Is the game running?")
@@ -297,7 +298,6 @@ class TitsThe3rdMemoryIO():
         """Function to give an item to the player in game"""
         address = self.get_scena_offset(b"AP Item Receive Notification")
         if address is None:
-            logger.error("Could not find give item function. Is the game running?")
             return False
         self.tits_the_3rd_mem.write_bytes(address + 30, item_id.to_bytes(2, "little"), 2)
         self.tits_the_3rd_mem.write_bytes(address + 32, amount.to_bytes(2, "little"), 2)
@@ -310,17 +310,16 @@ class TitsThe3rdMemoryIO():
         """Function to give mira to the player in game"""
         address: int = self.get_scena_offset(b"AP Mira Receive Notification")
         if not address:
-            logger.error("Could not find give item function. Is the game running?")
             return False
         self.tits_the_3rd_mem.write_bytes(address + 30, amount.to_bytes(2, "little"), 2)
         self.tits_the_3rd_mem.write_bytes(address + 50, bytes(f"{amount:05d}", encoding="utf8"), 5)
         self.call_scena(self.scena_functions["give_mira"])
+        return True
 
     def give_low_sepith(self, amount: int):
         """Function to give low element sepith to the player in game"""
         address: int = self.get_scena_offset(b"AP Low Sepith Receive Notification")
         if not address:
-            logger.error("Could not find give item function. Is the game running?")
             return False
         amount_in_bytes = amount.to_bytes(2, "little")
         self.tits_the_3rd_mem.write_bytes(address + 37, amount_in_bytes, 2)
@@ -338,7 +337,6 @@ class TitsThe3rdMemoryIO():
         """Function to give high element sepith to the player in game"""
         address: int = self.get_scena_offset(b"AP High Sepith Receive Notification")
         if not address:
-            logger.error("Could not find give item function. Is the game running?")
             return False
         amount_in_bytes = amount.to_bytes(2, "little")
         self.tits_the_3rd_mem.write_bytes(address + 38, amount_in_bytes, 2)
@@ -354,7 +352,6 @@ class TitsThe3rdMemoryIO():
         """Function to give all types of sepith to the player in game"""
         address: int = self.get_scena_offset(b"AP All Sepith Receive Notification")
         if not address:
-            logger.error("Could not find give item function. Is the game running?")
             return False
         amount_in_bytes = amount.to_bytes(2, "little")
         self.tits_the_3rd_mem.write_bytes(address + 37, amount_in_bytes, 2)

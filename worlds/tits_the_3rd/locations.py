@@ -59,6 +59,7 @@ def create_locations(multiworld: MultiWorld, player: int):
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_second_chest)
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_third_chest)
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_fourth_chest)
+    create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.chapter1_boss_defeated)
 
 
 location_table: Dict[str, int] = {
@@ -83,6 +84,7 @@ location_table: Dict[str, int] = {
     LocationName.jade_corridor_chest_left_from_checkpoint_second_chest: 9881,
     LocationName.jade_corridor_chest_left_from_checkpoint_third_chest: 9884,
     LocationName.jade_corridor_chest_left_from_checkpoint_fourth_chest: 9885,
+    LocationName.chapter1_boss_defeated: 9757,
 }
 
 location_groups: Dict[str, Set[str]] = {}

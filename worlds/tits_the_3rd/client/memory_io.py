@@ -52,6 +52,7 @@ class TitsThe3rdMemoryIO():
     OFFSET_FLAG_0: int = 0x2AD491C
     OFFSET_WPID: int = OFFSET_FLAG_0 + (9504 // 8) # Flag 9504 - 9536
     FLAG_SHOULD_WRITE_WPID: int = 9496
+    OFFSET_ITEMS_RECEIVED_INDEX = OFFSET_FLAG_0 + (1024 // 8)
 
     def __init__(self, exit_event: asyncio.Event):
         self.tits_the_3rd_mem: pymem.Pymem = None
@@ -148,7 +149,7 @@ class TitsThe3rdMemoryIO():
         data = self._read_bytes(offset, 4)
         return int.from_bytes(data, byteorder)
 
-    def _read_short(self, offset, byteorder: Literal["little", "big"] = "big"):
+    def _read_short(self, offset, byteorder: Literal["little", "big"] = "big", signed: bool = False):
         """
         Read 2 bytes at the specified offset, and interpret it as an int.
 
@@ -156,7 +157,7 @@ class TitsThe3rdMemoryIO():
         returns: The data represented as a float.
         """
         data = self._read_bytes(offset, 2)
-        return int.from_bytes(data, byteorder)
+        return int.from_bytes(data, byteorder, signed=signed)
 
     def _read_byte(self, offset, byteorder: Literal["little", "big"] = "big"):
         """
@@ -331,6 +332,7 @@ class TitsThe3rdMemoryIO():
         if len(wpid) != 4:
             raise ValueError("wpid must be 4 bytes long")
         self.tits_the_3rd_mem.write_bytes(self.tits_the_3rd_mem.base_address + self.OFFSET_WPID, wpid, 4)
+        self.write_item_receive_index(-1)
         if not self.read_world_player_identifier() == wpid:
             logger.info(f"Failed to write world player identifier: {self.read_world_player_identifier()} != {wpid}")
             logger.error("Failed to write world player identifier")
@@ -345,6 +347,12 @@ class TitsThe3rdMemoryIO():
             bytes: The per-world player identifier.
         """
         return self._read_bytes(self.OFFSET_WPID, 4)
+
+    def read_item_receive_index(self) -> int:
+        return self._read_short(self.OFFSET_ITEMS_RECEIVED_INDEX, "little", signed=True)
+
+    def write_item_receive_index(self, index: int):
+        self.tits_the_3rd_mem.write_bytes(self.tits_the_3rd_mem.base_address + self.OFFSET_ITEMS_RECEIVED_INDEX, index.to_bytes(2, "little", signed=True), 2)
 
     def should_write_world_player_identifier(self) -> bool:
         """

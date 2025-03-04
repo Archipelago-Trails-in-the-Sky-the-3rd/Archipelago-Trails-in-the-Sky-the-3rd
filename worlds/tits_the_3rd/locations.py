@@ -1,7 +1,8 @@
 """This module represents location definitions for Trails in the Sky the 3rd"""
 from typing import Callable, Dict, Optional, Set
 
-from BaseClasses import CollectionState, MultiWorld, Location
+from BaseClasses import CollectionState, ItemClassification, MultiWorld, Location
+from .items import TitsThe3rdItem
 from .names.location_name import LocationName
 from .names.region_name import RegionName
 
@@ -22,6 +23,8 @@ def create_location(multiworld: MultiWorld, player: int, region_name: str, locat
     """
     region = multiworld.get_region(region_name, player)
     location = TitsThe3rdLocation(player, location_name, location_table[location_name], region)
+    if location.address == location_table[LocationName.chapter1_boss_defeated]:
+        location.place_locked_item(TitsThe3rdItem("Bennu Defeated (Victory)", ItemClassification.progression, 500000, player))
     if rule:
         location.access_rule = rule
     region.locations.append(location)
@@ -59,6 +62,7 @@ def create_locations(multiworld: MultiWorld, player: int):
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_second_chest)
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_third_chest)
     create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.jade_corridor_chest_left_from_checkpoint_fourth_chest)
+    create_location(multiworld, player, RegionName.jade_corridor_post_julia_gate, LocationName.chapter1_boss_defeated)
 
 
 location_table: Dict[str, int] = {
@@ -83,6 +87,7 @@ location_table: Dict[str, int] = {
     LocationName.jade_corridor_chest_left_from_checkpoint_second_chest: 9881,
     LocationName.jade_corridor_chest_left_from_checkpoint_third_chest: 9884,
     LocationName.jade_corridor_chest_left_from_checkpoint_fourth_chest: 9885,
+    LocationName.chapter1_boss_defeated: 9757,
 }
 
 location_groups: Dict[str, Set[str]] = {}

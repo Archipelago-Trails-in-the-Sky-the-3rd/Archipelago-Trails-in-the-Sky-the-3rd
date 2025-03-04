@@ -1,11 +1,12 @@
 import asyncio
 import hashlib
 import time
-from typing import Optional
+import queue
+from typing import Dict, Optional
 
 import colorama
 
-from NetUtils import ClientStatus
+from NetUtils import ClientStatus, NetworkItem
 
 from .memory_io import TitsThe3rdMemoryIO
 from CommonClient import (
@@ -16,13 +17,15 @@ from CommonClient import (
     server_loop,
 )
 
+
 class TitsThe3rdContext(CommonContext):
     """Trails in the Sky the 3rd Context"""
+
     def __init__(self, server_address: Optional[str], password: Optional[str]) -> None:
         super().__init__(server_address, password)
         self.game = "Trails in the Sky the 3rd"
         self.items_handling = 0b011  # items from both your own and other worlds are sent through AP.
-        self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
+        self.game_interface = None
         self.world_player_identifier: bytes = b"\x00\x00\x00\x00"
         self.location_ids = None
         self.location_name_to_ap_id = None
@@ -30,9 +33,9 @@ class TitsThe3rdContext(CommonContext):
         self.item_name_to_ap_id = None
         self.item_ap_id_to_name = None
         self.last_received_item_index = -1
+        self.non_native_locations: Dict[int:int] = dict()
 
-        self.items_received_3rd_ids = []
-        self.obtained_items_queue = asyncio.Queue()
+        self.items_to_be_sent_notification = queue.Queue()
 
         self.critical_section_lock = asyncio.Lock()
 
@@ -40,6 +43,7 @@ class TitsThe3rdContext(CommonContext):
         """
         Resets the client state to the initial state.
         """
+        self.game_interface = None
         self.world_player_identifier = b"\x00\x00\x00\x00"
         self.location_ids = None
         self.location_name_to_ap_id = None
@@ -47,6 +51,9 @@ class TitsThe3rdContext(CommonContext):
         self.item_name_to_ap_id = None
         self.item_ap_id_to_name = None
         self.last_received_item_index = -1
+        self.items_to_be_sent_notification = queue.Queue()
+        self.locations_checked = set()
+        self.non_native_locations = dict()
 
     async def server_auth(self, password_requested: bool = False):
         """Wrapper for login."""
@@ -64,8 +71,17 @@ class TitsThe3rdContext(CommonContext):
             self.world_player_identifier = f"{self.seed_name}-{self.auth}"
             self.world_player_identifier = (hashlib.sha256(self.world_player_identifier.encode()).digest())[:4]
             self.location_ids = set(args["missing_locations"] + args["checked_locations"])
+            self.locations_checked = set(args["checked_locations"])
+            self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
 
-        if cmd == "RoomInfo":
+            asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": self.location_ids}]))
+
+        elif cmd == "LocationInfo":
+            for item in [NetworkItem(*item) for item in args["locations"]]:
+                if self.player_names[item.player] != self.slot_info[self.slot].name:
+                    self.non_native_locations[item.location] = item.item
+
+        elif cmd == "RoomInfo":
             self.seed_name = args["seed_name"]
 
         elif cmd == "DataPackage":
@@ -86,35 +102,43 @@ class TitsThe3rdContext(CommonContext):
             - RoomInfo package recieved (self.seed_name is set)
             - World player identifier is calculated based on the seed and player name (self.world_player_identifier is set)
         """
-        return (
-            self.auth and
-            self.seed_name and
-            self.world_player_identifier
-        )
+        return self.auth and self.seed_name and self.world_player_identifier
 
     async def give_item(self):
         self.last_received_item_index = self.game_interface.read_item_receive_index()
-        remaining_items = self.items_received[self.last_received_item_index + 1 :]
+        remaining_items = iter(self.items_received[self.last_received_item_index + 1 :])
 
-        skipped_items, current_item = next(((idx, item_id) for idx, item_id in enumerate(remaining_items) if item_id != -1), (-1, None))
+        current_item = next(remaining_items, None)
 
         if current_item:
             item_id = current_item.item
-            if item_id == 10000:  # Recipe, default to mira cause we don't have that one yet
-                result = self.game_interface.give_mira(1000)
-            elif item_id == 20000:  # 300 Mira
-                result = self.game_interface.give_mira(300)
-            elif item_id == 20001:  # 50 low sepith
-                result = self.game_interface.give_low_sepith(50)
-            elif item_id == 20002:  # 50 high sepith
-                result = self.game_interface.give_high_sepith(50)
-            else:  # normal item
-                result = self.game_interface.give_item(item_id, 1)
-            if result:
+            if item_id is None or item_id >= 500000:  # Special case
                 while self.game_interface.is_in_event():
                     await asyncio.sleep(0.1)
-                self.game_interface.write_item_receive_index(self.last_received_item_index + skipped_items + 1)
-            await asyncio.sleep(1)
+                self.game_interface.write_item_receive_index(self.last_received_item_index + 1)
+            else:
+                if item_id == 10000:  # Recipe, default to mira cause we don't have that one yet
+                    result = self.game_interface.give_mira(1000)
+                elif item_id == 20000:  # 300 Mira
+                    result = self.game_interface.give_mira(300)
+                elif item_id == 20001:  # 50 low sepith
+                    result = self.game_interface.give_low_sepith(50)
+                elif item_id == 20002:  # 50 high sepith
+                    result = self.game_interface.give_high_sepith(50)
+                else:  # normal item
+                    result = self.game_interface.give_item(item_id, 1)
+                if result:
+                    while self.game_interface.is_in_event():
+                        await asyncio.sleep(0.1)
+                    self.game_interface.write_item_receive_index(self.last_received_item_index + 1)
+            await asyncio.sleep(0.1)
+
+    async def send_item(self):
+        if not self.items_to_be_sent_notification.empty():
+            item_to_be_sent = self.items_to_be_sent_notification.get()
+            result = self.game_interface.send_item()
+            while self.game_interface.is_in_event():
+                await asyncio.sleep(0.1)
 
     async def wait_for_ap_connection(self):
         """
@@ -131,6 +155,7 @@ class TitsThe3rdContext(CommonContext):
             await asyncio.sleep(1)
             logger.info("Received initial data from server!")
 
+
 async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
     """
     Client loop, watching the Trails in the Sky the 3rd game process.
@@ -141,7 +166,7 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
     """
     await ctx.wait_for_ap_connection()
     while not ctx.exit_event.is_set():
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.1)
 
         if not ctx.server:
             # client disconnected from server
@@ -155,7 +180,9 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
             continue
 
         if ctx.game_interface.should_write_world_player_identifier():
+            logger.info(f"Game Start Dectected. Setting up AP Verification Hook")
             ctx.game_interface.write_world_player_identifier(ctx.world_player_identifier)
+            logger.info(f"AP Verification Hook Set. You can now save and resume the game for this AP Seed")
             continue
 
         try:
@@ -165,6 +192,9 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
                 continue
             if ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier):
                 await check_for_locations(ctx)
+
+            if ctx.game_interface.is_valid_to_receive_item() and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier):
+                await ctx.send_item()
 
             if ctx.game_interface.is_valid_to_receive_item() and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier):
                 await ctx.give_item()
@@ -182,19 +212,27 @@ async def check_for_locations(ctx: TitsThe3rdContext):
     for location_id in ctx.location_ids:
         if location_id in ctx.locations_checked:
             continue
+        if location_id in ctx.checked_locations:
+            continue
         if ctx.game_interface.read_flag(location_id):
+            if not ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier):
+                return
             if location_id == 9757:
                 # Chapter 1 boss defeated
                 ctx.finished_game = True
                 await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
             ctx.locations_checked.add(location_id)
+            logger.info(f"Sending location {location_id}")
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": ctx.locations_checked}])
+            if location_id in ctx.non_native_locations:
+                ctx.items_to_be_sent_notification.put(ctx.non_native_locations[location_id])
 
 
 def launch():
     """
     Launch a client instance (wrapper / args parser)
     """
+
     async def main(args):
         """
         Launch a client instance (threaded)
@@ -204,10 +242,7 @@ def launch():
         if gui_enabled:
             ctx.run_gui()
         ctx.run_cli()
-        watcher = asyncio.create_task(
-            tits_the_3rd_watcher(ctx),
-            name="TitsThe3rdProgressionWatcher"
-        )
+        watcher = asyncio.create_task(tits_the_3rd_watcher(ctx), name="TitsThe3rdProgressionWatcher")
         await ctx.exit_event.wait()
         await watcher
         await ctx.shutdown()

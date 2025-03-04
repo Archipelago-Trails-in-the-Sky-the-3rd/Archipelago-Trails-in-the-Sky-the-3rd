@@ -470,3 +470,11 @@ class TitsThe3rdMemoryIO():
         self.tits_the_3rd_mem.write_bytes(address + 223, bytes(f"{amount:03d}", encoding="utf8"), 3)
         self.call_scena(self.scena_functions["give_all_sepith"])
         return True
+
+    def send_item(self):
+        # Not currently needed
+        # address: int = self.get_scena_offset(b"AP All Item Send Notification")
+        # if not address:
+        #     return False
+        self.call_scena(self.scena_functions["send_item"])
+        return True

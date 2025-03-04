@@ -76,7 +76,7 @@ default_item_pool: Dict[str, int] = {
     ItemName.ep_charge: 2,  # Default locations: 9721, 9723
     ItemName.smelling_salts: 1,  # Default locations: 9866
     ItemName.easy_paella_recipe: 1,  # Default locations: 9873
-    ItemName.royal_spikes: 2,  # Default locations: 9869
+    ItemName.royal_spikes: 1,  # Default locations: 9869
     ItemName.black_bangle: 1,  # Default locations: 9867
     ItemName.glam_choker: 1,  # Default locations: 9868
     ItemName.hit_2: 1,  # Default locations: 9872

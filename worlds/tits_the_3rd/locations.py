@@ -1,7 +1,8 @@
 """This module represents location definitions for Trails in the Sky the 3rd"""
 from typing import Callable, Dict, Optional, Set
 
-from BaseClasses import CollectionState, MultiWorld, Location
+from BaseClasses import CollectionState, ItemClassification, MultiWorld, Location
+from .items import TitsThe3rdItem
 from .names.location_name import LocationName
 from .names.region_name import RegionName
 
@@ -22,6 +23,8 @@ def create_location(multiworld: MultiWorld, player: int, region_name: str, locat
     """
     region = multiworld.get_region(region_name, player)
     location = TitsThe3rdLocation(player, location_name, location_table[location_name], region)
+    if location.address == location_table[LocationName.chapter1_boss_defeated]:
+        location.place_locked_item(TitsThe3rdItem("Bennu Defeated (Victory)", ItemClassification.progression, 500000, player))
     if rule:
         location.access_rule = rule
     region.locations.append(location)

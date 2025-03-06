@@ -1,12 +1,21 @@
 import asyncio
 import hashlib
+import io
+import os
+from pathlib import Path
+import pkgutil
+import shutil
+import subprocess
 import time
 import queue
 from typing import Dict, Optional
+import zipfile
 
+import bsdiff4
 import colorama
 
 from NetUtils import ClientStatus, NetworkItem
+from settings import get_settings
 
 from .memory_io import TitsThe3rdMemoryIO
 from CommonClient import (
@@ -38,6 +47,42 @@ class TitsThe3rdContext(CommonContext):
         self.items_to_be_sent_notification = queue.Queue()
 
         self.critical_section_lock = asyncio.Lock()
+
+    def install_game_mod(self):
+        game_dir = Path(get_settings().tits_the_3rd_options.game_installation_path)
+        files_in_game_dir = os.listdir(game_dir)
+        if not "ed6_win3_DX9.exe" in files_in_game_dir:
+            raise Exception("Incorrect game directory")
+
+        lb_ark_folder = game_dir / "data"
+        scena_temp_folder = lb_ark_folder / "ED6_DT21_BASE"
+        game_mod_folder = lb_ark_folder / "ED6_DT21"
+        os.makedirs(lb_ark_folder, exist_ok=True)
+        if os.path.exists(game_mod_folder):  # Mod already installed, go next
+            shutil.rmtree(game_mod_folder)
+
+        if not "factoria.exe" in files_in_game_dir:
+            raise Exception("factoria.exe not found. Please install factoria from https://github.com/Aureole-Suite/Factoria/releases/tag/v1.0")
+
+        # Create the temporary base game folder
+        if not os.path.exists(scena_temp_folder):
+            factoria_command = f'"{game_dir/ "factoria.exe"}" --output "{scena_temp_folder}" "{game_dir / "ED6_DT21.dir"}"'
+            subprocess.run(factoria_command, shell=True)
+
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, "w", compression=zipfile.ZIP_DEFLATED) as zip_file:
+            for file in sorted(os.listdir(scena_temp_folder)):
+                if file.endswith("._sn"):
+                    zip_file.write(scena_temp_folder / file, arcname=file)
+
+        zip_buffer.seek(0)
+        patch = pkgutil.get_data(__name__, "../tits3rd_basepatch.bsdiff4")
+        output_data = bsdiff4.patch(zip_buffer.read(), patch)
+        output_buffer = io.BytesIO(output_data)
+        with zipfile.ZipFile(output_buffer, "r") as output_file:
+            os.makedirs(game_mod_folder, exist_ok=True)
+            output_file.extractall(game_mod_folder)
+        return True
 
     def reset_client_state(self):
         """
@@ -72,6 +117,10 @@ class TitsThe3rdContext(CommonContext):
             self.world_player_identifier = (hashlib.sha256(self.world_player_identifier.encode()).digest())[:4]
             self.location_ids = set(args["missing_locations"] + args["checked_locations"])
             self.locations_checked = set(args["checked_locations"])
+            logger.info("Installing Game Mod")
+            if not self.install_game_mod():
+                raise Exception("Error Installing Game Mod")
+            logger.info("Done")
             self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
 
             asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": self.location_ids}]))

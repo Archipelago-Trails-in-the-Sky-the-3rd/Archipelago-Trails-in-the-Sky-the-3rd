@@ -8,7 +8,7 @@ import shutil
 import subprocess
 import time
 import queue
-from typing import Dict, Optional
+from typing import Optional, Set
 import zipfile
 
 import bsdiff4
@@ -16,6 +16,8 @@ import colorama
 
 from NetUtils import ClientStatus, NetworkItem
 from settings import get_settings
+from worlds.tits_the_3rd import locations
+from worlds.tits_the_3rd.names.location_name import LocationName
 
 from .memory_io import TitsThe3rdMemoryIO
 from CommonClient import (
@@ -42,7 +44,7 @@ class TitsThe3rdContext(CommonContext):
         self.item_name_to_ap_id = None
         self.item_ap_id_to_name = None
         self.last_received_item_index = -1
-        self.non_native_locations: Dict[int:int] = dict()
+        self.non_local_locations: Set[int] = set()
 
         self.items_to_be_sent_notification = queue.Queue()
 
@@ -98,7 +100,7 @@ class TitsThe3rdContext(CommonContext):
         self.last_received_item_index = -1
         self.items_to_be_sent_notification = queue.Queue()
         self.locations_checked = set()
-        self.non_native_locations = dict()
+        self.non_local_locations = set()
 
     async def server_auth(self, password_requested: bool = False):
         """Wrapper for login."""
@@ -128,7 +130,7 @@ class TitsThe3rdContext(CommonContext):
         elif cmd == "LocationInfo":
             for item in [NetworkItem(*item) for item in args["locations"]]:
                 if self.player_names[item.player] != self.slot_info[self.slot].name:
-                    self.non_native_locations[item.location] = item.item
+                    self.non_local_locations.add(item.location)
 
         elif cmd == "RoomInfo":
             self.seed_name = args["seed_name"]
@@ -154,17 +156,18 @@ class TitsThe3rdContext(CommonContext):
         return self.auth and self.seed_name and self.world_player_identifier
 
     async def give_item(self):
-        self.last_received_item_index = self.game_interface.read_item_receive_index()
-        remaining_items = iter(self.items_received[self.last_received_item_index + 1 :])
-
-        current_item = next(remaining_items, None)
+        self.last_received_item_index = self.game_interface.read_last_item_receive_index()
+        try:
+            current_item = self.items_received[self.last_received_item_index + 1]
+        except IndexError:
+            current_item = None
 
         if current_item:
             item_id = current_item.item
-            if item_id is None or item_id >= 500000:  # Special case
+            if item_id is None or item_id >= 500000:  # Special case where we don't actually want to give anything but just acknowledge it
                 while self.game_interface.is_in_event():
                     await asyncio.sleep(0.1)
-                self.game_interface.write_item_receive_index(self.last_received_item_index + 1)
+                self.game_interface.write_last_item_receive_index(self.last_received_item_index + 1)
             else:
                 if item_id == 10000:  # Recipe, default to mira cause we don't have that one yet
                     result = self.game_interface.give_mira(1000)
@@ -179,12 +182,13 @@ class TitsThe3rdContext(CommonContext):
                 if result:
                     while self.game_interface.is_in_event():
                         await asyncio.sleep(0.1)
-                    self.game_interface.write_item_receive_index(self.last_received_item_index + 1)
+                    self.game_interface.write_last_item_receive_index(self.last_received_item_index + 1)
             await asyncio.sleep(0.1)
 
     async def send_item(self):
         if not self.items_to_be_sent_notification.empty():
             item_to_be_sent = self.items_to_be_sent_notification.get()
+            item_id = 50000 + int(item_to_be_sent)  # Make that non native item be 50000 + location_id
             result = self.game_interface.send_item()
             while self.game_interface.is_in_event():
                 await asyncio.sleep(0.1)
@@ -203,6 +207,23 @@ class TitsThe3rdContext(CommonContext):
             # wait an extra second to process data
             await asyncio.sleep(1)
             logger.info("Received initial data from server!")
+
+    async def check_for_locations(self):
+        for location_id in self.location_ids:
+            if location_id in self.locations_checked:
+                continue
+            if self.game_interface.read_flag(location_id):
+                if not self.game_interface.should_send_and_recieve_items(self.world_player_identifier):
+                    return
+                if location_id == locations.location_table[LocationName.chapter1_boss_defeated]:
+                    # Chapter 1 boss defeated
+                    self.finished_game = True
+                    await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+                self.locations_checked.add(location_id)
+                logger.info(f"Sending location {location_id}")
+                await self.send_msgs([{"cmd": "LocationChecks", "locations": self.locations_checked}])
+                if location_id in self.non_local_locations:
+                    self.items_to_be_sent_notification.put(location_id)
 
 
 async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
@@ -237,10 +258,8 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
         try:
             if ctx.exit_event.is_set():
                 break
-            if not ctx.server:
-                continue
             if ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier):
-                await check_for_locations(ctx)
+                await ctx.check_for_locations()
 
             if ctx.game_interface.is_valid_to_receive_item() and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier):
                 await ctx.send_item()
@@ -250,31 +269,13 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
 
         except Exception as err:
             logger.warning("*******************************")
-            logger.warning("Encountered error. Please post a message to the thread on the AP discord")
+            logger.warning(
+                "Encountered error. Please post a message to the thread on the AP discord: https://discord.com/channels/731205301247803413/1217595862872490065"
+            )
             logger.warning("*******************************")
             logger.exception(str(err))
             # attempt to reconnect at the top of the loop
             continue
-
-
-async def check_for_locations(ctx: TitsThe3rdContext):
-    for location_id in ctx.location_ids:
-        if location_id in ctx.locations_checked:
-            continue
-        if location_id in ctx.checked_locations:
-            continue
-        if ctx.game_interface.read_flag(location_id):
-            if not ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier):
-                return
-            if location_id == 9757:
-                # Chapter 1 boss defeated
-                ctx.finished_game = True
-                await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-            ctx.locations_checked.add(location_id)
-            logger.info(f"Sending location {location_id}")
-            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": ctx.locations_checked}])
-            if location_id in ctx.non_native_locations:
-                ctx.items_to_be_sent_notification.put(ctx.non_native_locations[location_id])
 
 
 def launch():

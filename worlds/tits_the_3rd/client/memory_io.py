@@ -139,7 +139,7 @@ class TitsThe3rdMemoryIO():
         data = self.tits_the_3rd_mem.read_bytes(self.tits_the_3rd_mem.base_address + offset, length)
         return data
 
-    def _read_int(self, offset, byteorder: Literal["little", "big"] = "big"):
+    def _read_int(self, offset, byteorder: Literal["little", "big"] = "big", signed: bool = False):
         """
         Read 4 bytes at the specified offset, and interpret it as an int.
 
@@ -147,7 +147,7 @@ class TitsThe3rdMemoryIO():
         returns: The data represented as a float.
         """
         data = self._read_bytes(offset, 4)
-        return int.from_bytes(data, byteorder)
+        return int.from_bytes(data, byteorder, signed=signed)
 
     def _read_short(self, offset, byteorder: Literal["little", "big"] = "big", signed: bool = False):
         """
@@ -159,7 +159,7 @@ class TitsThe3rdMemoryIO():
         data = self._read_bytes(offset, 2)
         return int.from_bytes(data, byteorder, signed=signed)
 
-    def _read_byte(self, offset, byteorder: Literal["little", "big"] = "big"):
+    def _read_byte(self, offset, byteorder: Literal["little", "big"] = "big", signed: bool = False):
         """
         Read 1 byte at the specified offset, and interpret it as an int.
 
@@ -167,7 +167,7 @@ class TitsThe3rdMemoryIO():
         returns: The data represented as a float.
         """
         data =self._read_bytes(offset, 1)
-        return int.from_bytes(data, byteorder)
+        return int.from_bytes(data, byteorder, signed=signed)
 
     def is_connected(self):
         """Returns True if the class instance is currently connected to the game."""
@@ -332,7 +332,7 @@ class TitsThe3rdMemoryIO():
         if len(wpid) != 4:
             raise ValueError("wpid must be 4 bytes long")
         self.tits_the_3rd_mem.write_bytes(self.tits_the_3rd_mem.base_address + self.OFFSET_WPID, wpid, 4)
-        self.write_item_receive_index(-1)
+        self.write_last_item_receive_index(-1)
         if not self.read_world_player_identifier() == wpid:
             logger.info(f"Failed to write world player identifier: {self.read_world_player_identifier()} != {wpid}")
             logger.error("Failed to write world player identifier")
@@ -348,10 +348,10 @@ class TitsThe3rdMemoryIO():
         """
         return self._read_bytes(self.OFFSET_WPID, 4)
 
-    def read_item_receive_index(self) -> int:
+    def read_last_item_receive_index(self) -> int:
         return self._read_short(self.OFFSET_ITEMS_RECEIVED_INDEX, "little", signed=True)
 
-    def write_item_receive_index(self, index: int):
+    def write_last_item_receive_index(self, index: int):
         self.tits_the_3rd_mem.write_bytes(self.tits_the_3rd_mem.base_address + self.OFFSET_ITEMS_RECEIVED_INDEX, index.to_bytes(2, "little", signed=True), 2)
 
     def should_write_world_player_identifier(self) -> bool:
@@ -473,6 +473,7 @@ class TitsThe3rdMemoryIO():
 
     def send_item(self):
         # Not currently needed
+        # TODO: Patch item table to have these ghost items for this
         # address: int = self.get_scena_offset(b"AP All Item Send Notification")
         # if not address:
         #     return False

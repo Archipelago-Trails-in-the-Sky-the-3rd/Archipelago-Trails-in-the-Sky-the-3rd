@@ -10,6 +10,13 @@ class TitsThe3rdLocation(Location):
     """Trails in the Sky the 3rd Location Definition"""
     game: str = "Trails in the Sky the 3rd"
 
+
+def get_location_id(location_name: str):
+    if location_name not in location_table:
+        raise Exception(f"{location_name} is not part of location list. Something went wrong?")
+    return location_table[location_name]
+
+
 def create_location(multiworld: MultiWorld, player: int, region_name: str, location_name: str, rule: Optional[Callable[[CollectionState], bool]] = None):
     """
     Create a location in the given region.

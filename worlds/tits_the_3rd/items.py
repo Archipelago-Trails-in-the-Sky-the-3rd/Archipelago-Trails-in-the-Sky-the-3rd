@@ -16,6 +16,13 @@ class TitsThe3rdItemData(NamedTuple):
     code: int
     classification: ItemClassification
 
+
+def get_item_id(item_name: str):
+    if item_name not in item_data_table:
+        raise Exception(f"{item_name} is not part of location list. Something went wrong?")
+    return item_data_table[item_name]
+
+
 consumable_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.extra_spicy_fries: TitsThe3rdItemData(408, ItemClassification.filler),
     ItemName.fresh_water: TitsThe3rdItemData(411, ItemClassification.filler),

@@ -16,8 +16,10 @@ import colorama
 
 from NetUtils import ClientStatus, NetworkItem
 from settings import get_settings
-from worlds.tits_the_3rd import locations
+from worlds.tits_the_3rd.locations import get_location_id
+from worlds.tits_the_3rd.items import get_item_id
 from worlds.tits_the_3rd.names.location_name import LocationName
+from worlds.tits_the_3rd.names.item_name import ItemName
 
 from .memory_io import TitsThe3rdMemoryIO
 from CommonClient import (
@@ -169,13 +171,13 @@ class TitsThe3rdContext(CommonContext):
                     await asyncio.sleep(0.1)
                 self.game_interface.write_last_item_receive_index(self.last_received_item_index + 1)
             else:
-                if item_id == 10000:  # Recipe, default to mira cause we don't have that one yet
+                if item_id == get_item_id(ItemName.easy_paella_recipe):  # Recipe, default to mira cause we don't have that one yet
                     result = self.game_interface.give_mira(1000)
-                elif item_id == 20000:  # 300 Mira
+                elif item_id == get_item_id(ItemName.mira_300):  # 300 Mira
                     result = self.game_interface.give_mira(300)
-                elif item_id == 20001:  # 50 low sepith
+                elif item_id == get_item_id(ItemName.lower_elements_sepith_50):  # 50 low sepith
                     result = self.game_interface.give_low_sepith(50)
-                elif item_id == 20002:  # 50 high sepith
+                elif item_id == get_item_id(ItemName.higher_elements_sepith_50):  # 50 high sepith
                     result = self.game_interface.give_high_sepith(50)
                 else:  # normal item
                     result = self.game_interface.give_item(item_id, 1)
@@ -215,7 +217,7 @@ class TitsThe3rdContext(CommonContext):
             if self.game_interface.read_flag(location_id):
                 if not self.game_interface.should_send_and_recieve_items(self.world_player_identifier):
                     return
-                if location_id == locations.location_table[LocationName.chapter1_boss_defeated]:
+                if location_id == get_location_id(LocationName.chapter1_boss_defeated):
                     # Chapter 1 boss defeated
                     self.finished_game = True
                     await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])

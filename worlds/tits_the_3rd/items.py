@@ -17,7 +17,7 @@ class TitsThe3rdItemData(NamedTuple):
     classification: ItemClassification
 
 
-def get_item_id(item_name: str):
+def get_item_id(item_name: ItemName):
     if item_name not in item_data_table:
         raise Exception(f"{item_name} is not part of location list. Something went wrong?")
     return item_data_table[item_name]

@@ -11,7 +11,7 @@ class TitsThe3rdLocation(Location):
     game: str = "Trails in the Sky the 3rd"
 
 
-def get_location_id(location_name: str):
+def get_location_id(location_name: LocationName):
     if location_name not in location_table:
         raise Exception(f"{location_name} is not part of location list. Something went wrong?")
     return location_table[location_name]

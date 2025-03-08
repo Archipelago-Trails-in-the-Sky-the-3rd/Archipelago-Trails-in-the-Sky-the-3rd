@@ -27,11 +27,15 @@ top text field of the client and click Connect.
 6. When the client says `Waiting for connection to Trails in the Sky the 3rd game instance...` you can start the game.
 7. Start a new game or load from a previous AP save.
 
-For a new game, you will start inside the Hermit Garden. To start sending or receiving item, interact with the Stone Monument or enter the Jade Corridor. This will only happen once.
-
 ### Regarding Save File
 
 On a new AP game launch, the game will store a unique save id into the game save data. You can only send or receive data if the unique save id matches with what the client expects.
+
+## Changes to the Base Game
+
+1. For a new game, you will start inside the Hermit Garden. To start sending or receiving item, interact with the Stone Monument or enter the Jade Corridor. This will only happen once.
+2. You can return the Lusitania by interacting with the Hermit Garden Monument.
+3. You start the game with the teleportation-capable Cube.
 
 ## Current Known Issue
 

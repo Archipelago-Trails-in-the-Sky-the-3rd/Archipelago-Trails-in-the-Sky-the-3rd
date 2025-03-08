@@ -20,7 +20,7 @@ class TitsThe3rdItemData(NamedTuple):
 def get_item_id(item_name: ItemName):
     if item_name not in item_data_table:
         raise Exception(f"{item_name} is not part of location list. Something went wrong?")
-    return item_data_table[item_name]
+    return item_data_table[item_name].code
 
 
 consumable_table: Dict[str, TitsThe3rdItemData] = {
@@ -55,12 +55,15 @@ currency_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.higher_elements_sepith_50: TitsThe3rdItemData(20002, ItemClassification.filler),
 }
 
+key_item_table: Dict[str, TitsThe3rdItemData] = {ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression)}
+
 item_data_table: Dict[str, TitsThe3rdItemData] = {
     **consumable_table,
     **recipe_table,
     **equipment_table,
     **quartz_table,
     **currency_table,
+    **key_item_table,
 }
 
 item_groups: Dict[str, Set[str]] = {

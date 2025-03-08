@@ -20,6 +20,7 @@ from pymem import pymem
 
 from CommonClient import logger
 from worlds.tits_the_3rd import TitsThe3rdWorld
+from worlds.tits_the_3rd.util import load_file
 
 # TODO:
 # - Writes require adding the base address, while reads do not. Make this consistent.
@@ -87,17 +88,9 @@ class TitsThe3rdMemoryIO():
         Returns (Dict[str, ScenaFunction]): A mapping of function names to ScenaFunction data structs.
         """
         scena_folder = self._get_scena_folder()
-        scena_table_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "scena_table.json")
-        scena_table = None
         scena_functions = {}
-        try:
-            with open(scena_table_path, "r", encoding="utf-8") as fp:
-                scena_table = json.load(fp)
-        except FileNotFoundError as err:
-            logger.info("Unable to find %s", scena_table_path)
-            raise err
+        scena_table = json.loads(load_file("data/scena_table.json"))
         for file in scena_table:
-            logger.info("file %s", file)
             scena_file_path = os.path.join(scena_folder, file)
             import_number = scena_table[file]["importNumber"]
             function_offsets = self._get_scena_file_offsets(scena_file_path)

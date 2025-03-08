@@ -20,6 +20,7 @@ from worlds.tits_the_3rd.locations import get_location_id
 from worlds.tits_the_3rd.items import get_item_id
 from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
+from worlds.tits_the_3rd.util import load_file
 
 from .memory_io import TitsThe3rdMemoryIO
 from CommonClient import (
@@ -62,7 +63,7 @@ class TitsThe3rdContext(CommonContext):
         scena_temp_folder = lb_ark_folder / "ED6_DT21_BASE"
         game_mod_folder = lb_ark_folder / "ED6_DT21"
         os.makedirs(lb_ark_folder, exist_ok=True)
-        if os.path.exists(game_mod_folder):  # Mod already installed, go next
+        if os.path.exists(game_mod_folder):  # Remove previously installed mod for a clean install
             shutil.rmtree(game_mod_folder)
 
         if not "factoria.exe" in files_in_game_dir:
@@ -80,7 +81,7 @@ class TitsThe3rdContext(CommonContext):
                     zip_file.write(scena_temp_folder / file, arcname=file)
 
         zip_buffer.seek(0)
-        patch = pkgutil.get_data(__name__, "../tits3rd_basepatch.bsdiff4")
+        patch = load_file("data/tits3rd_basepatch.bsdiff4")
         output_data = bsdiff4.patch(zip_buffer.read(), patch)
         output_buffer = io.BytesIO(output_data)
         with zipfile.ZipFile(output_buffer, "r") as output_file:
@@ -121,10 +122,9 @@ class TitsThe3rdContext(CommonContext):
             self.world_player_identifier = (hashlib.sha256(self.world_player_identifier.encode()).digest())[:4]
             self.location_ids = set(args["missing_locations"] + args["checked_locations"])
             self.locations_checked = set(args["checked_locations"])
-            logger.info("Installing Game Mod")
             if not self.install_game_mod():
                 raise Exception("Error Installing Game Mod")
-            logger.info("Done")
+            logger.info("Finished Installing Game Mod")
             self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
 
             asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": self.location_ids}]))
@@ -222,7 +222,6 @@ class TitsThe3rdContext(CommonContext):
                     self.finished_game = True
                     await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                 self.locations_checked.add(location_id)
-                logger.info(f"Sending location {location_id}")
                 await self.send_msgs([{"cmd": "LocationChecks", "locations": self.locations_checked}])
                 if location_id in self.non_local_locations:
                     self.items_to_be_sent_notification.put(location_id)
@@ -247,7 +246,6 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
             continue
 
         if not ctx.game_interface.is_connected():
-            logger.info("Waiting for connection to Trails in the Sky The Third")
             await ctx.game_interface.connect()
             continue
 

@@ -29,7 +29,7 @@ class LocationName:
     chapter1_boss_defeated = "Defeat Bennu (Chapter 1 Boss)"  # 9757
 
     sealing_stone_tita = "Sealing Stone - Tita"  # 9740
-    sealing_stone_julia = "Sealing Stone - Julia"
+    sealing_stone_julia = "Sealing Stone - Julia"  # 9753
 
     tita_initial_weapon = "Tita's Initial Equipment - Weapon"  # 1160
     tita_initial_armor = "Tita's Initial Equipment - Armor"  # 1161

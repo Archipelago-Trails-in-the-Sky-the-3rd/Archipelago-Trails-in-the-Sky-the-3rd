@@ -1,18 +1,24 @@
 """This module represents item definitions for Trails in the Sky the 3rd"""
-from typing import Dict, NamedTuple, Optional, Set
+
+import itertools
+from typing import Dict, List, NamedTuple, Optional, Set
 
 from .names.item_name import ItemName
 from BaseClasses import Item, ItemClassification
 
+
 class TitsThe3rdItem(Item):
     """Trails in the Sky the 3rd Item Definition"""
+
     game: str = "Trails in the Sky the 3rd"
 
     def __init__(self, name, classification: ItemClassification, code: Optional[int], player: int):
         super(TitsThe3rdItem, self).__init__(name, classification, code, player)
 
+
 class TitsThe3rdItemData(NamedTuple):
     """Trails in the Sky the 3rd Item Data"""
+
     code: int
     classification: ItemClassification
 
@@ -50,12 +56,49 @@ quartz_table: Dict[str, TitsThe3rdItemData] = {
 }
 
 currency_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.mira_300: TitsThe3rdItemData(20000, ItemClassification.filler),
-    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(20001, ItemClassification.filler),
-    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(20002, ItemClassification.filler),
+    # Mira: 100,000 + amount
+    ItemName.mira_300: TitsThe3rdItemData(100300, ItemClassification.filler),
+    ItemName.mira_500: TitsThe3rdItemData(100500, ItemClassification.filler),
+    ItemName.mira_1000: TitsThe3rdItemData(101000, ItemClassification.filler),
+    ItemName.mira_5000: TitsThe3rdItemData(105000, ItemClassification.filler),
+    ItemName.mira_10000: TitsThe3rdItemData(110000, ItemClassification.filler),
+    # Low Sepith: 150,000 + amount
+    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(150050, ItemClassification.filler),
+    ItemName.lower_elements_sepith_100: TitsThe3rdItemData(150100, ItemClassification.filler),
+    ItemName.lower_elements_sepith_250: TitsThe3rdItemData(150250, ItemClassification.filler),
+    ItemName.lower_elements_sepith_500: TitsThe3rdItemData(150500, ItemClassification.filler),
+    # High Sepith: 180,000 + amount
+    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(180050, ItemClassification.filler),
+    ItemName.higher_elements_sepith_100: TitsThe3rdItemData(180100, ItemClassification.filler),
+    ItemName.higher_elements_sepith_250: TitsThe3rdItemData(180250, ItemClassification.filler),
+    ItemName.higher_elements_sepith_500: TitsThe3rdItemData(180500, ItemClassification.filler),
+}
+
+character_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 70000 + character id
+    ItemName.kevin: TitsThe3rdItemData(70008, ItemClassification.progression),
+    ItemName.ries: TitsThe3rdItemData(70014, ItemClassification.progression),
+    ItemName.tita: TitsThe3rdItemData(70006, ItemClassification.progression),
+    ItemName.julia: TitsThe3rdItemData(70013, ItemClassification.progression),
+}
+
+location_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 200000 + flag number
+    ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(200256, ItemClassification.progression),
+    ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(200257, ItemClassification.progression),
+    ItemName.jade_corridor_arseille_unlock: TitsThe3rdItemData(200258, ItemClassification.progression),
 }
 
 key_item_table: Dict[str, TitsThe3rdItemData] = {ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression)}
+
+meta_data_table: Dict[str, TitsThe3rdItemData] = {
+    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
+    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
+    ItemName.lower_elements_sepith_min_id: TitsThe3rdItemData(150000, ItemClassification.filler),
+    ItemName.lower_elements_sepith_max_id: TitsThe3rdItemData(150999, ItemClassification.filler),
+    ItemName.higher_elements_sepith_min_id: TitsThe3rdItemData(180000, ItemClassification.filler),
+    ItemName.higher_elements_sepith_max_id: TitsThe3rdItemData(180999, ItemClassification.filler),
+    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
+    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
+}
 
 item_data_table: Dict[str, TitsThe3rdItemData] = {
     **consumable_table,
@@ -64,6 +107,9 @@ item_data_table: Dict[str, TitsThe3rdItemData] = {
     **quartz_table,
     **currency_table,
     **key_item_table,
+    **character_table,
+    **location_unlock_table,
+    **meta_data_table,
 }
 
 item_groups: Dict[str, Set[str]] = {
@@ -72,26 +118,24 @@ item_groups: Dict[str, Set[str]] = {
     "Equipment": set(equipment_table.keys()),
     "Quartz": set(quartz_table.keys()),
     "Currency": set(currency_table.keys()),
+    "Characters": set(character_table.keys()),
+    "Location Unlock": set(location_unlock_table.keys()),
 }
+
+filler_items: List[str] = list(
+    itertools.chain(
+        item_groups["Consumables"],
+        item_groups["Currency"],
+        item_groups["Equipment"],
+        item_groups["Quartz"],
+    )
+)
 
 item_table: Dict[str, int] = {name: data.code for name, data in item_data_table.items()}
 
 default_item_pool: Dict[str, int] = {
-    ItemName.extra_spicy_fries: 1,  # Default locations: 9864
-    ItemName.fresh_water: 1,  # Default locations: 9880
-    ItemName.fishy_finale: 1,  # Default locations: 9884
-    ItemName.tear_balm: 2,  # Default locations: 9858, 9865
-    ItemName.teara_balm: 2,  # Default locations: 9720, 9722
-    ItemName.reviving_balm: 1,  # Default locations: 9874
-    ItemName.ep_charge: 2,  # Default locations: 9721, 9723
-    ItemName.smelling_salts: 1,  # Default locations: 9866
-    ItemName.easy_paella_recipe: 1,  # Default locations: 9873
-    ItemName.royal_spikes: 1,  # Default locations: 9869
-    ItemName.black_bangle: 1,  # Default locations: 9867
-    ItemName.glam_choker: 1,  # Default locations: 9868
-    ItemName.hit_2: 1,  # Default locations: 9872
-    ItemName.information: 1,  # Default locations: 9857
-    ItemName.mira_300: 2,  # Default locations: 9859, 9875
-    ItemName.lower_elements_sepith_50: 1,  # Default locations: 9881
-    ItemName.higher_elements_sepith_50: 1,  # Default locations: 9885
+    ItemName.easy_paella_recipe: 1,
+    ItemName.jade_corridor_unlock_1: 1,
+    ItemName.jade_corridor_unlock_2: 1,
+    ItemName.jade_corridor_arseille_unlock: 1,
 }

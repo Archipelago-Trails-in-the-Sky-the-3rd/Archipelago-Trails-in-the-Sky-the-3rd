@@ -64,3 +64,5 @@ class ItemName:
     higher_elements_sepith_max_id = "Higher Elements Sepith Max ID"
     character_min_id = "Character Min ID"
     character_max_id = "Character Max ID"
+    location_min_id = "Location Min ID"
+    location_max_id = "Location Max ID"

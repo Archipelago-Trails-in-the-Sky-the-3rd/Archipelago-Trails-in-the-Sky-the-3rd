@@ -28,6 +28,18 @@ def get_item_id(item_name: ItemName):
         raise Exception(f"{item_name} is not part of location list. Something went wrong?")
     return item_data_table[item_name].code
 
+meta_data_table: Dict[str, TitsThe3rdItemData] = {
+    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
+    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
+    ItemName.lower_elements_sepith_min_id: TitsThe3rdItemData(300000, ItemClassification.filler),
+    ItemName.lower_elements_sepith_max_id: TitsThe3rdItemData(300999, ItemClassification.filler),
+    ItemName.higher_elements_sepith_min_id: TitsThe3rdItemData(350000, ItemClassification.filler),
+    ItemName.higher_elements_sepith_max_id: TitsThe3rdItemData(350999, ItemClassification.filler),
+    ItemName.character_min_id: TitsThe3rdItemData(70000, ItemClassification.filler),
+    ItemName.character_max_id: TitsThe3rdItemData(71000, ItemClassification.filler),
+    ItemName.location_min_id: TitsThe3rdItemData(200000, ItemClassification.filler),
+    ItemName.location_max_id: TitsThe3rdItemData(299999, ItemClassification.filler),
+}
 
 consumable_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.extra_spicy_fries: TitsThe3rdItemData(408, ItemClassification.filler),
@@ -56,49 +68,39 @@ quartz_table: Dict[str, TitsThe3rdItemData] = {
 }
 
 currency_table: Dict[str, TitsThe3rdItemData] = {
-    # Mira: 100,000 + amount
-    ItemName.mira_300: TitsThe3rdItemData(100300, ItemClassification.filler),
-    ItemName.mira_500: TitsThe3rdItemData(100500, ItemClassification.filler),
-    ItemName.mira_1000: TitsThe3rdItemData(101000, ItemClassification.filler),
-    ItemName.mira_5000: TitsThe3rdItemData(105000, ItemClassification.filler),
-    ItemName.mira_10000: TitsThe3rdItemData(110000, ItemClassification.filler),
-    # Low Sepith: 150,000 + amount
-    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(150050, ItemClassification.filler),
-    ItemName.lower_elements_sepith_100: TitsThe3rdItemData(150100, ItemClassification.filler),
-    ItemName.lower_elements_sepith_250: TitsThe3rdItemData(150250, ItemClassification.filler),
-    ItemName.lower_elements_sepith_500: TitsThe3rdItemData(150500, ItemClassification.filler),
-    # High Sepith: 180,000 + amount
-    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(180050, ItemClassification.filler),
-    ItemName.higher_elements_sepith_100: TitsThe3rdItemData(180100, ItemClassification.filler),
-    ItemName.higher_elements_sepith_250: TitsThe3rdItemData(180250, ItemClassification.filler),
-    ItemName.higher_elements_sepith_500: TitsThe3rdItemData(180500, ItemClassification.filler),
+    # Mira
+    ItemName.mira_300: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 300, ItemClassification.filler),
+    ItemName.mira_500: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 500, ItemClassification.filler),
+    ItemName.mira_1000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 1000, ItemClassification.filler),
+    ItemName.mira_5000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 5000, ItemClassification.filler),
+    ItemName.mira_10000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 10000, ItemClassification.filler),
+    # Low Sepith
+    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 50, ItemClassification.filler),
+    ItemName.lower_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 100, ItemClassification.filler),
+    ItemName.lower_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 250, ItemClassification.filler),
+    ItemName.lower_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 500, ItemClassification.filler),
+    # High Sepith
+    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 50, ItemClassification.filler),
+    ItemName.higher_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 100, ItemClassification.filler),
+    ItemName.higher_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 250, ItemClassification.filler),
+    ItemName.higher_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 500, ItemClassification.filler),
 }
 
-character_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 70000 + character id
-    ItemName.kevin: TitsThe3rdItemData(70008, ItemClassification.progression),
-    ItemName.ries: TitsThe3rdItemData(70014, ItemClassification.progression),
-    ItemName.tita: TitsThe3rdItemData(70006, ItemClassification.progression),
-    ItemName.julia: TitsThe3rdItemData(70013, ItemClassification.progression),
+character_table: Dict[str, TitsThe3rdItemData] = {
+    ItemName.kevin: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 8, ItemClassification.progression),
+    ItemName.ries: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 14, ItemClassification.progression),
+    ItemName.tita: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 6, ItemClassification.progression),
+    ItemName.julia: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 13, ItemClassification.progression),
 }
 
 location_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 200000 + flag number
-    ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(200256, ItemClassification.progression),
-    ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(200257, ItemClassification.progression),
-    ItemName.jade_corridor_arseille_unlock: TitsThe3rdItemData(200258, ItemClassification.progression),
+    ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(meta_data_table[ItemName.location_min_id].code + 256, ItemClassification.progression),
+    ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(meta_data_table[ItemName.location_min_id].code + 257, ItemClassification.progression),
+    ItemName.jade_corridor_arseille_unlock: TitsThe3rdItemData(meta_data_table[ItemName.location_min_id].code + 258, ItemClassification.progression),
 }
 
 key_item_table: Dict[str, TitsThe3rdItemData] = {ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression)}
 
-meta_data_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
-    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
-    ItemName.lower_elements_sepith_min_id: TitsThe3rdItemData(150000, ItemClassification.filler),
-    ItemName.lower_elements_sepith_max_id: TitsThe3rdItemData(150999, ItemClassification.filler),
-    ItemName.higher_elements_sepith_min_id: TitsThe3rdItemData(180000, ItemClassification.filler),
-    ItemName.higher_elements_sepith_max_id: TitsThe3rdItemData(180999, ItemClassification.filler),
-    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
-    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
-}
 
 item_data_table: Dict[str, TitsThe3rdItemData] = {
     **consumable_table,
@@ -134,7 +136,7 @@ filler_items: List[str] = list(
 item_table: Dict[str, int] = {name: data.code for name, data in item_data_table.items()}
 
 default_item_pool: Dict[str, int] = {
-    ItemName.easy_paella_recipe: 1,
+    # ItemName.easy_paella_recipe: 1,
     ItemName.jade_corridor_unlock_1: 1,
     ItemName.jade_corridor_unlock_2: 1,
     ItemName.jade_corridor_arseille_unlock: 1,

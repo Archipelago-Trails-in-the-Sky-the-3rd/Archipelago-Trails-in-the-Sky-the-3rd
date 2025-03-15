@@ -269,21 +269,6 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
             logger.info(f"Game Start Dectected. Setting up AP Verification Hook")
             ctx.game_interface.write_world_player_identifier(ctx.world_player_identifier)
             logger.info(f"AP Verification Hook Set. You can now save and resume the game for this AP Seed")
-            for character_item in ctx.items_received[:2]:  # The first 2 items are guarantee to be characters
-                character_item_id = character_item.item
-                logger.info(character_item_id)
-                if character_item_id == get_item_id(ItemName.tita):
-                    logger.info("Adding Tita")
-                    ctx.game_interface.write_flag(1006, True)
-                if character_item_id == get_item_id(ItemName.kevin):
-                    logger.info("Adding Kevin")
-                    ctx.game_interface.write_flag(1008, True)
-                if character_item_id == get_item_id(ItemName.julia):
-                    logger.info("Adding Julia")
-                    ctx.game_interface.write_flag(1013, True)
-                if character_item_id == get_item_id(ItemName.ries):
-                    logger.info("Adding Ries")
-                    ctx.game_interface.write_flag(1014, True)
             continue
 
         try:

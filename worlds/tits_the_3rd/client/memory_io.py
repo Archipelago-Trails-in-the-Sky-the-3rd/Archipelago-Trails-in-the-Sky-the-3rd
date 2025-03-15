@@ -343,7 +343,7 @@ class TitsThe3rdMemoryIO():
         if len(wpid) != 4:
             raise ValueError("wpid must be 4 bytes long")
         self.tits_the_3rd_mem.write_bytes(self.tits_the_3rd_mem.base_address + self.OFFSET_WPID, wpid, 4)
-        self.write_last_item_receive_index(1)
+        self.write_last_item_receive_index(-1)
         if not self.read_world_player_identifier() == wpid:
             logger.info(f"Failed to write world player identifier: {self.read_world_player_identifier()} != {wpid}")
             logger.error("Failed to write world player identifier")

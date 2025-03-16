@@ -72,6 +72,7 @@ class TitsThe3rdMemoryIO():
         14: "ries",
         15: "renne",
     }
+    RECIPE_ID_TO_NAME = {1: "easy_paella"}
 
     def __init__(self, exit_event: asyncio.Event):
         self.tits_the_3rd_mem: pymem.Pymem = None
@@ -491,13 +492,18 @@ class TitsThe3rdMemoryIO():
         self.call_scena(self.scena_functions["send_item"])
         return True
 
-    def unlock_location(self, location_flag: int):
-        if self.write_flag(location_flag, True):
-            self.call_scena(self.scena_functions["unlock_location"])
+    def unlock_area(self, area_flag: int):
+        if self.write_flag(area_flag, True):
+            self.call_scena(self.scena_functions["unlock_area"])
             return True
         return False
 
     def unlock_character(self, character_id: int):
         character_name = self.CHARACTER_ID_TO_NAME[character_id]
+        self.call_scena(self.scena_functions[f"unlock_{character_name}"])
+        return True
+
+    def give_recipe(self, recipe_id: int):
+        character_name = self.RECIPE_ID_TO_NAME[recipe_id]
         self.call_scena(self.scena_functions[f"unlock_{character_name}"])
         return True

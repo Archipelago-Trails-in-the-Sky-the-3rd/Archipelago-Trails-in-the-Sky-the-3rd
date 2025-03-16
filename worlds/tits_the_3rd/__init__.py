@@ -7,7 +7,18 @@ from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, components, launch_subprocess, Type
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.names.location_name import LocationName
-from .items import default_item_pool, item_data_table, item_groups, item_table, TitsThe3rdItem, TitsThe3rdItemData, character_table, filler_items
+from .items import (
+    default_item_pool,
+    item_data_table,
+    item_groups,
+    item_table,
+    TitsThe3rdItem,
+    TitsThe3rdItemData,
+    character_table,
+    filler_items,
+    default_chest_pool,
+    default_character_quartz_pool,
+)
 from .locations import create_locations, location_groups, location_table
 from .options import TitsThe3rdOptions
 from .regions import create_regions, connect_regions
@@ -64,6 +75,10 @@ class TitsThe3rdWorld(World):
 
     def create_items(self) -> None:
         """Define items for Trails in the Sky the 3rd AP"""
+        # TODO: Add options here
+        default_item_pool.update(default_character_quartz_pool)
+        default_item_pool.update(default_chest_pool)
+
         for item_name, quantity in default_item_pool.items():
             for _ in range(quantity):
                 self.multiworld.itempool.append(self.create_item(item_name))

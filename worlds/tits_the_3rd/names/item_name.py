@@ -23,8 +23,17 @@ class ItemName:
     glam_choker = "Glam Choker"
 
     # Quartz
+    hp_1 = "HP 1"
+    attack_1 = "Attack 1"
+    shield_1 = "Shield 1"
+    hit_1 = "Hit 1"
     hit_2 = "Hit 2"
+    move_1 = "Move 1"
+    action_1 = "Action 1"
+    range_1 = "Range 1"
     information = "Information"
+    ep_cut_2 = "EP Cut 2"
+    eagle_eye = "Eagle Eye"
 
     # Currency
     mira_300 = "Mira (300)"
@@ -64,5 +73,7 @@ class ItemName:
     higher_elements_sepith_max_id = "Higher Elements Sepith Max ID"
     character_min_id = "Character Min ID"
     character_max_id = "Character Max ID"
-    location_min_id = "Location Min ID"
-    location_max_id = "Location Max ID"
+    area_min_id = "Location Min ID"
+    area_max_id = "Location Max ID"
+    recipe_min_id = "Recipe Min ID"
+    recipe_max_id = "Recipe Max ID"

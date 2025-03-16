@@ -59,6 +59,8 @@ def create_locations(multiworld: MultiWorld, player: int):
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.jade_corridor_chest_first_hall_elevated_platform)
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.jade_corridor_chest_first_hall_before_first_warp)
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.sealing_stone_tita)
+    create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.sealing_stone_jade_corridor_1_unlock)
+    create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.sealing_stone_arseille_unlock)
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.tita_initial_weapon)
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.tita_initial_armor)
     create_location(multiworld, player, RegionName.jade_corridor_start, LocationName.tita_initial_boots)
@@ -79,6 +81,7 @@ def create_locations(multiworld: MultiWorld, player: int):
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.jade_corridor_chest_arseille_bedroom_one)
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.jade_corridor_chest_arseille_bedroom_two)
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.sealing_stone_julia)
+    create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.sealing_stone_jade_corridor_2_unlock)
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.julia_initial_weapon)
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.julia_initial_armor)
     create_location(multiworld, player, RegionName.jade_corridor_arseille, LocationName.julia_initial_boots)
@@ -123,7 +126,10 @@ chapter_1_chests: Dict[str, int] = {
 chapter_1_characters: Dict[str, int] = {
     # Sealing Stones
     LocationName.sealing_stone_tita: 9740,
+    LocationName.sealing_stone_jade_corridor_1_unlock: 2256,
+    LocationName.sealing_stone_arseille_unlock: 2258,
     LocationName.sealing_stone_julia: 9753,
+    LocationName.sealing_stone_jade_corridor_2_unlock: 2257,
     # Kevin
     LocationName.kevin_initial_weapon: 1180,
     LocationName.kevin_initial_armor: 1181,

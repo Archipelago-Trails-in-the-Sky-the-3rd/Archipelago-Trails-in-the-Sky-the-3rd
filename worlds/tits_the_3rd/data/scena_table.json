@@ -28,7 +28,11 @@
             },
             {
                 "functionNumber": 35,
-                "functionName": "unlock_location"
+                "functionName": "unlock_area"
+            },
+            {
+                "functionNumber": 36,
+                "functionName": "unlock_easy_paella"
             },
             {
                 "functionNumber": 10,

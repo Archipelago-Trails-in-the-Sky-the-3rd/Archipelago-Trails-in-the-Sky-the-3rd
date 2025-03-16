@@ -58,6 +58,6 @@ class LocationName:
     julia_orbment_item_6 = "Julia's Orbment - Quartz 6"  # 1238
     julia_orbment_item_7 = "Julia's Orbment - Quartz 7"  # 1239
 
-    ries_initial_weapon = "Ries's Initial Equipment - Weapon"  # 1240
-    ries_initial_armor = "Ries's Initial Equipment - Armor"  # 1241
-    ries_initial_boots = "Ries's Initial Equipment - Boots"  # 1242
+    ries_initial_weapon = "Ries' Initial Equipment - Weapon"  # 1240
+    ries_initial_armor = "Ries' Initial Equipment - Armor"  # 1241
+    ries_initial_boots = "Ries' Initial Equipment - Boots"  # 1242

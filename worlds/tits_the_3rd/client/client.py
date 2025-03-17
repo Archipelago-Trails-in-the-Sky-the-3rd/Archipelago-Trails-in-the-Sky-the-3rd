@@ -282,21 +282,13 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
         try:
             if ctx.exit_event.is_set():
                 break
-            if ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier) and ctx.client_recieved_initial_server_data():
+            if ctx.game_interface.should_send_and_recieve_items(ctx.world_player_identifier):
                 await ctx.check_for_locations()
 
-            if (
-                ctx.game_interface.is_valid_to_receive_item()
-                and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier)
-                and ctx.client_recieved_initial_server_data()
-            ):
+            if ctx.game_interface.is_valid_to_receive_item() and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier):
                 await ctx.send_item()
 
-            if (
-                ctx.game_interface.is_valid_to_receive_item()
-                and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier)
-                and ctx.client_recieved_initial_server_data()
-            ):
+            if ctx.game_interface.is_valid_to_receive_item() and ctx.game_interface.should_send_and_recieve_items(wpid=ctx.world_player_identifier):
                 await ctx.give_item()
 
         except Exception as err:

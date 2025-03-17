@@ -98,7 +98,7 @@ class TitsThe3rdWorld(World):
         self.multiworld.random.shuffle(character_list)
         for _ in range(2):
             character_item = self.create_item(character_list.pop())
-            self.push_precollected(character_item)
+            self.multiworld.push_precollected(character_item)
         # Put the rest into item pool
         for character in character_list:
             character_item = self.create_item(character)

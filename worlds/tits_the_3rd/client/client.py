@@ -56,11 +56,11 @@ class TitsThe3rdContext(CommonContext):
 
     def init_game_interface(self):
         logger.info("Initiating Game Interface")
-        self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
         if not self.install_game_mod():
             raise Exception("Error Installing Game Mod")
         logger.info("Finish installing game mod")
         # self.install_dt_patch() #TODO: implement this when we actually have something for this
+        self.game_interface = TitsThe3rdMemoryIO(self.exit_event)
 
     def install_game_mod(self):
         game_dir = Path(get_settings().tits_the_3rd_options.game_installation_path)
@@ -248,7 +248,6 @@ class TitsThe3rdContext(CommonContext):
                 if location_id in self.non_local_locations:
                     self.items_to_be_sent_notification.put(location_id)
 
-
 async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
     """
     Client loop, watching the Trails in the Sky the 3rd game process.
@@ -268,8 +267,6 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
             continue
 
         if not ctx.game_interface:
-            if not ctx.client_recieved_initial_server_data():
-                continue
             ctx.init_game_interface()
 
         if not ctx.game_interface.is_connected():

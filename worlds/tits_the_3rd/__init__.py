@@ -79,15 +79,6 @@ class TitsThe3rdWorld(World):
         default_item_pool.update(default_character_quartz_pool)
         default_item_pool.update(default_chest_pool)
 
-        for item_name, quantity in default_item_pool.items():
-            for _ in range(quantity):
-                self.multiworld.itempool.append(self.create_item(item_name))
-
-    def set_rules(self) -> None:
-        """Set remaining rules."""
-        self.multiworld.completion_condition[self.player] = lambda _: True
-
-    def pre_fill(self):
         # For now hard code beating Bennu as victory
         victory_item = self.create_item(ItemName.bennu_defeat)
         self.multiworld.get_location(LocationName.chapter1_boss_defeated, self.player).place_locked_item(victory_item)
@@ -99,13 +90,21 @@ class TitsThe3rdWorld(World):
         for _ in range(2):
             character_item = self.create_item(character_list.pop())
             self.multiworld.push_precollected(character_item)
+
         # Put the rest into item pool
-        for character in character_list:
-            character_item = self.create_item(character)
-            self.multiworld.itempool.append(character_item)
-        # Generate fillers to put into item pool
+        default_item_pool.update(character_list)
+
+        # Generate filler here
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
-        self.multiworld.itempool += [self.create_filler() for _ in range(total_locations - len(self.multiworld.itempool))]
+        default_item_pool.update([self.get_filler_item_name() for _ in range(total_locations - default_item_pool.total())])
+
+        for item_name, quantity in default_item_pool.items():
+            for _ in range(quantity):
+                self.multiworld.itempool.append(self.create_item(item_name))
+
+    def set_rules(self) -> None:
+        """Set remaining rules."""
+        self.multiworld.completion_condition[self.player] = lambda _: True
 
     def get_filler_item_name(self):
         filler_item_name = self.multiworld.random.choice(filler_items)

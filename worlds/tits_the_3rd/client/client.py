@@ -72,8 +72,14 @@ class TitsThe3rdContext(CommonContext):
         scena_temp_folder = lb_ark_folder / "ED6_DT21_BASE"
         game_mod_folder = lb_ark_folder / "ED6_DT21"
         os.makedirs(lb_ark_folder, exist_ok=True)
-        if "player.txt" in os.listdir(lb_ark_folder):  # TODO: Check for player id + seed
-            return True
+        if "player.txt" in os.listdir(lb_ark_folder):
+            with open(lb_ark_folder / "player.txt") as player_id_file:
+                if player_id_file.read() == f"{self.auth}-{self.seed_name}":
+                    logger.info("Game is already patched. Skip")
+                    return True
+
+        with open(lb_ark_folder / "player.txt", "w") as player_id_file:
+            player_id_file.write(f"{self.auth}-{self.seed_name}")
 
         if os.path.exists(game_mod_folder):  # Remove previously installed mod for a clean install
             shutil.rmtree(game_mod_folder)

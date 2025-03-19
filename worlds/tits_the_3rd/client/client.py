@@ -75,7 +75,7 @@ class TitsThe3rdContext(CommonContext):
         if "player.txt" in os.listdir(lb_ark_folder):
             with open(lb_ark_folder / "player.txt") as player_id_file:
                 if player_id_file.read() == f"{self.auth}-{self.seed_name}":
-                    logger.info("Game is already patched. Skip")
+                    logger.info("Player has not changed. Skip installing patch")
                     return True
 
         with open(lb_ark_folder / "player.txt", "w") as player_id_file:

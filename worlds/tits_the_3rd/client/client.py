@@ -17,12 +17,13 @@ import colorama
 
 from NetUtils import ClientStatus, NetworkItem, NetworkPlayer
 from settings import get_settings
-from worlds.tits_the_3rd.locations import get_location_id, MIN_CRAFT_LOCATION_ID, MAX_CRAFT_LOCATION_ID, craft_location_id_to_character_id_and_level_threshold
+from worlds.tits_the_3rd.locations import get_location_id, MIN_CRAFT_LOCATION_ID, MAX_CRAFT_LOCATION_ID
 from worlds.tits_the_3rd.items import get_item_id
 from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.util import load_file
 from worlds.tits_the_3rd.dt_utils import items as dt_items
+from worlds.tits_the_3rd.tables.location_list import craft_location_id_to_character_id_and_level_threshold
 
 from .animation_writer import AnimationWriter
 from .memory_io import TitsThe3rdMemoryIO

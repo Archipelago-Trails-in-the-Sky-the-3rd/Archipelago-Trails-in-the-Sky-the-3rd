@@ -19,11 +19,10 @@ from .items import (
     quartz_table,
     filler_items,
     default_chest_pool,
-    default_character_quartz_pool,
     default_character_to_location,
     default_craft_pool,
 )
-from .tables.location_list import craft_locations, location_table, default_sealing_stone_quartz
+from .tables.location_list import craft_locations, location_table, default_sealing_stone_quartz, default_quartz_pool, default_area_unlocks
 from .locations import create_locations, location_groups
 from .options import CharacterStartingQuartzOptions, ChestItemPoolOptions, SealingStoneCharactersOptions, StartingCharactersOptions, TitsThe3rdOptions, CraftShuffle, CraftPlacement
 from .regions import create_regions, connect_regions
@@ -209,11 +208,12 @@ class TitsThe3rdWorld(World):
     def create_items(self) -> None:
         """Define items for Trails in the Sky the 3rd AP"""
         itempool = deepcopy(default_item_pool)
+        itempool.update(default_area_unlocks)
 
         # Handle Sealing Stone Quartz
         # Vanilla Shuffle
         if self.options.character_starting_quartz_options == CharacterStartingQuartzOptions.option_vanilla_shuffle:
-            itempool.update(default_character_quartz_pool)
+            itempool.update(default_quartz_pool)
         # Vanilla
         elif self.options.character_starting_quartz_options == CharacterStartingQuartzOptions.option_vanilla:
             for location_name, quartz_name in default_sealing_stone_quartz.items():

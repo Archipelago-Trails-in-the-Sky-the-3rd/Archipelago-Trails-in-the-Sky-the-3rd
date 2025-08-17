@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import Counter, namedtuple
 import re
 from typing import Dict
 
@@ -505,3 +505,15 @@ def _get_default_quartz() -> Dict[str, str]:
 
 
 default_sealing_stone_quartz = _get_default_quartz()
+default_quartz_pool = Counter(default_sealing_stone_quartz.values())
+
+
+def _get_area_unlock() -> Counter[str]:
+    return Counter([
+        location_data.vanilla_item for _, location_data in location_table.items() if
+        (
+            location_data.check_type == "Area Unlock"
+        )
+    ])
+
+default_area_unlocks = _get_area_unlock()

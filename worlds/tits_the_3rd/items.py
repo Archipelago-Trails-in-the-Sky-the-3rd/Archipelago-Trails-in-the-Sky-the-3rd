@@ -192,7 +192,10 @@ craft_unlock_table: Dict[str, TitsThe3rdItemData] = { # Item ID is 400000 + char
     ItemName.renne_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 15, ItemClassification.useful),
 }
 
-key_item_table: Dict[str, TitsThe3rdItemData] = {ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression)}
+key_item_table: Dict[str, TitsThe3rdItemData] = {
+    ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression),
+    ItemName.kloe_rescue: TitsThe3rdItemData(500001, ItemClassification.progression),
+}
 
 
 item_data_table: Dict[str, TitsThe3rdItemData] = {
@@ -231,9 +234,6 @@ item_table: Dict[str, int] = {name: data.code for name, data in item_data_table.
 
 default_item_pool: Counter[str] = Counter(
     {
-        ItemName.jade_corridor_unlock_1: 1,
-        ItemName.jade_corridor_unlock_2: 1,
-        ItemName.jade_corridor_arseille_unlock: 1,
         ItemName.easy_paella_recipe: 1,  # Default locations: 9873
     }
 )
@@ -291,24 +291,27 @@ default_chest_pool: Counter[str] = Counter(
 )
 
 
-default_character_quartz_pool: Counter[str] = Counter(
-    {
-        ItemName.ep_cut_2: 2,
-        ItemName.action_1: 1,
-        ItemName.hit_1: 1,
-        ItemName.range_1: 1,
-        ItemName.move_1: 1,
-        ItemName.attack_1: 2,
-        ItemName.shield_1: 1,
-        ItemName.eagle_eye: 1,
-        ItemName.hp_1: 1,
-    }
-)
+# default_character_quartz_pool: Counter[str] = Counter(
+#     {
+#         ItemName.ep_cut_2: 2,
+#         ItemName.action_1: 1,
+#         ItemName.hit_1: 1,
+#         ItemName.range_1: 1,
+#         ItemName.move_1: 1,
+#         ItemName.attack_1: 2,
+#         ItemName.shield_1: 1,
+#         ItemName.eagle_eye: 1,
+#         ItemName.hp_1: 1,
+#     }
+# )
 
 
 default_character_to_location = {
     ItemName.tita: LocationName.sealing_stone_tita,
     ItemName.julia: LocationName.sealing_stone_julia,
+    ItemName.mueller: LocationName.sealing_stone_mueller,
+    ItemName.josette: LocationName.sealing_stone_josette,
+    ItemName.joshua: LocationName.sealing_stone_joshua,
 }
 
 

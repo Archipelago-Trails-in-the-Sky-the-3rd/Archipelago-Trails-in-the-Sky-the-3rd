@@ -13,6 +13,22 @@ chapter_1_combat_regions = [
     RegionName.jade_corridor_expansion_area_2,
 ]
 
+chapter_2_combat_regions = [
+    RegionName.day_grancel_south,
+    RegionName.day_grancel_north,
+    RegionName.day_grancel_east,
+    RegionName.day_grancel_west,
+    RegionName.day_grancel_port,
+    RegionName.night_grancel_south,
+    RegionName.night_grancel_north,
+    RegionName.night_grancel_east,
+    RegionName.night_grancel_west,
+    RegionName.night_grancel_port,
+    RegionName.grancel_bobcat,
+    RegionName.grancel_arena,
+    RegionName.grancel_castle,
+]
+
 
 def create_region(multiworld: MultiWorld, player: int, name: str):
     """Create a region for Trails in the Sky the 3rd"""
@@ -57,6 +73,8 @@ def create_regions(multiworld: MultiWorld, player: int):
     create_region(multiworld, player, RegionName.night_grancel_west)
     create_region(multiworld, player, RegionName.night_grancel_east)
     create_region(multiworld, player, RegionName.night_grancel_port)
+    create_region(multiworld, player, RegionName.grancel_bobcat)
+    create_region(multiworld, player, RegionName.grancel_arena)
     create_region(multiworld, player, RegionName.grancel_castle)
 
 
@@ -204,31 +222,30 @@ def connect_regions(multiworld: MultiWorld, player: int):
     connect_region(
         multiworld,
         player,
-        RegionName.day_grancel_port,
         RegionName.day_grancel_west,
+        RegionName.day_grancel_port,
         lambda state: state.has(ItemName.day_grancel_port_unlock, player, 1)
     )
     connect_region(
         multiworld,
         player,
-        RegionName.day_grancel_west,
         RegionName.day_grancel_port,
-        lambda state: state.has(ItemName.day_grancel_port_unlock, player, 1)
+        RegionName.day_grancel_west,
     )
 
-    connect_region(
-        multiworld,
-        player,
-        RegionName.grancel_bobcat,
-        RegionName.day_grancel_west,
-        lambda state: state.has(ItemName.bobcat_unlock, player, 1) and state.has(ItemName.day_grancel_west_unlock, player, 1)
-    )
     connect_region(
         multiworld,
         player,
         RegionName.day_grancel_west,
         RegionName.grancel_bobcat,
         lambda state: state.has(ItemName.bobcat_unlock, player, 1)
+    )
+    connect_region(
+        multiworld,
+        player,
+        RegionName.grancel_bobcat,
+        RegionName.day_grancel_west,
+        lambda state: state.has(ItemName.bobcat_unlock, player, 1) and state.has(ItemName.day_grancel_west_unlock, player, 1)
     )
 
     connect_region(
@@ -483,3 +500,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
     for region in chapter_1_combat_regions:
         connect_region(multiworld, player, region, RegionName.level_90)
         connect_region(multiworld, player, region, RegionName.level_95)
+
+    for region in chapter_2_combat_regions:
+        connect_region(multiworld, player, region, RegionName.level_103)
+        connect_region(multiworld, player, region, RegionName.level_105)

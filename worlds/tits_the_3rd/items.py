@@ -267,15 +267,16 @@ default_craft_pool: Counter[str] = Counter()
 # obviously ignores commented lines, just uncomment them to add them to the pools
 for location in location_table:
     if location_table[location].vanilla_item != "":
+        item = {location_table[location].vanilla_item: 1}
         match location_table[location].check_type:
             case CheckTypeName.chest:
-                default_chest_pool[location_table[location].vanilla_item] += 1
+                default_chest_pool.update(item)
             case CheckTypeName.character_quartz:
-                default_character_quartz_pool[location_table[location].vanilla_item] += 1
+                default_character_quartz_pool.update(item)
             case CheckTypeName.area_unlock:
-                default_item_pool[location_table[location].vanilla_item] += 1
+                default_item_pool.update(item)
             case CheckTypeName.craft:
-                default_craft_pool[location_table[location].vanilla_item] += 1
+                default_craft_pool.update(item)
 
 default_character_to_location = {
     ItemName.tita: LocationName.sealing_stone_tita,

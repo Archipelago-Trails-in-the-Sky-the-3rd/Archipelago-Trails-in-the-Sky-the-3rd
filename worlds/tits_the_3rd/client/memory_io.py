@@ -57,6 +57,8 @@ class TitsThe3rdMemoryIO():
     OFFSET_ITEMS_RECEIVED_INDEX = OFFSET_FLAG_0 + (1024 // 8)
     OFFSET_CHARACTER_LEVEL: int = 0x2ACD11C # Estelle's character level.
     CHARACTER_LEVEL_OFFSET_INTERVAL: int = 0x3C # Offset between each character's level.
+    FLAG_EVENT_CRAFT_ACQUIRED_ARRAY: int = 12000
+    FLAG_HAS_CRAFT_ARRAY: int = 11600
     CHARACTER_ID_TO_NAME = {
         0: "estelle",
         1: "joshua",
@@ -446,7 +448,14 @@ class TitsThe3rdMemoryIO():
         message = message.ljust(34)
         self.tits_the_3rd_mem.write_bytes(address + 55, bytes(message, encoding="utf8"), 34)
         self.call_scena(self.scena_functions["give_craft"])
+        self.write_flag(self.FLAG_HAS_CRAFT_ARRAY + craft_id, True)
+        print("setting flag", self.FLAG_HAS_CRAFT_ARRAY + craft_id, True)
         return True
+
+    def has_craft(self, craft_id: int) -> bool:
+        flag_number = self.FLAG_HAS_CRAFT_ARRAY + craft_id
+        print("checking flag", flag_number, self.read_flag(flag_number))
+        return self.read_flag(flag_number)
 
     def give_mira(self, amount: int):
         """Function to give mira to the player in game"""
@@ -490,26 +499,27 @@ class TitsThe3rdMemoryIO():
         self.call_scena(self.scena_functions["give_high_sepith"])
         return True
 
-    def give_all_sepith(self, amount: int):
+    def give_all_sepith(self, low_element_amount: int, high_element_amount: int):
         """Function to give all types of sepith to the player in game"""
         address: int = self.get_scena_offset(b"AP All Sepith Receive Notification")
         if not address:
             return False
-        amount_in_bytes = amount.to_bytes(2, "little")
-        self.tits_the_3rd_mem.write_bytes(address + 37, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 41, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 45, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 49, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 53, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 57, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 61, amount_in_bytes, 2)
-        self.tits_the_3rd_mem.write_bytes(address + 93, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 115, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 136, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 157, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 178, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 200, bytes(f"{amount:03d}", encoding="utf8"), 3)
-        self.tits_the_3rd_mem.write_bytes(address + 223, bytes(f"{amount:03d}", encoding="utf8"), 3)
+        low_element_amount_in_bytes = low_element_amount.to_bytes(2, "little")
+        high_element_amount_in_bytes = high_element_amount.to_bytes(2, "little")
+        self.tits_the_3rd_mem.write_bytes(address + 37, low_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 41, low_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 45, low_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 49, low_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 53, high_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 57, high_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 61, high_element_amount_in_bytes, 2)
+        self.tits_the_3rd_mem.write_bytes(address + 93, bytes(f"{low_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 115, bytes(f"{low_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 136, bytes(f"{low_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 157, bytes(f"{low_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 178, bytes(f"{high_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 200, bytes(f"{high_element_amount:03d}", encoding="utf8"), 3)
+        self.tits_the_3rd_mem.write_bytes(address + 223, bytes(f"{high_element_amount:03d}", encoding="utf8"), 3)
         self.call_scena(self.scena_functions["give_all_sepith"])
         return True
 

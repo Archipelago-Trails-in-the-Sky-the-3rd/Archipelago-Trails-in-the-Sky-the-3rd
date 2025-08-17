@@ -26,6 +26,9 @@ class RegionName:
     grancel_castle = "Grancel Castle"
     grancel_arena = "Grancel Arena"
     grancel_bobcat = "Grancel Airship Bobcat"
+    silver_road = "Silver Road"
+    golden_road = "Golden Road"
+    regroup_area = "Regroup Area"
 
     level_90 = "Level 90" # Start
     level_95 = "Level 95" # Chapter 1

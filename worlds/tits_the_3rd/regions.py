@@ -130,7 +130,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.jade_corridor_expansion_area_1,
         RegionName.jade_corridor_start,
-        lambda state: state.has(ItemName.jade_corridor_unlock_1, player, 1)
     )
 
     connect_region(
@@ -145,7 +144,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.jade_corridor_expansion_area_2,
         RegionName.jade_corridor_expansion_area_1,
-        lambda state: state.has(ItemName.jade_corridor_unlock_2, player, 1),
+        lambda state: state.has(ItemName.jade_corridor_unlock_1, player, 1),
     )
 
     connect_region(
@@ -160,7 +159,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.jade_corridor_arseille,
         RegionName.jade_corridor_expansion_area_1,
-        lambda state: state.has(ItemName.jade_corridor_arseille_unlock, player, 1)
     )
 
     connect_region(
@@ -175,6 +173,21 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.day_grancel_south,
         RegionName.jade_corridor_expansion_area_2,
+        lambda state: state.has(ItemName.jade_corridor_unlock_2, player, 1)
+    )
+
+    connect_region(
+        multiworld,
+        player,
+        RegionName.day_grancel_south,
+        RegionName.day_grancel_north,
+        lambda state: state.has(ItemName.day_grancel_north_unlock, player, 1)
+    )
+    connect_region(
+        multiworld,
+        player,
+        RegionName.day_grancel_north,
+        RegionName.day_grancel_south,
         lambda state: state.has(ItemName.day_grancel_south_unlock, player, 1)
     )
 
@@ -182,21 +195,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         multiworld,
         player,
         RegionName.day_grancel_south,
-        RegionName.day_grancel_north,
-        lambda state: state.has(ItemName.day_grancel_north_unlock, player, 1)
-    )
-    connect_region(
-        multiworld,
-        player,
-        RegionName.day_grancel_north,
-        RegionName.day_grancel_south,
-        lambda state: state.has(ItemName.day_grancel_north_unlock, player, 1)
-    )
-
-    connect_region(
-        multiworld,
-        player,
-        RegionName.day_grancel_south,
         RegionName.day_grancel_east,
         lambda state: state.has(ItemName.day_grancel_east_unlock, player, 1)
     )
@@ -205,7 +203,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.day_grancel_east,
         RegionName.day_grancel_south,
-        lambda state: state.has(ItemName.day_grancel_east_unlock, player, 1)
+        lambda state: state.has(ItemName.day_grancel_south_unlock, player, 1)
     )
 
     connect_region(
@@ -220,7 +218,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.day_grancel_west,
         RegionName.day_grancel_south,
-        lambda state: state.has(ItemName.day_grancel_west_unlock, player, 1)
+        lambda state: state.has(ItemName.day_grancel_south_unlock, player, 1)
     )
 
     connect_region(
@@ -249,7 +247,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_bobcat,
         RegionName.day_grancel_west,
-        lambda state: state.has(ItemName.bobcat_unlock, player, 1) and state.has(ItemName.day_grancel_west_unlock, player, 1)
+        lambda state: state.has(ItemName.day_grancel_west_unlock, player, 1)
     )
 
     connect_region(
@@ -294,7 +292,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_castle,
         RegionName.day_grancel_north,
-        lambda state: state.has(ItemName.grancel_castle_unlock, player, 1) and state.has(ItemName.day_grancel_north_unlock, player, 1)
+        lambda state: state.has(ItemName.day_grancel_north_unlock, player, 1)
     )
 
     connect_region(
@@ -324,6 +322,21 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.night_grancel_south,
         RegionName.jade_corridor_expansion_area_2,
+        lambda state: state.has(ItemName.jade_corridor_unlock_2, player, 1)
+    )
+
+    connect_region(
+        multiworld,
+        player,
+        RegionName.night_grancel_south,
+        RegionName.night_grancel_north,
+        lambda state: state.has(ItemName.night_grancel_north_unlock, player, 1)
+    )
+    connect_region(
+        multiworld,
+        player,
+        RegionName.night_grancel_north,
+        RegionName.night_grancel_south,
         lambda state: state.has(ItemName.night_grancel_south_unlock, player, 1)
     )
 
@@ -331,21 +344,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         multiworld,
         player,
         RegionName.night_grancel_south,
-        RegionName.night_grancel_north,
-        lambda state: state.has(ItemName.night_grancel_north_unlock, player, 1)
-    )
-    connect_region(
-        multiworld,
-        player,
-        RegionName.night_grancel_north,
-        RegionName.night_grancel_south,
-        lambda state: state.has(ItemName.night_grancel_north_unlock, player, 1)
-    )
-
-    connect_region(
-        multiworld,
-        player,
-        RegionName.night_grancel_south,
         RegionName.night_grancel_east,
         lambda state: state.has(ItemName.night_grancel_east_unlock, player, 1)
     )
@@ -354,7 +352,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.night_grancel_east,
         RegionName.night_grancel_south,
-        lambda state: state.has(ItemName.night_grancel_east_unlock, player, 1)
+        lambda state: state.has(ItemName.night_grancel_south_unlock, player, 1)
     )
 
     connect_region(
@@ -369,7 +367,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.night_grancel_west,
         RegionName.night_grancel_south,
-        lambda state: state.has(ItemName.night_grancel_west_unlock, player, 1)
+        lambda state: state.has(ItemName.night_grancel_south_unlock, player, 1)
     )
 
     connect_region(
@@ -414,7 +412,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.night_grancel_port,
         RegionName.night_grancel_west,
-        lambda state: state.has(ItemName.night_grancel_port_unlock, player, 1)
     )
 
     connect_region(
@@ -429,7 +426,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_bobcat,
         RegionName.night_grancel_west,
-        lambda state: state.has(ItemName.bobcat_unlock, player, 1) and state.has(ItemName.night_grancel_west_unlock, player, 1)
+        lambda state: state.has(ItemName.night_grancel_west_unlock, player, 1)
     )
 
     connect_region(
@@ -444,7 +441,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_arena,
         RegionName.night_grancel_east,
-        lambda state: state.has(ItemName.grancel_arena_unlock, player, 1)
     )
 
     connect_region(
@@ -459,7 +455,7 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_castle,
         RegionName.night_grancel_north,
-        lambda state: state.has(ItemName.grancel_castle_unlock, player, 1) and state.has(ItemName.night_grancel_north_unlock, player, 1)
+        lambda state: state.has(ItemName.night_grancel_north_unlock, player, 1)
     )
 
     connect_region(

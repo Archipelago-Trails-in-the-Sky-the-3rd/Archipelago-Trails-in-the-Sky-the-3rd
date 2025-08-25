@@ -42,7 +42,7 @@ class LocationName:
     sealing_stone_mueller = "Sealing Stone - Mueller"
     sealing_stone_day_grancel_west_unlock = "Sealing Stone - Unlock Day Grancel West"
     sealing_stone_day_grancel_port_unlock = "Sealing Stone - Unlock Day Grancel Port"
-    sealing_stone_bobcat_unlock = "Sealing Stone - Unlock Bobcat"
+    miniboss_bobcat_unlock = "Sealing Stone - Unlock Bobcat"
 
     sealing_stone_josette = "Sealing Stone - Josette"
     sealing_stone_night_grancel_south_unlock = "Sealing Stone - Unlock Night Grancel South"

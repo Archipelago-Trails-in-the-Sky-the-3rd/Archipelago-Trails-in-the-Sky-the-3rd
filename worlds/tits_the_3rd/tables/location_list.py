@@ -75,7 +75,7 @@ location_table = dict([
 
     ## Sealing Stones
     ### Tita
-    (LocationName.sealing_stone_tita,                                                           LocationData(908,       CheckTypeName.character,            RegionName.jade_corridor_start,                 ItemName.tita,                                                                     [])),
+    (LocationName.sealing_stone_tita,                                                           LocationData(906,       CheckTypeName.character,            RegionName.jade_corridor_start,                 ItemName.tita,                                                                     [])),
     (LocationName.sealing_stone_jade_corridor_1_unlock,                                         LocationData(2256,      CheckTypeName.area_unlock,          RegionName.jade_corridor_start,                 ItemName.jade_corridor_unlock_1,                                                   [])),
     (LocationName.sealing_stone_arseille_unlock,                                                LocationData(2258,      CheckTypeName.area_unlock,          RegionName.jade_corridor_start,                 ItemName.jade_corridor_arseille_unlock,                                            [])),
     ### Julia
@@ -85,7 +85,6 @@ location_table = dict([
     (LocationName.sealing_stone_mueller,                                                        LocationData(912,       CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.mueller,                                                                  [])),
     (LocationName.sealing_stone_day_grancel_west_unlock,                                        LocationData(2262,      CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.day_grancel_west_unlock,                                                  [])),
     (LocationName.sealing_stone_day_grancel_port_unlock,                                        LocationData(2270,      CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.day_grancel_port_unlock,                                                  [])),
-    (LocationName.sealing_stone_bobcat_unlock,                                                  LocationData(2267,      CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.jade_corridor_unlock_2,                                                   [])),
     ### Josette
     (LocationName.sealing_stone_josette,                                                        LocationData(910,       CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.josette,                                                                  [])), 
     (LocationName.sealing_stone_night_grancel_south_unlock,                                     LocationData(2263,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_south_unlock,                                               [])),
@@ -103,6 +102,7 @@ location_table = dict([
     (LocationName.chapter1_boss_day_grancel_south_unlock,                                       LocationData(2259,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_south_unlock,                                                 [])),
     (LocationName.chapter1_boss_day_grancel_north_unlock,                                       LocationData(2260,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_north_unlock,                                                 [])),
     (LocationName.miniboss_day_grancel_east_unlock,                                             LocationData(2261,      CheckTypeName.area_unlock,          RegionName.day_grancel_north,                   ItemName.day_grancel_east_unlock,                                                  [])),
+    (LocationName.miniboss_bobcat_unlock,                                                       LocationData(2267,      CheckTypeName.area_unlock,          RegionName.day_grancel_port,                    ItemName.bobcat_unlock,                                                            [])),
 
     ## Chests
     ### Lusitania

@@ -283,21 +283,6 @@ def connect_regions(multiworld: MultiWorld, player: int):
     connect_region(
         multiworld,
         player,
-        RegionName.day_grancel_north,
-        RegionName.grancel_castle,
-        lambda state: state.has(ItemName.grancel_castle_unlock, player, 1)
-    )
-    connect_region(
-        multiworld,
-        player,
-        RegionName.grancel_castle,
-        RegionName.day_grancel_north,
-        lambda state: state.has(ItemName.day_grancel_north_unlock, player, 1)
-    )
-
-    connect_region(
-        multiworld,
-        player,
         RegionName.day_grancel_south,
         RegionName.night_grancel_south,
         lambda state: state.has(ItemName.night_grancel_south_unlock, player, 1)

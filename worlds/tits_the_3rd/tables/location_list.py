@@ -82,11 +82,11 @@ location_table = dict([
     (LocationName.sealing_stone_julia,                                                          LocationData(913,       CheckTypeName.character,            RegionName.jade_corridor_arseille,              ItemName.julia,                                                                    [])),
     (LocationName.sealing_stone_jade_corridor_2_unlock,                                         LocationData(2257,      CheckTypeName.area_unlock,          RegionName.jade_corridor_arseille,              ItemName.jade_corridor_unlock_2,                                                   [])),
     ### Mueller
-    (LocationName.sealing_stone_mueller,                                                        LocationData(912,       CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.mueller,                                                                  [])),
+    (LocationName.sealing_stone_mueller,                                                        LocationData(912,       CheckTypeName.character,            RegionName.day_grancel_east,                    ItemName.mueller,                                                                  [])),
     (LocationName.sealing_stone_day_grancel_west_unlock,                                        LocationData(2262,      CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.day_grancel_west_unlock,                                                  [])),
     (LocationName.sealing_stone_day_grancel_port_unlock,                                        LocationData(2270,      CheckTypeName.area_unlock,          RegionName.day_grancel_east,                    ItemName.day_grancel_port_unlock,                                                  [])),
     ### Josette
-    (LocationName.sealing_stone_josette,                                                        LocationData(910,       CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.josette,                                                                  [])), 
+    (LocationName.sealing_stone_josette,                                                        LocationData(910,       CheckTypeName.character,            RegionName.grancel_bobcat,                      ItemName.josette,                                                                  [])), 
     (LocationName.sealing_stone_night_grancel_south_unlock,                                     LocationData(2263,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_south_unlock,                                               [])),
     (LocationName.sealing_stone_night_grancel_north_unlock,                                     LocationData(2264,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_north_unlock,                                               [])),
     (LocationName.sealing_stone_night_grancel_east_unlock,                                      LocationData(2265,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_east_unlock,                                                [])),
@@ -94,7 +94,7 @@ location_table = dict([
     (LocationName.sealing_stone_night_grancel_port_unlock,                                      LocationData(2271,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_port_unlock,                                                [])),
     (LocationName.sealing_stone_grancel_arena_unlock,                                           LocationData(2269,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.grancel_arena_unlock,                                                     [])),
     ### Joshua
-    (LocationName.sealing_stone_joshua,                                                         LocationData(901,       CheckTypeName.area_unlock,          RegionName.grancel_arena,                       ItemName.joshua,                                                                   [])), 
+    (LocationName.sealing_stone_joshua,                                                         LocationData(901,       CheckTypeName.character,            RegionName.grancel_arena,                       ItemName.joshua,                                                                   [])), 
     (LocationName.sealing_stone_grancel_castle_unlock,                                          LocationData(2268,      CheckTypeName.area_unlock,          RegionName.grancel_arena,                       ItemName.grancel_castle_unlock,                                                    [])),
 
     ## Bosses / Generic Location
@@ -531,7 +531,7 @@ for craft in craft_locations:
     character_id = character_name_to_id[character_name]
     level_match = re.search(r'\(Level (\d+)\)', craft)
     if level_match:
-        level_threshold = int(level_match.group(1))
+        level_threshold = int(level_match.group(1)) - 2
         craft_location_id_to_character_id_and_level_threshold[craft_locations[craft].flag] = (character_id, level_threshold)
     else:
         craft_name = craft.split(" - ", 1)[1]

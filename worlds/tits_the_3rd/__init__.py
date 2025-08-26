@@ -188,7 +188,7 @@ class TitsThe3rdWorld(World):
         chapter_2_item = self.create_item(ItemName.kloe_rescue)
         # TODO: change victory condition
         self.multiworld.get_location(LocationName.chapter1_boss_defeated, self.player).place_locked_item(chapter_1_item)
-        self.multiworld.get_location(LocationName.grancel_castle_queens_bedroom, self.player).place_locked_item(chapter_2_item)
+        self.multiworld.get_location(LocationName.chapter2_boss_defeated, self.player).place_locked_item(chapter_2_item)
         # Crafts
         if self.options.craft_placement == CraftPlacement.option_default and self.options.craft_shuffle:
             # Crafts are at their default locations, but which craft is given is randomized.
@@ -210,6 +210,9 @@ class TitsThe3rdWorld(World):
         """Define items for Trails in the Sky the 3rd AP"""
         itempool = deepcopy(default_item_pool)
 
+        # Setup all the playable characters stuffs
+        itempool = self.setup_characters(itempool)
+
         # Handle Sealing Stone Quartz
         # Vanilla Shuffle
         if self.options.character_starting_quartz_options == CharacterStartingQuartzOptions.option_vanilla_shuffle:
@@ -230,9 +233,6 @@ class TitsThe3rdWorld(World):
         # Handle Chest Item Pool
         if self.options.chest_itempool_option == ChestItemPoolOptions.option_vanilla_shuffle:
             itempool.update(default_chest_pool)
-
-        # Setup all the playable characters stuffs
-        itempool = self.setup_characters(itempool)
 
         # Add craft items to item pool.
         # If crafts are shuffled amongst each other, or placed as their default locations, this was placed in prefill.

@@ -8,24 +8,10 @@ from BaseClasses import CollectionState, MultiWorld, Region
 
 
 chapter_1_combat_regions = [
-    RegionName.jade_corridor_start,
-    RegionName.jade_corridor_expansion_area_1,
     RegionName.jade_corridor_expansion_area_2,
 ]
 
 chapter_2_combat_regions = [
-    RegionName.day_grancel_south,
-    RegionName.day_grancel_north,
-    RegionName.day_grancel_east,
-    RegionName.day_grancel_west,
-    RegionName.day_grancel_port,
-    RegionName.night_grancel_south,
-    RegionName.night_grancel_north,
-    RegionName.night_grancel_east,
-    RegionName.night_grancel_west,
-    RegionName.night_grancel_port,
-    RegionName.grancel_bobcat,
-    RegionName.grancel_arena,
     RegionName.grancel_castle,
 ]
 

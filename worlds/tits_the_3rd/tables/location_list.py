@@ -104,7 +104,7 @@ location_table = dict([
     (LocationName.miniboss_day_grancel_east_unlock,                                             LocationData(2261,      CheckTypeName.area_unlock,          RegionName.day_grancel_north,                   ItemName.day_grancel_east_unlock,                                                  [])),
     (LocationName.miniboss_bobcat_unlock,                                                       LocationData(2267,      CheckTypeName.area_unlock,          RegionName.day_grancel_port,                    ItemName.bobcat_unlock,                                                            [])),
     (LocationName.chapter2_grancel_basement_unlock,                                             LocationData(2273,      CheckTypeName.area_unlock,          RegionName.grancel_castle,                      ItemName.grancel_castle_basement_unlock,                                           [])),
-    (LocationName.chapter2_boss_defeated,                                                       LocationData(9757,      CheckTypeName.boss,                 RegionName.grancel_castle_basement,             ItemName.kloe_rescue,                                                              [])), # TODO: fix this location flag
+    (LocationName.chapter2_boss_defeated,                                                       LocationData(10016,     CheckTypeName.boss,                 RegionName.grancel_castle_basement,             ItemName.kloe_rescue,                                                              [])), 
 
     ## Chests
     ### Lusitania

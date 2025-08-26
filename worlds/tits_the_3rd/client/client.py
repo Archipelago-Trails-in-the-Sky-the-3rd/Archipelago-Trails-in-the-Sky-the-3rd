@@ -87,6 +87,7 @@ class TitsThe3rdContext(CommonContext):
         Returns a buffer (the patch output, in zip format)
         """
         if not "factoria.exe" in os.listdir(game_dir):
+            logger.error("factoria.exe not found. Please install factoria from https://github.com/Aureole-Suite/Factoria/releases/tag/v1.0")
             raise FileNotFoundError("factoria.exe not found. Please install factoria from https://github.com/Aureole-Suite/Factoria/releases/tag/v1.0")
 
         # The patch is applied onto files derrived from the base game's files.
@@ -114,6 +115,7 @@ class TitsThe3rdContext(CommonContext):
         os.makedirs(scena_game_mod_folder, exist_ok=False)
         patch_scena_folder = os.path.join(patch_output_dir, "sn")
         if not os.path.exists(patch_scena_folder):
+            logger.error("SN folder not found in patch output! Please contact the maintainer of the mod in the discord.")
             raise FileNotFoundError("SN folder not found in patch output! Please contact the maintainer of the mod in the discord.")
         for file_name in os.listdir(patch_scena_folder):
             source_path = os.path.join(patch_scena_folder, file_name)
@@ -150,6 +152,7 @@ class TitsThe3rdContext(CommonContext):
         if not self.slot_data["old_craft_id_to_new_craft_id"]:
             return  # No craft changes, we can use the default table
         if not "T_MAGIC_Converter.exe" in os.listdir(game_dir):
+            logger.error("T_MAGIC_Converter.exe not found. Please install T_MAGIC_Converter from https://github.com/akatatsu27/FalcomToolsCollection/releases/tag/T_MAGIC")
             raise FileNotFoundError("T_MAGIC_Converter.exe not found. Please install T_MAGIC_Converter from https://github.com/akatatsu27/FalcomToolsCollection/releases/tag/T_MAGIC")
 
         try:
@@ -161,9 +164,11 @@ class TitsThe3rdContext(CommonContext):
                     t_magic_path,
                 ], check=True)
             except subprocess.CalledProcessError as err:
+                logger.error(f"Error running T_MAGIC_Converter: {err}")
                 raise RuntimeError(f"Error running T_MAGIC_Converter: {err}") from err
             t_magic_json_output_path = os.path.join(game_dir, "output", "t_magic.json")
             if not os.path.exists(t_magic_json_output_path):
+                logger.error("t_magic.json not found in output directory after running T_MAGIC_Converter.exe. Please contact the maintainer of the mod in the discord.")
                 raise FileNotFoundError("t_magic.json not found in output directory after running T_MAGIC_Converter.exe. Please contact the maintainer of the mod in the discord.")
 
             # Build the new t_magic contents
@@ -185,6 +190,7 @@ class TitsThe3rdContext(CommonContext):
                     with open(t_magic_json_output_path, "w", encoding="utf-8") as t_magic_json_file:
                         json.dump(new_t_magic_json, t_magic_json_file)
             except Exception as err:
+                logger.error(f"Error building new t_magic: {err}")
                 raise RuntimeError(f"Error building new t_magic: {err}") from err
 
             # Write the new t_magic file
@@ -194,10 +200,12 @@ class TitsThe3rdContext(CommonContext):
                     t_magic_json_output_path
                 ], check=True)
             except subprocess.CalledProcessError as err:
+                logger.error(f"Error running t_magic_converter: {err}")
                 raise RuntimeError(f"Error running t_magic_converter: {err}") from err
 
             t_magic_dt_output_path = os.path.join(game_dir, "output", "t_magic._dt")
             if not os.path.exists(t_magic_dt_output_path):
+                logger.error("t_magic._dt not found in output directory after running T_MAGIC_Converter.exe. Please contact the maintainer of the mod in the discord.")
                 raise FileNotFoundError("t_magic._dt not found in output directory after running T_MAGIC_Converter.exe. Please contact the maintainer of the mod in the discord.")
             shutil.move(t_magic_dt_output_path, os.path.join(dt_game_mod_folder, "t_magic._dt"))
         finally:
@@ -215,6 +223,7 @@ class TitsThe3rdContext(CommonContext):
             return
         t_crtget_path = os.path.join(dt_base_folder, "t_crfget._dt")
         if not os.path.exists(t_crtget_path):
+            logger.error("t_crfget._dt not found in base directory. Please contact the maintainer of the mod in the discord.")
             raise FileNotFoundError("t_crfget._dt not found in base directory. Please contact the maintainer of the mod in the discord.")
         try:
             with open(t_crtget_path, "rb") as f:
@@ -228,6 +237,7 @@ class TitsThe3rdContext(CommonContext):
             with open(t_crtget_path, "wb") as f:
                 f.write(data)
         except Exception as err:
+            logger.error(f"Error modifying t_crfget: {err}")
             raise RuntimeError(f"Error modifying t_crfget: {err}") from err
         shutil.move(t_crtget_path, os.path.join(dt_game_mod_folder, "t_crfget._dt"))
 
@@ -252,8 +262,10 @@ class TitsThe3rdContext(CommonContext):
         if not self.slot_data["old_craft_id_to_new_craft_id"]:
             return  # No craft changes, we can use the default animations.
         if not "AS_Converter.exe" in os.listdir(game_dir):
-            raise FileNotFoundError("AS_Converter.exe not found. Please install AS_Converter from <link>") #TODO: add link
+            logger.error("AS_Converter.exe not found. Please install AS_Converter from https://github.com/tdkollins/FalcomToolsCollection/releases/tag/1.0.0")
+            raise FileNotFoundError("AS_Converter.exe not found. Please install AS_Converter from https://github.com/tdkollins/FalcomToolsCollection/releases/tag/1.0.0")
         if os.path.exists("outbin"):
+            logger.error("outbin folder already exists. Cannot patch without overwriting contents. Please delete the outbin folder and try again.")
             raise RuntimeError("outbin folder already exists. Cannot patch without overwriting contents. Please delete the outbin folder and try again.")
 
         as_game_mod_folder = os.path.join(game_dir, "data", "ED6_DT30")
@@ -261,6 +273,7 @@ class TitsThe3rdContext(CommonContext):
 
         as_patch_output_folder = os.path.join(patch_output_dir, "as")
         if not os.path.exists(as_patch_output_folder):
+            logger.error("AS folder not found in patch output! Please contact the maintainer of the mod in the discord.")
             raise FileNotFoundError("AS folder not found in patch output! Please contact the maintainer of the mod in the discord.")
 
         try:
@@ -269,6 +282,7 @@ class TitsThe3rdContext(CommonContext):
                 # Take the animation from source craft, and give it to the destination craft.
                 animation_writer.write_animation(int(source_craft_id), int(destination_craft_id))
         except Exception as err:
+            logger.error(f"Error writing craft animation: {err}")
             raise RuntimeError(f"Error writing craft animation: {err}") from err
 
         as_converter_path = os.path.join(game_dir, "AS_Converter.exe")
@@ -279,6 +293,7 @@ class TitsThe3rdContext(CommonContext):
                     os.path.join(as_patch_output_folder),
                 ], check=True)
             except subprocess.CalledProcessError as err:
+                logger.error(f"Error running AS_Converter: {err}")
                 raise RuntimeError(f"Error running AS_Converter: {err}") from err
 
             for file_name in os.listdir("outbin"):
@@ -296,6 +311,7 @@ class TitsThe3rdContext(CommonContext):
         game_dir = Path(get_settings().tits_the_3rd_options.game_installation_path)
         files_in_game_dir = os.listdir(game_dir)
         if not "ed6_win3_DX9.exe" in files_in_game_dir:
+            logger.error(f"ed6_win3_DX9.exe not found in game directory {game_dir}. Please configure the correct game directory in the settings.")
             raise FileNotFoundError(f"ed6_win3_DX9.exe not found in game directory {game_dir}. Please configure the correct game directory in the settings.")
 
         lb_ark_folder = os.path.join(game_dir, "data")

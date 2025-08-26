@@ -4,6 +4,7 @@ Constants for location names.
 
 class LocationName:
     """Constants for location names."""
+    # Lusitania/Jade Corridor (Chapter 1)
     lusitania_chest_bedroom_beside_banquet = "Lusitania Chest (Bedroom Beside Banquet)" # 9720
     lusitania_chest_bedroom_past_library = "Lusitania Chest (Bedroom Past Library)" # 9721
     lusitania_chest_bedroom_past_casino_left = "Lusitania Chest (Bedroom Past Casino Left)" # 9722
@@ -26,12 +27,17 @@ class LocationName:
     jade_corridor_chest_left_from_checkpoint_third_chest = "Jade Corridor Chest (Left From Checkpoint Third Chest)" # 9884
     jade_corridor_chest_left_from_checkpoint_fourth_chest = "Jade Corridor Chest (Left From Checkpoint Fourth Chest)" # 9885
 
+    # Bosses/Key Items
     chapter1_boss_defeated = "Defeat Bennu (Chapter 1 Boss)"  # 9757
     chapter1_boss_day_grancel_south_unlock = "Bennu - Unlock Day Grancel South"  # 2259
     chapter1_boss_day_grancel_north_unlock = "Bennu - Unlock Day Grancel North"  # 2260
 
     miniboss_day_grancel_east_unlock = "Miniboss - Unlock Day Grancel East"
+    miniboss_bobcat_unlock = "Miniboss - Unlock Bobcat"
+    chapter2_grancel_basement_unlock = "Grancel Castle - Unlock Basement"
+    chapter2_boss_defeated = "Defeat Rostrum (Chapter 2 Boss)"
 
+    # Sealing Stones
     sealing_stone_tita = "Sealing Stone - Tita"  # 9740
     sealing_stone_jade_corridor_1_unlock = "Sealing Stone - Unlock Jade Corridor 1"  # 2256
     sealing_stone_arseille_unlock = "Sealing Stone - Unlock Arseille"  # 2258
@@ -42,7 +48,6 @@ class LocationName:
     sealing_stone_mueller = "Sealing Stone - Mueller"
     sealing_stone_day_grancel_west_unlock = "Sealing Stone - Unlock Day Grancel West"
     sealing_stone_day_grancel_port_unlock = "Sealing Stone - Unlock Day Grancel Port"
-    miniboss_bobcat_unlock = "Sealing Stone - Unlock Bobcat"
 
     sealing_stone_josette = "Sealing Stone - Josette"
     sealing_stone_night_grancel_south_unlock = "Sealing Stone - Unlock Night Grancel South"
@@ -122,6 +127,7 @@ class LocationName:
     ries_initial_armor = "Ries' Initial Equipment - Armor"  # 1241
     ries_initial_boots = "Ries' Initial Equipment - Boots"  # 1242
 
+    # Grancel (Chapter 2)
     day_grancel_south_orbment_store = "Day Grancel South Chest (Orbment Store)" # 10119
     day_grancel_south_arms_dealer = "Day Grancel South Chest (Arms Dealer)" # 10116
     day_grancel_south_house_behind_arms_dealer = "Day Grancel South Chest (House Behind Arms Dealer)" # 10113
@@ -199,6 +205,7 @@ class LocationName:
     grancel_castle_balcony_south_chest = "Grancel Castle Chest (Balcony South Chest)" # 10137
     grancel_castle_queens_bedroom = "Grancel Castle Chest (Queen's Bedroom)" # 10152
 
+    # Silver/Golden Road (Chapter 3)
     silver_road_1_left_of_entrance = "Silver Road 1 (Left of Entrance)" # 10384
     silver_road_1_before_triple ="Silver Road 1 (Before Triple)" # 10391
     silver_road_1_triple_left ="Silver Road 1 (Triple Left)" # 10389

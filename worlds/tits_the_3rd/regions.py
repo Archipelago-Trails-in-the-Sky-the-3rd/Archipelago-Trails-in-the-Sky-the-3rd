@@ -76,6 +76,7 @@ def create_regions(multiworld: MultiWorld, player: int):
     create_region(multiworld, player, RegionName.grancel_bobcat)
     create_region(multiworld, player, RegionName.grancel_arena)
     create_region(multiworld, player, RegionName.grancel_castle)
+    create_region(multiworld, player, RegionName.grancel_castle_basement)
 
     create_region(multiworld, player, RegionName.silver_road)
     create_region(multiworld, player, RegionName.golden_road)
@@ -447,26 +448,41 @@ def connect_regions(multiworld: MultiWorld, player: int):
         multiworld,
         player,
         RegionName.grancel_castle,
-        RegionName.silver_road,
+        RegionName.grancel_castle_basement,
+        lambda state: state.has(ItemName.grancel_castle_basement_unlock, player, 1)
     )
     connect_region(
         multiworld,
         player,
-        RegionName.silver_road,
+        RegionName.grancel_castle_basement,
         RegionName.grancel_castle,
+        lambda state: state.has(ItemName.grancel_castle_unlock, player, 1)
     )
 
     connect_region(
         multiworld,
         player,
-        RegionName.grancel_castle,
+        RegionName.grancel_castle_basement,
+        RegionName.silver_road,
+    )
+    connect_region(
+        multiworld,
+        player,
+        RegionName.silver_road,
+        RegionName.grancel_castle_basement,
+    )
+
+    connect_region(
+        multiworld,
+        player,
+        RegionName.grancel_castle_basement,
         RegionName.golden_road,
     )
     connect_region(
         multiworld,
         player,
         RegionName.golden_road,
-        RegionName.grancel_castle,
+        RegionName.grancel_castle_basement,
     )
 
     connect_region(

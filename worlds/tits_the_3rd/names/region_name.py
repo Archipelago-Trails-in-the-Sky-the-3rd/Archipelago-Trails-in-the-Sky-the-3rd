@@ -24,6 +24,7 @@ class RegionName:
     night_grancel_east = "Night Grancel East"
     night_grancel_port = "Night Grancel Port"
     grancel_castle = "Grancel Castle"
+    grancel_castle_basement = "Grancel Castle Basement"
     grancel_arena = "Grancel Arena"
     grancel_bobcat = "Grancel Airship Bobcat"
     silver_road = "Silver Road"

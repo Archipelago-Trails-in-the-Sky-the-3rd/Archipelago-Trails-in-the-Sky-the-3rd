@@ -198,6 +198,7 @@ area_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 200000 + flag
     ItemName.night_grancel_port_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 271, ItemClassification.progression),
     ItemName.grancel_arena_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 269, ItemClassification.progression),
     ItemName.grancel_castle_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 268, ItemClassification.progression),
+    ItemName.grancel_castle_basement_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 273, ItemClassification.progression),
 }
 
 craft_unlock_table: Dict[str, TitsThe3rdItemData] = { # Item ID is 400000 + character ID

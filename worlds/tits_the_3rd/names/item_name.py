@@ -153,6 +153,7 @@ class ItemName:
     bobcat_unlock = "Area Expansion: Bobcat"
     grancel_arena_unlock = "Area Expansion: Grancel Arena"
     grancel_castle_unlock = "Area Expansion: Grancel Castle"
+    grancel_castle_basement_unlock = "Area Expansion: Grancel Castle Basement"
 
     # Craft Unlock
     estelle_progressive_craft = "Estelle's Progressive Craft"

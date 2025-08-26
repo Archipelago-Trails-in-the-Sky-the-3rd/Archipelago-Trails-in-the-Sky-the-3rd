@@ -97,12 +97,14 @@ location_table = dict([
     (LocationName.sealing_stone_joshua,                                                         LocationData(901,       CheckTypeName.area_unlock,          RegionName.grancel_arena,                       ItemName.joshua,                                                                   [])), 
     (LocationName.sealing_stone_grancel_castle_unlock,                                          LocationData(2268,      CheckTypeName.area_unlock,          RegionName.grancel_arena,                       ItemName.grancel_castle_unlock,                                                    [])),
 
-    ## Bosses
+    ## Bosses / Generic Location
     (LocationName.chapter1_boss_defeated,                                                       LocationData(9757,      CheckTypeName.boss,                 RegionName.jade_corridor_expansion_area_2,      ItemName.bennu_defeat,                                                             [])),
     (LocationName.chapter1_boss_day_grancel_south_unlock,                                       LocationData(2259,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_south_unlock,                                                 [])),
     (LocationName.chapter1_boss_day_grancel_north_unlock,                                       LocationData(2260,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_north_unlock,                                                 [])),
     (LocationName.miniboss_day_grancel_east_unlock,                                             LocationData(2261,      CheckTypeName.area_unlock,          RegionName.day_grancel_north,                   ItemName.day_grancel_east_unlock,                                                  [])),
     (LocationName.miniboss_bobcat_unlock,                                                       LocationData(2267,      CheckTypeName.area_unlock,          RegionName.day_grancel_port,                    ItemName.bobcat_unlock,                                                            [])),
+    (LocationName.chapter2_grancel_basement_unlock,                                             LocationData(2273,      CheckTypeName.area_unlock,          RegionName.grancel_castle,                      ItemName.grancel_castle_basement_unlock,                                           [])),
+    (LocationName.chapter2_boss_defeated,                                                       LocationData(9757,      CheckTypeName.boss,                 RegionName.grancel_castle_basement,             ItemName.kloe_rescue,                                                              [])), # TODO: fix this location flag
 
     ## Chests
     ### Lusitania

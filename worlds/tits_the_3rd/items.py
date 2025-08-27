@@ -286,3 +286,5 @@ default_character_to_location = {
     ItemName.josette: LocationName.sealing_stone_josette,
     ItemName.joshua: LocationName.sealing_stone_joshua,
 }
+
+area_flag_to_name = {area_flag.code - meta_data_table[ItemName.area_min_id].code: area_name.replace("Area Expansion: ", "") for area_name, area_flag in area_unlock_table.items()}

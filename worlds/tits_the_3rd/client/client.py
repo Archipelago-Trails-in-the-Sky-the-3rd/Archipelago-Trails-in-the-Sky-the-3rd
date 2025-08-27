@@ -26,7 +26,7 @@ from worlds.tits_the_3rd.tables.location_list import (
     craft_location_id_to_character_id_and_level_threshold,
     event_craft_location_id_to_character_id_and_craft_id,
 )
-from worlds.tits_the_3rd.items import get_item_id
+from worlds.tits_the_3rd.items import get_item_id, area_flag_to_name
 from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.util import load_file
@@ -135,6 +135,11 @@ class TitsThe3rdContext(CommonContext):
             item_name = f"{player}'s {self.item_ap_id_to_name[game][item_id]}"
             item, item_text = dt_items.create_non_local_item(50000 + location, item_name)
 
+            game_items.append(item)
+            game_items_text.append(item_text)
+
+        for area_flag, area_name in area_flag_to_name.items():
+            item, item_text = dt_items.create_non_local_item(20000 + area_flag, area_name)
             game_items.append(item)
             game_items_text.append(item_text)
 

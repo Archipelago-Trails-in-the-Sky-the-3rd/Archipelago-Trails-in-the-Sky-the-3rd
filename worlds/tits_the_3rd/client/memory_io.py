@@ -533,7 +533,12 @@ class TitsThe3rdMemoryIO():
         return True
 
     def unlock_area(self, area_flag: int):
+        address: int = self.get_scena_offset(b"AP Area Unlock Notification")
+        if not address:
+            return False
         if self.write_flag(area_flag, True):
+            item_id = area_flag + 20000
+            self.tits_the_3rd_mem.write_bytes(address + 52, item_id.to_bytes(2, "little"), 2)
             self.call_scena(self.scena_functions["unlock_area"])
             return True
         return False

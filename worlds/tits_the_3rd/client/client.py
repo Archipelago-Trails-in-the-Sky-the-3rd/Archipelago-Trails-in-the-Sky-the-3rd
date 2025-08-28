@@ -26,7 +26,8 @@ from worlds.tits_the_3rd.tables.location_list import (
     craft_location_id_to_character_id_and_level_threshold,
     event_craft_location_id_to_character_id_and_craft_id,
 )
-from worlds.tits_the_3rd.items import get_item_id, area_flag_to_name
+from worlds.tits_the_3rd.tables.craft_list import craft_name_to_id
+from worlds.tits_the_3rd.items import get_item_id, area_flag_to_name, character_id_to_name
 from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.util import load_file
@@ -140,6 +141,20 @@ class TitsThe3rdContext(CommonContext):
 
         for area_flag, area_name in area_flag_to_name.items():
             item, item_text = dt_items.create_non_local_item(20000 + area_flag, area_name)
+            game_items.append(item)
+            game_items_text.append(item_text)
+
+        for character_id, character_name in character_id_to_name.items():
+            item, item_text = dt_items.create_non_local_item(10000 + character_id, character_name)
+            game_items.append(item)
+            game_items_text.append(item_text)
+
+        for craft_name, craft_id in craft_name_to_id.items():
+            if self.slot_data["old_craft_id_to_new_craft_id"]:
+                if str(craft_id) not in self.slot_data["old_craft_id_to_new_craft_id"]:
+                    continue
+                craft_id = self.slot_data["old_craft_id_to_new_craft_id"][str(craft_id)]
+            item, item_text = dt_items.create_non_local_item(15000 + craft_id, craft_name)
             game_items.append(item)
             game_items_text.append(item_text)
 

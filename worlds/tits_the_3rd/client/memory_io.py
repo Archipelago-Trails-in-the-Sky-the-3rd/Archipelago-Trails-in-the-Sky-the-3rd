@@ -443,10 +443,10 @@ class TitsThe3rdMemoryIO():
             return False
         self.tits_the_3rd_mem.write_bytes(address + 30, character_id.to_bytes(1, "little"), 1) # char 1 byte
         self.tits_the_3rd_mem.write_bytes(address + 31, craft_id.to_bytes(2, "little"), 2) # craft id 4 bytes
-        character_name = self.CHARACTER_ID_TO_NAME[character_id].capitalize()
-        message = f"Progressive Craft for {character_name}!"
-        message = message.ljust(34)
-        self.tits_the_3rd_mem.write_bytes(address + 55, bytes(message, encoding="utf8"), 34)
+        character_item_id = character_id + 10000
+        craft_item_id = craft_id + 15000
+        self.tits_the_3rd_mem.write_bytes(address + 36, character_item_id.to_bytes(2, "little"), 2)
+        self.tits_the_3rd_mem.write_bytes(address + 52, craft_item_id.to_bytes(2, "little"), 2)
         self.call_scena(self.scena_functions["give_craft"])
         self.write_flag(self.FLAG_HAS_CRAFT_ARRAY + craft_id, True)
         print("setting flag", self.FLAG_HAS_CRAFT_ARRAY + craft_id, True)

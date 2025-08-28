@@ -68,6 +68,16 @@ class TitsThe3rdContext(CommonContext):
 
         self.critical_section_lock = asyncio.Lock()
 
+    def run_gui(self):
+        from kvui import GameManager
+
+        class TiTS3rdManager(GameManager):
+            logging_pairs = [("Client", "Archipelago")]
+            base_title = "Archipelago Trails in the Sky 3rd Client"
+
+        self.ui = TiTS3rdManager(self)
+        self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+
     def init_game_interface(self):
         logger.info("Initiating Game Interface")
         self.install_game_mod()
@@ -638,15 +648,16 @@ async def tits_the_3rd_watcher(ctx: TitsThe3rdContext):
             continue
 
 
-def launch():
+def launch(*launch_args: str):
     """
     Launch a client instance (wrapper / args parser)
     """
 
-    async def main(args):
+    async def main():
         """
         Launch a client instance (threaded)
         """
+        args = parser.parse_args(launch_args)
         ctx = TitsThe3rdContext(args.connect, args.password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="TitsThe3rdServerLoop")
         if gui_enabled:
@@ -658,8 +669,7 @@ def launch():
         await ctx.shutdown()
 
     parser = get_base_parser(description="Trails in the Sky the 3rd Client")
-    args, _ = parser.parse_known_args()
 
-    colorama.init()
-    asyncio.run(main(args))
+    colorama.just_fix_windows_console()
+    asyncio.run(main())
     colorama.deinit()

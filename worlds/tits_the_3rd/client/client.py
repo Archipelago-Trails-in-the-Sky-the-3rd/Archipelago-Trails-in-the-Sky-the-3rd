@@ -149,11 +149,22 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
-        for craft_name, craft_id in craft_name_to_id.items():
-            if self.slot_data["old_craft_id_to_new_craft_id"]:
-                if str(craft_id) not in self.slot_data["old_craft_id_to_new_craft_id"]:
-                    continue
-                craft_id = self.slot_data["old_craft_id_to_new_craft_id"][str(craft_id)]
+        craft_id_to_name = {craft_id: craft_name for craft_name, craft_id in craft_name_to_id.items()}
+        craft_mapping: dict = self.slot_data["old_craft_id_to_new_craft_id"]
+        for old_craft_id, new_craft_id in craft_mapping.items():
+            old_craft_id = int(old_craft_id)
+            craft_name = craft_id_to_name[new_craft_id]
+            item, item_text = dt_items.create_non_local_item(15000 + old_craft_id, craft_name)
+            game_items.append(item)
+            game_items_text.append(item_text)
+
+        chain_crafts = {
+            140: "Chain 1",
+            141: "Chain 2",
+            142: "Chain 3",
+        }
+
+        for craft_id, craft_name in chain_crafts.items():
             item, item_text = dt_items.create_non_local_item(15000 + craft_id, craft_name)
             game_items.append(item)
             game_items_text.append(item_text)

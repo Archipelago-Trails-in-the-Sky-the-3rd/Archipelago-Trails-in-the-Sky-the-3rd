@@ -12,7 +12,7 @@ chapter_1_combat_regions = [
 ]
 
 chapter_2_combat_regions = [
-    RegionName.grancel_castle,
+    RegionName.grancel_castle_basement,
 ]
 
 

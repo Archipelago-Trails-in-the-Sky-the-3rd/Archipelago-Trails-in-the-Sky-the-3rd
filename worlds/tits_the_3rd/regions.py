@@ -15,16 +15,6 @@ chapter_2_combat_regions = [
     RegionName.grancel_castle_basement,
 ]
 
-characters = [
-    RegionName.kevin,
-    RegionName.ries,
-    RegionName.tita,
-    RegionName.julia,
-    RegionName.mueller,
-    RegionName.josette,
-    RegionName.joshua,
-]
-
 
 def create_region(multiworld: MultiWorld, player: int, name: str):
     """Create a region for Trails in the Sky the 3rd"""
@@ -77,34 +67,6 @@ def create_regions(multiworld: MultiWorld, player: int):
     create_region(multiworld, player, RegionName.silver_road)
     create_region(multiworld, player, RegionName.golden_road)
     create_region(multiworld, player, RegionName.regroup_area)
-
-    create_region(multiworld, player, RegionName.kevin)
-    create_region(multiworld, player, RegionName.kevin_chapter1)
-    create_region(multiworld, player, RegionName.kevin_chapter2)
-
-    create_region(multiworld, player, RegionName.ries)
-    create_region(multiworld, player, RegionName.ries_chapter1)
-    create_region(multiworld, player, RegionName.ries_chapter2)
-
-    create_region(multiworld, player, RegionName.tita)
-    create_region(multiworld, player, RegionName.tita_chapter1)
-    create_region(multiworld, player, RegionName.tita_chapter2)
-
-    create_region(multiworld, player, RegionName.julia)
-    create_region(multiworld, player, RegionName.julia_chapter1)
-    create_region(multiworld, player, RegionName.julia_chapter2)
-
-    create_region(multiworld, player, RegionName.mueller)
-    create_region(multiworld, player, RegionName.mueller_chapter1)
-    create_region(multiworld, player, RegionName.mueller_chapter2)
-
-    create_region(multiworld, player, RegionName.josette)
-    create_region(multiworld, player, RegionName.josette_chapter1)
-    create_region(multiworld, player, RegionName.josette_chapter2)
-
-    create_region(multiworld, player, RegionName.joshua)
-    create_region(multiworld, player, RegionName.joshua_chapter1)
-    create_region(multiworld, player, RegionName.joshua_chapter2)
 
 
 def connect_regions(multiworld: MultiWorld, player: int):
@@ -558,37 +520,12 @@ def connect_regions(multiworld: MultiWorld, player: int):
     )
 
     # Assuming no progression balancing for now:
-    # connect_region(multiworld, player, RegionName.hermit_garden, RegionName.level_90)
+    connect_region(multiworld, player, RegionName.hermit_garden, RegionName.level_90)
 
-    # for region in chapter_1_combat_regions:
-    #     connect_region(multiworld, player, region, RegionName.level_90)
-    #     connect_region(multiworld, player, region, RegionName.level_95)
+    for region in chapter_1_combat_regions:
+        connect_region(multiworld, player, region, RegionName.level_90)
+        connect_region(multiworld, player, region, RegionName.level_95)
 
-    # for region in chapter_2_combat_regions:
-    #     connect_region(multiworld, player, region, RegionName.level_103)
-    #     connect_region(multiworld, player, region, RegionName.level_105)
-
-    for character in characters:
-        connect_region(
-            multiworld,
-            player,
-            RegionName.menu,
-            character,
-            lambda state: state.has(character, player)
-        )
-
-        connect_region(
-            multiworld,
-            player,
-            character,
-            f"{character} - Chapter 1",
-            lambda state: state.can_reach_region(RegionName.jade_corridor_expansion_area_2, player)
-        )
-
-        connect_region(
-            multiworld,
-            player,
-            character,
-            f"{character} - Chapter 2",
-            lambda state: state.can_reach_region(RegionName.grancel_castle, player)
-        )
+    for region in chapter_2_combat_regions:
+        connect_region(multiworld, player, region, RegionName.level_103)
+        connect_region(multiworld, player, region, RegionName.level_105)

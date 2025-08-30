@@ -46,31 +46,3 @@ class RegionName:
     chapter_7_end = "Chapter 7 End"
     sky_bandit_fight = "Sky Bandit Fight"
     star_door_10 = "Star Door 10"
-
-    kevin = "Kevin"
-    kevin_chapter1 = "Kevin - Chapter 1"
-    kevin_chapter2 = "Kevin - Chapter 2"
-
-    ries = "Ries"
-    ries_chapter1 = "Ries - Chapter 1"
-    ries_chapter2 = "Ries - Chapter 2"
-
-    tita = "Tita"
-    tita_chapter1 = "Tita - Chapter 1"
-    tita_chapter2 = "Tita - Chapter 2"
-
-    julia = "Julia"
-    julia_chapter1 = "Julia - Chapter 1"
-    julia_chapter2 = "Julia - Chapter 2"
-
-    mueller = "Mueller"
-    mueller_chapter1 = "Mueller - Chapter 1"
-    mueller_chapter2 = "Mueller - Chapter 2"
-
-    josette = "Josette"
-    josette_chapter1 = "Josette - Chapter 1"
-    josette_chapter2 = "Josette - Chapter 2"
-
-    joshua = "Joshua"
-    joshua_chapter1 = "Joshua - Chapter 1"
-    joshua_chapter2 = "Joshua - Chapter 2"

@@ -158,6 +158,9 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
+        with open(os.path.join(dt_game_mod_folder, "item_id_mapping.json"), "w") as mapping_file:
+            json.dump(self.non_local_mapping, mapping_file, indent=4)
+
         for area_flag, area_name in area_flag_to_name.items():
             item, item_text = dt_items.create_non_local_item(20000 + area_flag, area_name)
             game_items.append(item)
@@ -374,6 +377,19 @@ class TitsThe3rdContext(CommonContext):
             with open(os.path.join(lb_ark_folder, "player.txt"), "r", encoding="utf-8") as player_id_file:
                 if player_id_file.read() == f"{self.auth}-{self.seed_name}":
                     logger.info("Player has not changed. Skip installing patch")
+                    try:
+                        with open(game_dir / "data/ED6_DT22/item_id_mapping.json") as mapping_file:
+                            tmp_mapping = json.load(mapping_file)
+                            self.non_local_mapping = {int(k): v for k, v in tmp_mapping.items()}
+                    except FileNotFoundError:
+                        current_id = 50000
+
+                        for location, _ in self.non_local_locations.items():
+                            self.non_local_mapping[location] = current_id
+                            current_id += 1
+
+                        with open(os.path.join(game_dir / "data/ED6_DT22/item_id_mapping.json", "item_id_mapping.json"), "w") as mapping_file:
+                            json.dump(self.non_local_mapping, mapping_file, indent=4)
                     return True
 
         self._clean_previous_mod_install(lb_ark_folder)

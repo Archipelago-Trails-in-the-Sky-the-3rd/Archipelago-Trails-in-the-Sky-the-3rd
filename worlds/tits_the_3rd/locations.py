@@ -76,9 +76,9 @@ def create_locations(multiworld: MultiWorld, player: int, options: TitsThe3rdOpt
             continue
         rule = None
         if location_table[location_name].item_requirements:
-            rule = lambda state: all(
+            rule = lambda state, loc_name=location_name: all(
                 state.has(item_name, quantity, player)
-                for item_name, quantity in location_table[location_name].item_requirements
+                for item_name, quantity in location_table[loc_name].item_requirements
             )
         create_location(multiworld, player, location_name, options, rule)
 

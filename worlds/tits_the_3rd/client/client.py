@@ -10,6 +10,7 @@ import queue
 from typing import Dict, Optional, Set
 import json
 import tempfile
+import unicodedata
 import zipfile
 
 import bsdiff4
@@ -44,6 +45,10 @@ from CommonClient import (
 )
 
 
+def strip_accents(text: str):
+    return "".join(character for character in unicodedata.normalize("NFD", text) if unicodedata.category(character) != "Mn")
+
+
 class TitsThe3rdContext(CommonContext):
     """Trails in the Sky the 3rd Context"""
 
@@ -62,6 +67,7 @@ class TitsThe3rdContext(CommonContext):
         self.non_local_locations: Dict[int, tuple] = dict()
         self.non_local_locations_initiated = False
         self.slot_data = None
+        self.non_local_mapping = dict()
 
         self.items_to_be_sent_notification = queue.Queue()
         self.player_name_to_game: Dict[str, str] = dict()
@@ -141,10 +147,13 @@ class TitsThe3rdContext(CommonContext):
         game_items, game_items_text = dt_items.parse_item_table(os.path.join(dt_base_folder, "t_item2._dt"), os.path.join(dt_base_folder, "t_ittxt2._dt"))
         last_item = game_items.pop()
         last_text = game_items_text.pop()
+        current_id = 50000
 
         for location, (player, game, item_id) in self.non_local_locations.items():
             item_name = f"{player}'s {self.item_ap_id_to_name[game][item_id]}"
-            item, item_text = dt_items.create_non_local_item(50000 + location, item_name)
+            item, item_text = dt_items.create_non_local_item(current_id, strip_accents(item_name))
+            self.non_local_mapping[location] = current_id
+            current_id += 1
 
             game_items.append(item)
             game_items_text.append(item_text)
@@ -271,9 +280,9 @@ class TitsThe3rdContext(CommonContext):
                 data = bytearray(f.read())
             pos = 0x28
             while pos < len(data):
-                value = int.from_bytes(data[pos:pos+2], "little", signed=False)
+                value = int.from_bytes(data[pos : pos + 2], "little", signed=False)
                 if value != 0xFFFF:
-                    data[pos:pos+2] = (999).to_bytes(2, "little", signed=False)
+                    data[pos : pos + 2] = (999).to_bytes(2, "little", signed=False)
                 pos += 4
             with open(t_crtget_path, "wb") as f:
                 f.write(data)
@@ -329,10 +338,13 @@ class TitsThe3rdContext(CommonContext):
         as_converter_path = os.path.join(game_dir, "AS_Converter.exe")
         try:
             try:
-                subprocess.run([
-                    as_converter_path,
-                    os.path.join(as_patch_output_folder),
-                ], check=True)
+                subprocess.run(
+                    [
+                        as_converter_path,
+                        os.path.join(as_patch_output_folder),
+                    ],
+                    check=True,
+                )
             except subprocess.CalledProcessError as err:
                 logger.error(f"Error running AS_Converter: {err}")
                 raise RuntimeError(f"Error running AS_Converter: {err}") from err
@@ -397,6 +409,7 @@ class TitsThe3rdContext(CommonContext):
         self.non_local_locations_initiated = False
         self.player_name_to_game = dict()
         self.slot_data = None
+        self.non_local_mapping = dict()
 
     async def server_auth(self, password_requested: bool = False):
         """Wrapper for login."""
@@ -477,9 +490,9 @@ class TitsThe3rdContext(CommonContext):
             if item_id is None or item_id >= 500000:
                 result = True
             # Unlock location
-            elif (get_item_id(ItemName.craft_min_id) <= item_id <= get_item_id(ItemName.craft_max_id)): # Craft get
+            elif get_item_id(ItemName.craft_min_id) <= item_id <= get_item_id(ItemName.craft_max_id):  # Craft get
                 craft_idx = 0
-                for past_item in self.items_received[:self.last_received_item_index + 1]:
+                for past_item in self.items_received[: self.last_received_item_index + 1]:
                     if past_item.item == item_id:
                         craft_idx += 1
                 character_id = item_id - get_item_id(ItemName.craft_min_id)
@@ -501,7 +514,7 @@ class TitsThe3rdContext(CommonContext):
                 result = self.game_interface.give_all_sepith(item_id - get_item_id(ItemName.all_sepith_min_id), item_id - get_item_id(ItemName.all_sepith_min_id))
             # Give all sepith (100 lower, 50 higher)
             elif get_item_id(ItemName.all_sepith_100_50) == item_id:
-                result = self.game_interface.give_all_sepith(100,50)
+                result = self.game_interface.give_all_sepith(100, 50)
             # Give higher element sepith
             elif get_item_id(ItemName.higher_elements_sepith_min_id) <= item_id <= get_item_id(ItemName.higher_elements_sepith_max_id):
                 result = self.game_interface.give_high_sepith(item_id - get_item_id(ItemName.higher_elements_sepith_min_id))
@@ -520,7 +533,8 @@ class TitsThe3rdContext(CommonContext):
     async def send_item(self):
         if not self.items_to_be_sent_notification.empty():
             item_to_be_sent = self.items_to_be_sent_notification.get()
-            item_id = 50000 + int(item_to_be_sent)  # Make that non native item be 50000 + location_id
+            # item_id = 50000 + int(item_to_be_sent)  # Make that non native item be 50000 + location_id
+            item_id = self.non_local_mapping[item_to_be_sent]
             result = self.game_interface.send_item(item_id)
             if not result:
                 self.items_to_be_sent_notification.put(item_to_be_sent)

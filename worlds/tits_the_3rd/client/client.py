@@ -380,7 +380,7 @@ class TitsThe3rdContext(CommonContext):
                 if player_id_file.read() == f"{self.auth}-{self.seed_name}":
                     logger.info("Player has not changed. Skip installing patch")
                     try:
-                        with open(game_dir / "data/ED6_DT22/item_id_mapping.json") as mapping_file:
+                        with open(os.path.join(game_dir, "data/ED6_DT22/item_id_mapping.json")) as mapping_file:
                             tmp_mapping = json.load(mapping_file)
                             self.non_local_mapping = {int(k): v for k, v in tmp_mapping.items()}
                     except FileNotFoundError:
@@ -390,7 +390,7 @@ class TitsThe3rdContext(CommonContext):
                             self.non_local_mapping[location] = current_id
                             current_id += 1
 
-                        with open(os.path.join(game_dir / "data/ED6_DT22/item_id_mapping.json", "item_id_mapping.json"), "w") as mapping_file:
+                        with open(os.path.join(os.path.join(game_dir, "data/ED6_DT22/item_id_mapping.json"), "item_id_mapping.json"), "w") as mapping_file:
                             json.dump(self.non_local_mapping, mapping_file, indent=4)
                     return True
 

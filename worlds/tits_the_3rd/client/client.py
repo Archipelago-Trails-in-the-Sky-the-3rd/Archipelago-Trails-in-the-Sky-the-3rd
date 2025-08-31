@@ -172,7 +172,9 @@ class TitsThe3rdContext(CommonContext):
             game_items_text.append(item_text)
 
         craft_id_to_name = {craft_id: craft_name for craft_name, craft_id in craft_name_to_id.items()}
-        craft_mapping: dict = self.slot_data["old_craft_id_to_new_craft_id"]
+        craft_mapping = dict()
+        if self.slot_data["old_craft_id_to_new_craft_id"]:
+            craft_mapping: dict = self.slot_data["old_craft_id_to_new_craft_id"]
         for old_craft_id, new_craft_id in craft_mapping.items():
             old_craft_id = int(old_craft_id)
             craft_name = craft_id_to_name[new_craft_id]
@@ -619,7 +621,6 @@ class TitsThe3rdContext(CommonContext):
                     and self.game_interface.should_send_and_recieve_items(self.world_player_identifier)
                     and self.game_interface.is_valid_to_receive_item()
                 ):
-                    print("giving craft", character_id, craft_id)
                     self.game_interface.give_craft(character_id, craft_id)
                     while self.game_interface.is_in_event():
                         await asyncio.sleep(0.1)

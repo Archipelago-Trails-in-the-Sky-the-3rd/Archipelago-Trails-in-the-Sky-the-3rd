@@ -172,9 +172,10 @@ class TitsThe3rdContext(CommonContext):
             game_items_text.append(item_text)
 
         craft_id_to_name = {craft_id: craft_name for craft_name, craft_id in craft_name_to_id.items()}
-        craft_mapping = dict()
-        if self.slot_data["old_craft_id_to_new_craft_id"]:
+        if "old_craft_id_to_new_craft_id" in self.slot_data and self.slot_data["old_craft_id_to_new_craft_id"] is not None:
             craft_mapping: dict = self.slot_data["old_craft_id_to_new_craft_id"]
+        else:
+            craft_mapping = dict()
         for old_craft_id, new_craft_id in craft_mapping.items():
             old_craft_id = int(old_craft_id)
             craft_name = craft_id_to_name[new_craft_id]

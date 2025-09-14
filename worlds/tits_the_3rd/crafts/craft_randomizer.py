@@ -153,8 +153,10 @@ def _get_old_craft_id_to_new_craft_id(characters: List[Character]) -> Dict[int, 
             old_craft_id_to_new_craft_id[old_craft.base_craft_id] = character.fixed_scrafts[idx].base_craft_id
         for idx, old_craft in enumerate(default_character.upgradable_normal_crafts):
             old_craft_id_to_new_craft_id[old_craft.base_craft_id] = character.upgradable_normal_crafts[idx].base_craft_id
+            old_craft_id_to_new_craft_id[old_craft.upgraded_craft_id] = character.upgradable_normal_crafts[idx].upgraded_craft_id
         for idx, old_craft in enumerate(default_character.upgradable_scrafts):
             old_craft_id_to_new_craft_id[old_craft.base_craft_id] = character.upgradable_scrafts[idx].base_craft_id
+            old_craft_id_to_new_craft_id[old_craft.upgraded_craft_id] = character.upgradable_scrafts[idx].upgraded_craft_id
     return old_craft_id_to_new_craft_id
 
 def shuffle_crafts_main(options: TitsThe3rdOptions, rng: Random) -> tuple[Optional[Dict[str, List[int]]], Optional[Dict[int, int]]]:

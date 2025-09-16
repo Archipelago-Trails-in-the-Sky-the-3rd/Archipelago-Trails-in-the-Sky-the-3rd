@@ -68,6 +68,7 @@ class TitsThe3rdContext(CommonContext):
         self.non_local_locations_initiated = False
         self.slot_data = None
         self.non_local_mapping = dict()
+        self.player_aliases_to_actual_name = dict()
 
         self.items_to_be_sent_notification = queue.Queue()
         self.player_name_to_game: Dict[str, str] = dict()
@@ -432,6 +433,7 @@ class TitsThe3rdContext(CommonContext):
         self.player_name_to_game = dict()
         self.slot_data = None
         self.non_local_mapping = dict()
+        self.player_aliases_to_actual_name = dict()
 
     async def server_auth(self, password_requested: bool = False):
         """Wrapper for login."""
@@ -455,6 +457,7 @@ class TitsThe3rdContext(CommonContext):
             games = set()
             for player in [NetworkPlayer(*player) for player in args["players"]]:
                 self.player_name_to_game[player.name] = self.slot_info[player.slot].game
+                self.player_aliases_to_actual_name[player.alias] = player.name
                 games.add(self.slot_info[player.slot].game)
 
             asyncio.create_task(self.send_msgs([{"cmd": "GetDataPackage", "games": list(games)}]))
@@ -466,7 +469,8 @@ class TitsThe3rdContext(CommonContext):
                     receiving_player = self.player_names[item.player]
                     current_player = self.slot_info[self.slot].name
                     if receiving_player != current_player:
-                        original_game = self.player_name_to_game[receiving_player]
+                        player_name = self.player_aliases_to_actual_name[receiving_player]
+                        original_game = self.player_name_to_game[player_name]
                         self.non_local_locations[item.location] = (receiving_player, original_game, item.item)
                 self.non_local_locations_initiated = True
 

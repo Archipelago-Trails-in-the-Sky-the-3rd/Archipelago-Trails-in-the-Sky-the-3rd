@@ -288,6 +288,4 @@ default_character_to_location = {
 }
 
 area_flag_to_name = {area_flag.code - meta_data_table[ItemName.area_min_id].code: area_name.replace("Area Expansion: ", "") for area_name, area_flag in area_unlock_table.items()}
-character_id_to_name = {
-    character_id.code - meta_data_table[ItemName.character_min_id].code: character_name.replace("Area Expansion: ", "") for character_name, character_id in character_table.items()
-}
+character_id_to_name = {character_id.code - meta_data_table[ItemName.character_min_id].code: character_name for character_name, character_id in character_table.items()}

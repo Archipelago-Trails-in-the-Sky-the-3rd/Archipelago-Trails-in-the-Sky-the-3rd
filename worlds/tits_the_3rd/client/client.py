@@ -68,6 +68,7 @@ class TitsThe3rdContext(CommonContext):
         self.non_local_locations_initiated = False
         self.slot_data = None
         self.non_local_mapping = dict()
+        self.player_aliases_to_actual_name = dict()
 
         self.items_to_be_sent_notification = queue.Queue()
         self.player_name_to_game: Dict[str, str] = dict()
@@ -158,6 +159,9 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
+        with open(os.path.join(dt_game_mod_folder, "item_id_mapping.json"), "w") as mapping_file:
+            json.dump(self.non_local_mapping, mapping_file, indent=4)
+
         for area_flag, area_name in area_flag_to_name.items():
             item, item_text = dt_items.create_non_local_item(20000 + area_flag, area_name)
             game_items.append(item)
@@ -168,8 +172,14 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
-        craft_id_to_name = {craft_id: craft_name for craft_name, craft_id in craft_name_to_id.items()}
-        craft_mapping: dict = self.slot_data["old_craft_id_to_new_craft_id"]
+        craft_id_to_name = {int(craft_id): craft_name for craft_name, craft_id in craft_name_to_id.items()}
+        if "old_craft_id_to_new_craft_id" in self.slot_data and self.slot_data["old_craft_id_to_new_craft_id"] is not None:
+            craft_mapping: dict = {int(k): v for k, v in self.slot_data["old_craft_id_to_new_craft_id"].items()}
+        else:
+            craft_mapping = dict()
+        for craft_id in craft_id_to_name:
+            if craft_id not in craft_mapping:
+                craft_mapping[craft_id] = craft_id
         for old_craft_id, new_craft_id in craft_mapping.items():
             old_craft_id = int(old_craft_id)
             craft_name = craft_id_to_name[new_craft_id]
@@ -374,6 +384,19 @@ class TitsThe3rdContext(CommonContext):
             with open(os.path.join(lb_ark_folder, "player.txt"), "r", encoding="utf-8") as player_id_file:
                 if player_id_file.read() == f"{self.auth}-{self.seed_name}":
                     logger.info("Player has not changed. Skip installing patch")
+                    try:
+                        with open(os.path.join(game_dir, "data/ED6_DT22/item_id_mapping.json")) as mapping_file:
+                            tmp_mapping = json.load(mapping_file)
+                            self.non_local_mapping = {int(k): v for k, v in tmp_mapping.items()}
+                    except FileNotFoundError:
+                        current_id = 50000
+
+                        for location, _ in self.non_local_locations.items():
+                            self.non_local_mapping[location] = current_id
+                            current_id += 1
+
+                        with open(os.path.join(os.path.join(game_dir, "data/ED6_DT22/item_id_mapping.json"), "item_id_mapping.json"), "w") as mapping_file:
+                            json.dump(self.non_local_mapping, mapping_file, indent=4)
                     return True
 
         self._clean_previous_mod_install(lb_ark_folder)
@@ -410,6 +433,7 @@ class TitsThe3rdContext(CommonContext):
         self.player_name_to_game = dict()
         self.slot_data = None
         self.non_local_mapping = dict()
+        self.player_aliases_to_actual_name = dict()
 
     async def server_auth(self, password_requested: bool = False):
         """Wrapper for login."""
@@ -433,6 +457,7 @@ class TitsThe3rdContext(CommonContext):
             games = set()
             for player in [NetworkPlayer(*player) for player in args["players"]]:
                 self.player_name_to_game[player.name] = self.slot_info[player.slot].game
+                self.player_aliases_to_actual_name[player.alias] = player.name
                 games.add(self.slot_info[player.slot].game)
 
             asyncio.create_task(self.send_msgs([{"cmd": "GetDataPackage", "games": list(games)}]))
@@ -444,7 +469,8 @@ class TitsThe3rdContext(CommonContext):
                     receiving_player = self.player_names[item.player]
                     current_player = self.slot_info[self.slot].name
                     if receiving_player != current_player:
-                        original_game = self.player_name_to_game[receiving_player]
+                        player_name = self.player_aliases_to_actual_name[receiving_player]
+                        original_game = self.player_name_to_game[player_name]
                         self.non_local_locations[item.location] = (receiving_player, original_game, item.item)
                 self.non_local_locations_initiated = True
 
@@ -603,7 +629,6 @@ class TitsThe3rdContext(CommonContext):
                     and self.game_interface.should_send_and_recieve_items(self.world_player_identifier)
                     and self.game_interface.is_valid_to_receive_item()
                 ):
-                    print("giving craft", character_id, craft_id)
                     self.game_interface.give_craft(character_id, craft_id)
                     while self.game_interface.is_in_event():
                         await asyncio.sleep(0.1)

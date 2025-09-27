@@ -32,23 +32,23 @@ def get_item_id(item_name: ItemName):
         raise Exception(f"{item_name} is not part of location list. Something went wrong?")
     return item_data_table[item_name].code
 
-meta_data_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.mira_min_id: TitsThe3rdItemData(100000, ItemClassification.filler),
-    ItemName.mira_max_id: TitsThe3rdItemData(199999, ItemClassification.filler),
-    ItemName.lower_elements_sepith_min_id: TitsThe3rdItemData(300000, ItemClassification.filler),
-    ItemName.lower_elements_sepith_max_id: TitsThe3rdItemData(300999, ItemClassification.filler),
-    ItemName.higher_elements_sepith_min_id: TitsThe3rdItemData(350000, ItemClassification.filler),
-    ItemName.higher_elements_sepith_max_id: TitsThe3rdItemData(350999, ItemClassification.filler),
-    ItemName.all_sepith_min_id: TitsThe3rdItemData(360000, ItemClassification.filler),
-    ItemName.all_sepith_max_id: TitsThe3rdItemData(369999, ItemClassification.filler),
-    ItemName.character_min_id: TitsThe3rdItemData(70000, ItemClassification.filler),
-    ItemName.character_max_id: TitsThe3rdItemData(71000, ItemClassification.filler),
-    ItemName.area_min_id: TitsThe3rdItemData(200000, ItemClassification.filler),
-    ItemName.area_max_id: TitsThe3rdItemData(299999, ItemClassification.filler),
-    ItemName.recipe_min_id: TitsThe3rdItemData(80000, ItemClassification.filler),
-    ItemName.recipe_max_id: TitsThe3rdItemData(81000, ItemClassification.filler),
-    ItemName.craft_min_id: TitsThe3rdItemData(400000, ItemClassification.filler),
-    ItemName.craft_max_id: TitsThe3rdItemData(400999, ItemClassification.filler),
+meta_data_table: Dict[str, int] = {
+    ItemName.mira_min_id: 100000,
+    ItemName.mira_max_id: 199999,
+    ItemName.lower_elements_sepith_min_id: 300000,
+    ItemName.lower_elements_sepith_max_id: 300999,
+    ItemName.higher_elements_sepith_min_id: 350000,
+    ItemName.higher_elements_sepith_max_id: 350999,
+    ItemName.all_sepith_min_id: 360000,
+    ItemName.all_sepith_max_id: 369999,
+    ItemName.character_min_id: 70000,
+    ItemName.character_max_id: 71000,
+    ItemName.area_min_id: 200000,
+    ItemName.area_max_id: 299999,
+    ItemName.recipe_min_id: 80000,
+    ItemName.recipe_max_id: 81000,
+    ItemName.craft_min_id: 400000,
+    ItemName.craft_max_id: 400999,
 }
 
 consumable_table: Dict[str, TitsThe3rdItemData] = {
@@ -81,7 +81,7 @@ consumable_table: Dict[str, TitsThe3rdItemData] = {
 }
 
 recipe_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.easy_paella_recipe: TitsThe3rdItemData(meta_data_table[ItemName.recipe_min_id].code + 1, ItemClassification.filler),
+    ItemName.easy_paella_recipe: TitsThe3rdItemData(meta_data_table[ItemName.recipe_min_id] + 1, ItemClassification.filler),
 }
 
 equipment_table: Dict[str, TitsThe3rdItemData] = {
@@ -149,75 +149,75 @@ quartz_table: Dict[str, TitsThe3rdItemData] = {
 
 currency_table: Dict[str, TitsThe3rdItemData] = {
     # Mira
-    ItemName.mira_300: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 300, ItemClassification.filler),
-    ItemName.mira_500: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 500, ItemClassification.filler),
-    ItemName.mira_1000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 1000, ItemClassification.filler),
-    ItemName.mira_5000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 5000, ItemClassification.filler),
-    ItemName.mira_10000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id].code + 10000, ItemClassification.filler),
+    ItemName.mira_300: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id] + 300, ItemClassification.filler),
+    ItemName.mira_500: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id] + 500, ItemClassification.filler),
+    ItemName.mira_1000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id] + 1000, ItemClassification.filler),
+    ItemName.mira_5000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id] + 5000, ItemClassification.filler),
+    ItemName.mira_10000: TitsThe3rdItemData(meta_data_table[ItemName.mira_min_id] + 10000, ItemClassification.filler),
     # Low Sepith
-    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 50, ItemClassification.filler),
-    ItemName.lower_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 100, ItemClassification.filler),
-    ItemName.lower_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 250, ItemClassification.filler),
-    ItemName.lower_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id].code + 500, ItemClassification.filler),
+    ItemName.lower_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id] + 50, ItemClassification.filler),
+    ItemName.lower_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id] + 100, ItemClassification.filler),
+    ItemName.lower_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id] + 250, ItemClassification.filler),
+    ItemName.lower_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.lower_elements_sepith_min_id] + 500, ItemClassification.filler),
     # High Sepith
-    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 50, ItemClassification.filler),
-    ItemName.higher_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 100, ItemClassification.filler),
-    ItemName.higher_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 250, ItemClassification.filler),
-    ItemName.higher_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id].code + 500, ItemClassification.filler),
+    ItemName.higher_elements_sepith_50: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id] + 50, ItemClassification.filler),
+    ItemName.higher_elements_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id] + 100, ItemClassification.filler),
+    ItemName.higher_elements_sepith_250: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id] + 250, ItemClassification.filler),
+    ItemName.higher_elements_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.higher_elements_sepith_min_id] + 500, ItemClassification.filler),
     ItemName.all_sepith_100_50: TitsThe3rdItemData(370000, ItemClassification.filler),
-    ItemName.all_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id].code + 100, ItemClassification.filler),
-    ItemName.all_sepith_200: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id].code + 200, ItemClassification.filler),
-    ItemName.all_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id].code + 500, ItemClassification.filler),
-    ItemName.all_sepith_1000: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id].code + 1000, ItemClassification.filler),
+    ItemName.all_sepith_100: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id] + 100, ItemClassification.filler),
+    ItemName.all_sepith_200: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id] + 200, ItemClassification.filler),
+    ItemName.all_sepith_500: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id] + 500, ItemClassification.filler),
+    ItemName.all_sepith_1000: TitsThe3rdItemData(meta_data_table[ItemName.all_sepith_min_id] + 1000, ItemClassification.filler),
 }
 
 character_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.kevin: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 8, ItemClassification.progression),
-    ItemName.ries: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 14, ItemClassification.progression),
-    ItemName.tita: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 6, ItemClassification.progression),
-    ItemName.julia: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 13, ItemClassification.progression),
-    ItemName.mueller: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 12, ItemClassification.progression),
-    ItemName.josette: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 10, ItemClassification.progression),
-    ItemName.joshua: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id].code + 1, ItemClassification.progression),
+    ItemName.kevin: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 8, ItemClassification.progression),
+    ItemName.ries: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 14, ItemClassification.progression),
+    ItemName.tita: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 6, ItemClassification.progression),
+    ItemName.julia: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 13, ItemClassification.progression),
+    ItemName.mueller: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 12, ItemClassification.progression),
+    ItemName.josette: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 10, ItemClassification.progression),
+    ItemName.joshua: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 1, ItemClassification.progression),
 }
 
 area_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 200000 + flag number
-    ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 256, ItemClassification.progression),
-    ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 257, ItemClassification.progression),
-    ItemName.jade_corridor_arseille_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 258, ItemClassification.progression),
-    ItemName.day_grancel_south_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 259, ItemClassification.progression),
-    ItemName.day_grancel_north_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 260, ItemClassification.progression),
-    ItemName.day_grancel_east_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 261, ItemClassification.progression),
-    ItemName.day_grancel_west_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 262, ItemClassification.progression),
-    ItemName.day_grancel_port_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 270, ItemClassification.progression),
-    ItemName.bobcat_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 267, ItemClassification.progression),
-    ItemName.night_grancel_south_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 263, ItemClassification.progression),
-    ItemName.night_grancel_north_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 264, ItemClassification.progression),
-    ItemName.night_grancel_east_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 265, ItemClassification.progression),
-    ItemName.night_grancel_west_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 266, ItemClassification.progression),
-    ItemName.night_grancel_port_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 271, ItemClassification.progression),
-    ItemName.grancel_arena_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 269, ItemClassification.progression),
-    ItemName.grancel_castle_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 268, ItemClassification.progression),
-    ItemName.grancel_castle_basement_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id].code + 273, ItemClassification.progression),
+    ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 256, ItemClassification.progression),
+    ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 257, ItemClassification.progression),
+    ItemName.jade_corridor_arseille_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 258, ItemClassification.progression),
+    ItemName.day_grancel_south_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 259, ItemClassification.progression),
+    ItemName.day_grancel_north_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 260, ItemClassification.progression),
+    ItemName.day_grancel_east_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 261, ItemClassification.progression),
+    ItemName.day_grancel_west_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 262, ItemClassification.progression),
+    ItemName.day_grancel_port_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 270, ItemClassification.progression),
+    ItemName.bobcat_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 267, ItemClassification.progression),
+    ItemName.night_grancel_south_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 263, ItemClassification.progression),
+    ItemName.night_grancel_north_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 264, ItemClassification.progression),
+    ItemName.night_grancel_east_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 265, ItemClassification.progression),
+    ItemName.night_grancel_west_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 266, ItemClassification.progression),
+    ItemName.night_grancel_port_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 271, ItemClassification.progression),
+    ItemName.grancel_arena_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 269, ItemClassification.progression),
+    ItemName.grancel_castle_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 268, ItemClassification.progression),
+    ItemName.grancel_castle_basement_unlock: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 273, ItemClassification.progression),
 }
 
-craft_unlock_table: Dict[str, TitsThe3rdItemData] = { # Item ID is 400000 + character ID
-    ItemName.estelle_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code, ItemClassification.useful),
-    ItemName.joshua_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 1, ItemClassification.useful),
-    ItemName.scherazard_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 2, ItemClassification.useful),
-    ItemName.olivier_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 3, ItemClassification.useful),
-    ItemName.kloe_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 4, ItemClassification.useful),
-    ItemName.agate_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 5, ItemClassification.useful),
-    ItemName.tita_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 6, ItemClassification.useful),
-    ItemName.zin_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 7, ItemClassification.useful),
-    ItemName.kevin_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 8, ItemClassification.useful),
-    ItemName.anelace_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 9, ItemClassification.useful),
-    ItemName.josette_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 10, ItemClassification.useful),
-    ItemName.richard_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 11, ItemClassification.useful),
-    ItemName.mueller_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 12, ItemClassification.useful),
-    ItemName.julia_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 13, ItemClassification.useful),
-    ItemName.ries_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 14, ItemClassification.useful),
-    ItemName.renne_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id].code + 15, ItemClassification.useful),
+craft_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 400000 + character ID
+    ItemName.estelle_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id], ItemClassification.useful),
+    ItemName.joshua_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 1, ItemClassification.useful),
+    ItemName.scherazard_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 2, ItemClassification.useful),
+    ItemName.olivier_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 3, ItemClassification.useful),
+    ItemName.kloe_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 4, ItemClassification.useful),
+    ItemName.agate_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 5, ItemClassification.useful),
+    ItemName.tita_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 6, ItemClassification.useful),
+    ItemName.zin_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 7, ItemClassification.useful),
+    ItemName.kevin_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 8, ItemClassification.useful),
+    ItemName.anelace_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 9, ItemClassification.useful),
+    ItemName.josette_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 10, ItemClassification.useful),
+    ItemName.richard_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 11, ItemClassification.useful),
+    ItemName.mueller_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 12, ItemClassification.useful),
+    ItemName.julia_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 13, ItemClassification.useful),
+    ItemName.ries_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 14, ItemClassification.useful),
+    ItemName.renne_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 15, ItemClassification.useful),
 }
 
 key_item_table: Dict[str, TitsThe3rdItemData] = {
@@ -236,7 +236,6 @@ item_data_table: Dict[str, TitsThe3rdItemData] = {
     **key_item_table,
     **character_table,
     **area_unlock_table,
-    **meta_data_table,
     **craft_unlock_table,
 }
 
@@ -287,5 +286,5 @@ default_character_to_location = {
     ItemName.joshua: LocationName.sealing_stone_joshua,
 }
 
-area_flag_to_name = {area_flag.code - meta_data_table[ItemName.area_min_id].code: area_name.replace("Area Expansion: ", "") for area_name, area_flag in area_unlock_table.items()}
-character_id_to_name = {character_id.code - meta_data_table[ItemName.character_min_id].code: character_name for character_name, character_id in character_table.items()}
+area_flag_to_name = {area_flag.code - meta_data_table[ItemName.area_min_id]: area_name.replace("Area Expansion: ", "") for area_name, area_flag in area_unlock_table.items()}
+character_id_to_name = {character_id.code - meta_data_table[ItemName.character_min_id]: character_name for character_name, character_id in character_table.items()}

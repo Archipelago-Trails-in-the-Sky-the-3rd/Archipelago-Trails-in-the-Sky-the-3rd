@@ -28,7 +28,7 @@ from worlds.tits_the_3rd.tables.location_list import (
     event_craft_location_id_to_character_id_and_craft_id,
 )
 from worlds.tits_the_3rd.tables.craft_list import craft_name_to_id
-from worlds.tits_the_3rd.items import get_item_id, area_flag_to_name, character_id_to_name
+from worlds.tits_the_3rd.items import get_item_id, area_flag_to_name, character_id_to_name, meta_data_table
 from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.util import load_file
@@ -213,16 +213,21 @@ class TitsThe3rdContext(CommonContext):
             return  # No craft changes, we can use the default table
         if not "T_MAGIC_Converter.exe" in os.listdir(game_dir):
             logger.info("T_MAGIC_Converter.exe not found. Please install T_MAGIC_Converter from https://github.com/akatatsu27/FalcomToolsCollection/releases/tag/T_MAGIC")
-            raise FileNotFoundError("T_MAGIC_Converter.exe not found. Please install T_MAGIC_Converter from https://github.com/akatatsu27/FalcomToolsCollection/releases/tag/T_MAGIC")
+            raise FileNotFoundError(
+                "T_MAGIC_Converter.exe not found. Please install T_MAGIC_Converter from https://github.com/akatatsu27/FalcomToolsCollection/releases/tag/T_MAGIC"
+            )
 
         try:
             t_magic_path = os.path.join(dt_base_folder, "t_magic._dt")
             t_magic_converter_path = os.path.join(game_dir, "T_MAGIC_Converter.exe")
             try:
-                subprocess.run([
-                    t_magic_converter_path,
-                    t_magic_path,
-                ], check=True)
+                subprocess.run(
+                    [
+                        t_magic_converter_path,
+                        t_magic_path,
+                    ],
+                    check=True,
+                )
             except subprocess.CalledProcessError as err:
                 logger.info(f"Error running T_MAGIC_Converter: {err}")
                 raise RuntimeError(f"Error running T_MAGIC_Converter: {err}") from err
@@ -255,10 +260,7 @@ class TitsThe3rdContext(CommonContext):
 
             # Write the new t_magic file
             try:
-                subprocess.run([
-                    t_magic_converter_path,
-                    t_magic_json_output_path
-                ], check=True)
+                subprocess.run([t_magic_converter_path, t_magic_json_output_path], check=True)
             except subprocess.CalledProcessError as err:
                 logger.info(f"Error running t_magic_converter: {err}")
                 raise RuntimeError(f"Error running t_magic_converter: {err}") from err
@@ -516,37 +518,37 @@ class TitsThe3rdContext(CommonContext):
             if item_id is None or item_id >= 500000:
                 result = True
             # Unlock location
-            elif get_item_id(ItemName.craft_min_id) <= item_id <= get_item_id(ItemName.craft_max_id):  # Craft get
+            elif meta_data_table[ItemName.craft_min_id] <= item_id <= meta_data_table[ItemName.craft_max_id]:  # Craft get
                 craft_idx = 0
                 for past_item in self.items_received[: self.last_received_item_index + 1]:
                     if past_item.item == item_id:
                         craft_idx += 1
-                character_id = item_id - get_item_id(ItemName.craft_min_id)
+                character_id = item_id - meta_data_table[ItemName.craft_min_id]
                 craft_id = self.slot_data["craft_get_order"][self.game_interface.CHARACTER_ID_TO_NAME[character_id]][craft_idx]
                 result = self.game_interface.give_craft(character_id, craft_id)
-            elif get_item_id(ItemName.area_min_id) <= item_id <= get_item_id(ItemName.area_max_id):
-                result = self.game_interface.unlock_area(item_id - get_item_id(ItemName.area_min_id))
+            elif meta_data_table[ItemName.area_min_id] <= item_id <= meta_data_table[ItemName.area_max_id]:
+                result = self.game_interface.unlock_area(item_id - meta_data_table[ItemName.area_min_id])
             # Unlock character
-            elif get_item_id(ItemName.character_min_id) <= item_id <= get_item_id(ItemName.character_max_id):
-                result = self.game_interface.unlock_character(item_id - get_item_id(ItemName.character_min_id))
+            elif meta_data_table[ItemName.character_min_id] <= item_id <= meta_data_table[ItemName.character_max_id]:
+                result = self.game_interface.unlock_character(item_id - meta_data_table[ItemName.character_min_id])
             # Give Mira
-            elif get_item_id(ItemName.mira_min_id) <= item_id <= get_item_id(ItemName.mira_max_id):
-                result = self.game_interface.give_mira(item_id - get_item_id(ItemName.mira_min_id))
+            elif meta_data_table[ItemName.mira_min_id] <= item_id <= meta_data_table[ItemName.mira_max_id]:
+                result = self.game_interface.give_mira(item_id - meta_data_table[ItemName.mira_min_id])
             # Give lower element sepith
-            elif get_item_id(ItemName.lower_elements_sepith_min_id) <= item_id <= get_item_id(ItemName.lower_elements_sepith_max_id):
-                result = self.game_interface.give_low_sepith(item_id - get_item_id(ItemName.lower_elements_sepith_min_id))
+            elif meta_data_table[ItemName.lower_elements_sepith_min_id] <= item_id <= meta_data_table[ItemName.lower_elements_sepith_max_id]:
+                result = self.game_interface.give_low_sepith(item_id - meta_data_table[ItemName.lower_elements_sepith_min_id])
             # Give all sepith
-            elif get_item_id(ItemName.all_sepith_min_id) <= item_id <= get_item_id(ItemName.all_sepith_max_id):
-                result = self.game_interface.give_all_sepith(item_id - get_item_id(ItemName.all_sepith_min_id), item_id - get_item_id(ItemName.all_sepith_min_id))
+            elif meta_data_table[ItemName.all_sepith_min_id] <= item_id <= meta_data_table[ItemName.all_sepith_max_id]:
+                result = self.game_interface.give_all_sepith(item_id - meta_data_table[ItemName.all_sepith_min_id], item_id - meta_data_table[ItemName.all_sepith_min_id])
             # Give all sepith (100 lower, 50 higher)
             elif get_item_id(ItemName.all_sepith_100_50) == item_id:
                 result = self.game_interface.give_all_sepith(100, 50)
             # Give higher element sepith
-            elif get_item_id(ItemName.higher_elements_sepith_min_id) <= item_id <= get_item_id(ItemName.higher_elements_sepith_max_id):
-                result = self.game_interface.give_high_sepith(item_id - get_item_id(ItemName.higher_elements_sepith_min_id))
+            elif meta_data_table[ItemName.higher_elements_sepith_min_id] <= item_id <= meta_data_table[ItemName.higher_elements_sepith_max_id]:
+                result = self.game_interface.give_high_sepith(item_id - meta_data_table[ItemName.higher_elements_sepith_min_id])
             # Give Recipe
-            elif get_item_id(ItemName.recipe_min_id) <= item_id <= get_item_id(ItemName.recipe_max_id):
-                result = self.game_interface.give_recipe(item_id - get_item_id(ItemName.recipe_min_id))
+            elif meta_data_table[ItemName.recipe_min_id] <= item_id <= meta_data_table[ItemName.recipe_max_id]:
+                result = self.game_interface.give_recipe(item_id - meta_data_table[ItemName.recipe_min_id])
             # Just a normal item
             else:
                 result = self.game_interface.give_item(item_id, 1)
@@ -597,20 +599,14 @@ class TitsThe3rdContext(CommonContext):
         for location_id in self.location_ids:
             if location_id in self.locations_checked:
                 continue
-            elif (
-                MIN_CRAFT_LOCATION_ID <= location_id <= MAX_CRAFT_LOCATION_ID
-                and location_id in craft_location_id_to_character_id_and_level_threshold
-            ):
+            elif MIN_CRAFT_LOCATION_ID <= location_id <= MAX_CRAFT_LOCATION_ID and location_id in craft_location_id_to_character_id_and_level_threshold:
                 character_id, level_threshold = craft_location_id_to_character_id_and_level_threshold[location_id]
                 if not self.game_interface.has_character(character_id):
                     continue
                 if self.game_interface.read_character_level(character_id) >= level_threshold:
                     await self.check_location(location_id)
                     continue
-            elif (
-                MIN_CRAFT_LOCATION_ID <= location_id <= MAX_CRAFT_LOCATION_ID
-                and location_id in event_craft_location_id_to_character_id_and_craft_id
-            ):
+            elif MIN_CRAFT_LOCATION_ID <= location_id <= MAX_CRAFT_LOCATION_ID and location_id in event_craft_location_id_to_character_id_and_craft_id:
                 # TODO: this condition can be removed once location_id = flag_event_craft_acquired_array + craft_id
                 character_id, craft_id = event_craft_location_id_to_character_id_and_craft_id[location_id]
                 if self.game_interface.read_flag(self.game_interface.FLAG_EVENT_CRAFT_ACQUIRED_ARRAY + craft_id):

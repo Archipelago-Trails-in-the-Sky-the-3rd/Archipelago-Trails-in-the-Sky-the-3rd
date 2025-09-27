@@ -124,14 +124,20 @@ class TitsThe3rdWorld(World):
             for character in character_list:
                 if character in default_character_to_location:
                     location_name = default_character_to_location[character]
+                    if self.options.name_spoiler_option:
+                        real_location_name = scrub_spoiler_data(location_name)
+                    else:
+                        real_location_name = location_name
                     character_item = self.create_item(character)
-                    self.multiworld.get_location(location_name, self.player).place_locked_item(character_item)
+                    self.multiworld.get_location(real_location_name, self.player).place_locked_item(character_item)
                     sealing_stone_locations.remove(location_name)
                 else:
                     leftover_characters.append(character)
 
             for character in leftover_characters:
                 location_name = sealing_stone_locations.pop()
+                if self.options.name_spoiler_option:
+                    location_name = scrub_spoiler_data(location_name)
                 character_item = self.create_item(character)
                 self.multiworld.get_location(location_name, self.player).place_locked_item(character_item)
         # Shuffle
@@ -140,6 +146,8 @@ class TitsThe3rdWorld(World):
             self.multiworld.random.shuffle(sealing_stone_locations)
             for character in character_list:
                 location_name = sealing_stone_locations.pop()
+                if self.options.name_spoiler_option:
+                    location_name = scrub_spoiler_data(location_name)
                 character_item = self.create_item(character)
                 self.multiworld.get_location(location_name, self.player).place_locked_item(character_item)
 
@@ -157,6 +165,8 @@ class TitsThe3rdWorld(World):
             None
         """
         for location_name in location_names:
+            if self.options.name_spoiler_option:
+                location_name = scrub_spoiler_data(location_name)
             self.multiworld.get_location(location_name, self.player).place_locked_item(self.create_item(item_name))
 
     def _set_default_craft_locations(self) -> None:
@@ -204,7 +214,11 @@ class TitsThe3rdWorld(World):
             remaining_craft_locations = list(craft_locations.keys())
             for item in craft_items:
                 location_name = self.multiworld.random.choice(remaining_craft_locations)
-                self.multiworld.get_location(location_name, self.player).place_locked_item(item)
+                if self.options.name_spoiler_option:
+                    real_location_name = scrub_spoiler_data(location_name)
+                else:
+                    real_location_name = location_name
+                self.multiworld.get_location(real_location_name, self.player).place_locked_item(item)
                 remaining_craft_locations.remove(location_name)
 
     def create_items(self) -> None:
@@ -221,12 +235,16 @@ class TitsThe3rdWorld(World):
         # Vanilla
         elif self.options.character_starting_quartz_options == CharacterStartingQuartzOptions.option_vanilla:
             for location_name, quartz_name in default_sealing_stone_quartz.items():
+                if self.options.name_spoiler_option:
+                    location_name = scrub_spoiler_data(location_name)
                 quartz_item = self.create_item(quartz_name)
                 self.multiworld.get_location(location_name, self.player).place_locked_item(quartz_item)
         # Random Quartz
         elif self.options.character_starting_quartz_options == CharacterStartingQuartzOptions.option_random_quartz:
             quartz_list = list(quartz_table.keys())
             for location_name in default_sealing_stone_quartz:
+                if self.options.name_spoiler_option:
+                    location_name = scrub_spoiler_data(location_name)
                 quartz_item = self.create_item(self.multiworld.random.choice(quartz_list))
                 self.multiworld.get_location(location_name, self.player).place_locked_item(quartz_item)
         # Else all random (NOP): We just let the filler handler further down handle this

@@ -221,8 +221,8 @@ craft_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 400000 + cha
 }
 
 key_item_table: Dict[str, TitsThe3rdItemData] = {
-    ItemName.bennu_defeat: TitsThe3rdItemData(500000, ItemClassification.progression),
-    ItemName.kloe_rescue: TitsThe3rdItemData(500001, ItemClassification.progression),
+    ItemName.chapter_1_cleared: TitsThe3rdItemData(500000, ItemClassification.progression),
+    ItemName.chapter_2_cleared: TitsThe3rdItemData(500001, ItemClassification.progression),
     ItemName.entrance_exam_results: TitsThe3rdItemData(831, ItemClassification.progression),
 }
 

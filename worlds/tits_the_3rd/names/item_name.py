@@ -174,8 +174,8 @@ class ItemName:
     renne_progressive_craft = "Renne's Progressive Craft"
 
     # Key Item
-    bennu_defeat = "Bennu Defeated (Chapter 1 Cleared)"
-    kloe_rescue = "Kloe Rescued (Chapter 2 Cleared)"
+    chapter_1_cleared = "Chapter 1 Cleared"
+    chapter_2_cleared = "Chapter 2 Cleared"
     entrance_exam_results = "Entrance Exam Results"
 
     # Metadata

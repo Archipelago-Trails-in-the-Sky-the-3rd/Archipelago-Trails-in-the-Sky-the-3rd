@@ -587,7 +587,7 @@ class TitsThe3rdContext(CommonContext):
     async def check_location(self, location_id: int):
         if not self.game_interface.should_send_and_recieve_items(self.world_player_identifier):
             return
-        if location_id == get_location_id(LocationName.chapter2_boss_defeated):  # Goal location
+        if location_id == get_location_id(self.slot_data["victory_location"]):  # Goal location
             self.finished_game = True
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
         self.locations_checked.add(location_id)

@@ -25,7 +25,16 @@ from .items import (
 )
 from .tables.location_list import craft_locations, location_table, default_sealing_stone_quartz
 from .locations import create_locations, location_groups
-from .options import CharacterStartingQuartzOptions, ChestItemPoolOptions, SealingStoneCharactersOptions, StartingCharactersOptions, TitsThe3rdOptions, CraftShuffle, CraftPlacement
+from .options import (
+    CharacterStartingQuartzOptions,
+    ChestItemPoolOptions,
+    SealingStoneCharactersOptions,
+    StartingCharactersOptions,
+    TitsThe3rdOptions,
+    CraftShuffle,
+    CraftPlacement,
+    VictoryConditionOption,
+)
 from .regions import create_regions, connect_regions
 from .settings import TitsThe3rdSettings
 from .web import TitsThe3rdWeb
@@ -194,12 +203,6 @@ class TitsThe3rdWorld(World):
         self._set_default_craft_locations_for_character(location_names=location_groups["Renne Crafts"], item_name=ItemName.renne_progressive_craft)
 
     def pre_fill(self) -> None:
-        # For now hard code beating Bennu as victory
-        chapter_1_item = self.create_item(ItemName.bennu_defeat)
-        chapter_2_item = self.create_item(ItemName.kloe_rescue)
-        # TODO: change victory condition
-        self.multiworld.get_location(LocationName.chapter1_boss_defeated, self.player).place_locked_item(chapter_1_item)
-        self.multiworld.get_location(LocationName.chapter2_boss_defeated, self.player).place_locked_item(chapter_2_item)
         # Crafts
         if self.options.craft_placement == CraftPlacement.option_default and self.options.craft_shuffle:
             # Crafts are at their default locations, but which craft is given is randomized.
@@ -223,6 +226,13 @@ class TitsThe3rdWorld(World):
 
     def create_items(self) -> None:
         """Define items for Trails in the Sky the 3rd AP"""
+        # For now hard code beating Bennu as victory
+        chapter_1_item = self.create_item(ItemName.chapter_1_cleared)
+        chapter_2_item = self.create_item(ItemName.chapter_2_cleared)
+        # TODO: change victory condition
+        self.multiworld.get_location(LocationName.chapter1_boss_defeated, self.player).place_locked_item(chapter_1_item)
+        self.multiworld.get_location(LocationName.chapter2_boss_defeated, self.player).place_locked_item(chapter_2_item)
+
         itempool = deepcopy(default_item_pool)
 
         # Setup all the playable characters stuffs
@@ -266,9 +276,19 @@ class TitsThe3rdWorld(World):
             for _ in range(quantity):
                 self.multiworld.itempool.append(self.create_item(item_name))
 
+    def get_victory_item_and_location(self):
+        if self.options.victory_condition_option == VictoryConditionOption.option_chapter_1:
+            victory_item = ItemName.chapter_1_cleared
+            victory_location = LocationName.chapter1_boss_defeated
+        else:
+            victory_item = ItemName.chapter_2_cleared
+            victory_location = LocationName.chapter2_boss_defeated
+
+        return victory_item, victory_location
+
     def set_rules(self) -> None:
         """Set remaining rules."""
-        self.multiworld.completion_condition[self.player] = lambda _: True
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(self.get_victory_item_and_location()[0], self.player)
 
     def fill_slot_data(self) -> Dict[str, Any]:
         # Note: if craft shuffle is on, event get crafts will be a random progressive craft.
@@ -281,6 +301,7 @@ class TitsThe3rdWorld(World):
             "old_craft_id_to_new_craft_id": old_craft_id_to_new_craft_id,
             "default_event_crafts": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
             "default_crfget": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
+            "victory_location": self.get_victory_item_and_location()[1],
         }
 
     def get_filler_item_name(self):

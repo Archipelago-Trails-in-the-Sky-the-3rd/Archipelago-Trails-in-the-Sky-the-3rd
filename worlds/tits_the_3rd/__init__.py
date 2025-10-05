@@ -202,7 +202,7 @@ class TitsThe3rdWorld(World):
         self._set_default_craft_locations_for_character(location_names=location_groups["Ries Crafts"], item_name=ItemName.ries_progressive_craft)
         self._set_default_craft_locations_for_character(location_names=location_groups["Renne Crafts"], item_name=ItemName.renne_progressive_craft)
 
-    def pre_fill(self) -> None:
+    def setup_craft(self) -> None:
         # Crafts
         if self.options.craft_placement == CraftPlacement.option_default and self.options.craft_shuffle:
             # Crafts are at their default locations, but which craft is given is randomized.
@@ -237,6 +237,9 @@ class TitsThe3rdWorld(World):
 
         # Setup all the playable characters stuffs
         itempool = self.setup_characters(itempool)
+
+        # Setup the craft stuffs
+        self.setup_craft()
 
         # Handle Sealing Stone Quartz
         # Vanilla Shuffle

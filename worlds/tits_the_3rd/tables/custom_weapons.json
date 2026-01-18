@@ -1,0 +1,17 @@
+[
+    {
+        "item_id": 10030,
+        "weapon_type": "staff",
+        "name": "Test Weapon",
+        "desc": "Test Desc",
+        "strength": 100
+    },
+    {
+        "item_id": 10031,
+        "weapon_type": "orbalcannon",
+        "name": "Test Weapon",
+        "desc": "Test Desc",
+        "strength": 100,
+        "aoe_size": 3
+    }
+]

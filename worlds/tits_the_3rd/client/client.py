@@ -33,6 +33,7 @@ from worlds.tits_the_3rd.names.location_name import LocationName
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.util import load_file
 from worlds.tits_the_3rd.dt_utils import items as dt_items
+from worlds.tits_the_3rd.dt_utils.models import Weapon, WeaponType
 
 from .animation_writer import AnimationWriter
 from .memory_io import TitsThe3rdMemoryIO
@@ -47,6 +48,21 @@ from CommonClient import (
 
 def strip_accents(text: str):
     return "".join(character for character in unicodedata.normalize("NFD", text) if unicodedata.category(character) != "Mn")
+
+
+def load_custom_weapons() -> list[Weapon]:
+    """
+    Load custom weapons from tables/custom_weapons.json and convert them to Weapon instances.
+    """
+    custom_weapons_data = load_file("tables/custom_weapons.json")
+    weapons_json = json.loads(custom_weapons_data)
+    weapons = []
+    for weapon_data in weapons_json:
+        # Convert weapon_type string to enum
+        weapon_data = weapon_data.copy()
+        weapon_data["weapon_type"] = WeaponType[weapon_data["weapon_type"].upper()]
+        weapons.append(Weapon(**weapon_data))
+    return weapons
 
 
 class TitsThe3rdContext(CommonContext):
@@ -195,6 +211,12 @@ class TitsThe3rdContext(CommonContext):
 
         for craft_id, craft_name in chain_crafts.items():
             item, item_text = dt_items.create_non_local_item(15000 + craft_id, craft_name)
+            game_items.append(item)
+            game_items_text.append(item_text)
+
+        # Add custom weapons
+        for weapon in load_custom_weapons():
+            item, item_text = dt_items.create_weapon(weapon)
             game_items.append(item)
             game_items_text.append(item_text)
 

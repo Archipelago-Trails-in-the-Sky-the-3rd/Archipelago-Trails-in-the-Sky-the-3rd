@@ -1,6 +1,9 @@
 import io
 from pathlib import Path
+from typing import Tuple
+
 from .common import parse_string
+from .models import Weapon
 
 
 item_dt_headers = [
@@ -189,5 +192,49 @@ def create_non_local_item(item_id: int, item_name: str):
     for header in item_dt_headers:
         if header not in item:
             item[header] = 0
+
+    return item, item_text
+
+
+def create_weapon(weapon: Weapon) -> Tuple[dict, dict]:
+    """
+    Create item table entries for a weapon.
+
+    Args:
+        weapon: A Weapon dataclass instance
+
+    Returns:
+        A tuple of (item_dict, item_text_dict) to be passed to
+        write_item_table and write_item_text_table respectively.
+    """
+    item = {
+        "item_id": weapon.item_id,
+        "item_type": 0xC,  # Weapon flag
+        "item_restriction": weapon.weapon_type.value,
+        "item_icon": weapon.icon_type.value,
+        "item_subtype": 0,
+        "item_eff_1": 0,
+        "item_eff_2": 0,
+        "item_eff_3": 0,
+        "item_target_type": weapon.target_type.value,
+        "item_rng": weapon.attack_range,
+        "item_aoe_size": weapon.aoe_size,
+        "item_str": weapon.strength,
+        "item_def": weapon.defence,
+        "item_ats": weapon.arts,
+        "item_adf": weapon.art_defence,
+        "item_agi": weapon.agility,
+        "item_dex": weapon.dexterity,
+        "item_mov": weapon.move,
+        "item_spd": weapon.speed,
+        "item_limit": weapon.inventory_limit,
+        "item_price": weapon.sell_price,
+    }
+
+    item_text = {
+        "item_id": weapon.item_id,
+        "item_name": weapon.name,
+        "item_desc": weapon.desc,
+    }
 
     return item, item_text

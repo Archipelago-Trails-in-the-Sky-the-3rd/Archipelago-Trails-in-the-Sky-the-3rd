@@ -128,13 +128,6 @@
         "strength": 350
     },
     {
-        "type": "katana",
-        "id": 10047,
-        "name": "Tier 5 Katana",
-        "desc": "Tier 5 katana. STR+550",
-        "strength": 550
-    },
-    {
         "type": "scythe",
         "id": 10048,
         "name": "Tier 1 Scythe",

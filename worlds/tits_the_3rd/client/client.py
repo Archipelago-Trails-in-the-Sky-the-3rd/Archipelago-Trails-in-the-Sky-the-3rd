@@ -214,13 +214,13 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
-        if self.slot_data["weapon_shuffle"]:
-            # add custom weapons
-            for weapon in load_custom_weapons():
-                item, item_text = dt_items.create_weapon(weapon)
-                game_items.append(item)
-                game_items_text.append(item_text)
+        # add custom weapons
+        for weapon in load_custom_weapons():
+            item, item_text = dt_items.create_weapon(weapon)
+            game_items.append(item)
+            game_items_text.append(item_text)
 
+        if self.slot_data["weapon_shuffle"]:
             # Set weapon shuffle item properties
             for item in game_items:
                 if item["item_type"] == 0xC:  # Weapon flag

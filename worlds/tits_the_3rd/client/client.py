@@ -214,14 +214,22 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
-        # Add custom weapons
-        for weapon in load_custom_weapons():
-            item, item_text = dt_items.create_weapon(weapon)
-            game_items.append(item)
-            game_items_text.append(item_text)
+        if self.slot_data["weapon_shuffle"]:
+            # add custom weapons
+            for weapon in load_custom_weapons():
+                item, item_text = dt_items.create_weapon(weapon)
+                game_items.append(item)
+                game_items_text.append(item_text)
+
+            # Set weapon shuffle item properties
+            for item in game_items:
+                if item["item_type"] == 0xC:  # Weapon flag
+                    item["item_price"] = 0x10FFFFFF  # Set price high so unbuyable
+                    item["item_type"] = 0x0  # Make unsellable
 
         game_items.append(last_item)
         game_items_text.append(last_text)
+
 
         dt_items.write_item_table(os.path.join(dt_game_mod_folder, "t_item2._dt"), game_items)
         dt_items.write_item_text_table(os.path.join(dt_game_mod_folder, "t_ittxt2._dt"), game_items_text)

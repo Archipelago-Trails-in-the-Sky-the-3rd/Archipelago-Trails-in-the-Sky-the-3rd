@@ -302,6 +302,7 @@ class TitsThe3rdWorld(World):
             "default_event_crafts": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
             "default_crfget": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
             "victory_location": self.get_victory_item_and_location()[1],
+            "weapon_shuffle": self.options.weapon_shuffle.value,
         }
 
     def get_filler_item_name(self):

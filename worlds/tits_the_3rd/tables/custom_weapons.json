@@ -1,170 +1,170 @@
 [
     {
-        "type": "staff",
-        "id": 10030,
+        "weapon_type": "staff",
+        "item_id": 10030,
         "name": "Tier 1 Staff",
         "desc": "Tier 1 staff. STR+100, RNG+2",
-        "range": 2,
+        "attack_range": 2,
         "strength": 100
     },
     {
-        "type": "staff",
-        "id": 10031,
+        "weapon_type": "staff",
+        "item_id": 10031,
         "name": "Tier 2 Staff",
         "desc": "Tier 2 staff. STR+200, RNG+2",
-        "range": 2,
+        "attack_range": 2,
         "strength": 200
     },
     {
-        "type": "staff",
-        "id": 10032,
+        "weapon_type": "staff",
+        "item_id": 10032,
         "name": "Tier 3 Staff",
         "desc": "Tier 3 staff. STR+300, RNG+2",
-        "range": 2,
+        "attack_range": 2,
         "strength": 300
     },
     {
-        "type": "staff",
-        "id": 10033,
+        "weapon_type": "staff",
+        "item_id": 10033,
         "name": "Tier 4 Staff",
         "desc": "Tier 4 staff. STR+400, RNG+2",
-        "range": 2,
+        "attack_range": 2,
         "strength": 400
     },
     {
-        "type": "twinswords",
-        "id": 10034,
+        "weapon_type": "twinswords",
+        "item_id": 10034,
         "name": "Tier 1 Twinswords",
         "desc": "Tier 1 twinswords. STR+100",
         "strength": 100
     },
     {
-        "type": "whip",
-        "id": 10035,
+        "weapon_type": "whip",
+        "item_id": 10035,
         "name": "Tier 1 Whip",
         "desc": "Tier 1 whip. STR+100, RNG+3",
-        "range": 3,
+        "attack_range": 3,
         "strength": 100
     },
     {
-        "type": "whip",
-        "id": 10036,
+        "weapon_type": "whip",
+        "item_id": 10036,
         "name": "Tier 2 Whip",
         "desc": "Tier 2 whip. STR+200, RNG+3",
-        "range": 3,
+        "attack_range": 3,
         "strength": 200
     },
     {
-        "type": "whip",
-        "id": 10037,
+        "weapon_type": "whip",
+        "item_id": 10037,
         "name": "Tier 3 Whip",
         "desc": "Tier 3 whip. STR+300, RNG+3",
-        "range": 3,
+        "attack_range": 3,
         "strength": 300
     },
     {
-        "type": "whip",
-        "id": 10038,
+        "weapon_type": "whip",
+        "item_id": 10038,
         "name": "Tier 4 Whip",
         "desc": "Tier 4 whip. STR+400, RNG+3",
-        "range": 3,
+        "attack_range": 3,
         "strength": 400
     },
     {
-        "type": "gun",
-        "id": 10039,
+        "weapon_type": "gun",
+        "item_id": 10039,
         "name": "Tier 1 Gun",
         "desc": "Tier 1 gun. STR+100, RNG+5",
-        "range": 5,
+        "attack_range": 5,
         "strength": 100
     },
     {
-        "type": "greatsword",
-        "id": 10040,
+        "weapon_type": "greatsword",
+        "item_id": 10040,
         "name": "Tier 1 Greatsword",
         "desc": "Tier 1 greatsword. STR+150",
         "strength": 150
     },
     {
-        "type": "gauntlets",
-        "id": 10041,
+        "weapon_type": "gauntlets",
+        "item_id": 10041,
         "name": "Tier 1 Gauntlets",
         "desc": "Tier 1 gauntlets. STR+150",
         "strength": 150
     },
     {
-        "type": "gauntlets",
-        "id": 10042,
+        "weapon_type": "gauntlets",
+        "item_id": 10042,
         "name": "Tier 2 Gauntlets",
         "desc": "Tier 2 gauntlets. STR+250",
         "strength": 250
     },
     {
-        "type": "gauntlets",
-        "id": 10043,
+        "weapon_type": "gauntlets",
+        "item_id": 10043,
         "name": "Tier 3 Gauntlets",
         "desc": "Tier 3 gauntlets. STR+350",
         "strength": 350
     },
     {
-        "type": "katana",
-        "id": 10044,
+        "weapon_type": "katana",
+        "item_id": 10044,
         "name": "Tier 1 Katana",
         "desc": "Tier 1 katana. STR+150",
         "strength": 150
     },
     {
-        "type": "katana",
-        "id": 10045,
+        "weapon_type": "katana",
+        "item_id": 10045,
         "name": "Tier 2 Katana",
         "desc": "Tier 2 katana. STR+250",
         "strength": 250
     },
     {
-        "type": "katana",
-        "id": 10046,
+        "weapon_type": "katana",
+        "item_id": 10046,
         "name": "Tier 3 Katana",
         "desc": "Tier 3 katana. STR+350",
         "strength": 350
     },
     {
-        "type": "scythe",
-        "id": 10048,
+        "weapon_type": "scythe",
+        "item_id": 10048,
         "name": "Tier 1 Scythe",
         "desc": "Tier 1 scythe. STR+150",
         "strength": 150
     },
     {
-        "type": "scythe",
-        "id": 10049,
+        "weapon_type": "scythe",
+        "item_id": 10049,
         "name": "Tier 2 Scythe",
         "desc": "Tier 2 scythe. STR+250",
         "strength": 250
     },
     {
-        "type": "scythe",
-        "id": 10050,
+        "weapon_type": "scythe",
+        "item_id": 10050,
         "name": "Tier 3 Scythe",
         "desc": "Tier 3 scythe. STR+350",
         "strength": 350
     },
     {
-        "type": "scythe",
-        "id": 10051,
+        "weapon_type": "scythe",
+        "item_id": 10051,
         "name": "Tier 4 Scythe",
         "desc": "Tier 4 scythe. STR+450",
         "strength": 450
     },
     {
-        "type": "scythe",
-        "id": 10052,
+        "weapon_type": "scythe",
+        "item_id": 10052,
         "name": "Tier 5 Scythe",
         "desc": "Tier 5 scythe. STR+550",
         "strength": 550
     },
     {
-        "type": "scythe",
-        "id": 10053,
+        "weapon_type": "scythe",
+        "item_id": 10053,
         "name": "Tier 6 Scythe",
         "desc": "Tier 6 scythe. STR+650",
         "strength": 650

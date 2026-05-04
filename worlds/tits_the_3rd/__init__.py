@@ -22,9 +22,11 @@ from .items import (
     default_character_quartz_pool,
     default_character_to_location,
     default_craft_pool,
+    weapon_shuffle_pool,
+    weapon_table
 )
 from .tables.location_list import craft_locations, location_table, default_sealing_stone_quartz
-from .locations import create_locations, location_groups
+from .locations import create_locations, location_groups, create_location
 from .options import (
     CharacterStartingQuartzOptions,
     ChestItemPoolOptions,
@@ -268,6 +270,17 @@ class TitsThe3rdWorld(World):
         if self.options.craft_placement == CraftPlacement.option_anywhere:
             itempool.update(default_craft_pool)
 
+        if self.options.weapon_shuffle:
+            # Remove all weapons from the pool
+            itempool_new = Counter()
+            for item in itempool:
+                if item not in weapon_table:
+                    itempool_new[item] = itempool[item]
+            itempool = itempool_new
+
+            # Add progressive weapons to the pool
+            itempool.update(weapon_shuffle_pool)
+
         # Generate filler here
         total_locations = len(self.multiworld.get_unfilled_locations(self.player))
         itempool.update([self.get_filler_item_name() for _ in range(total_locations - itempool.total())])
@@ -302,6 +315,7 @@ class TitsThe3rdWorld(World):
             "default_event_crafts": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
             "default_crfget": self.options.craft_placement == CraftPlacement.option_default and not self.options.craft_shuffle,
             "victory_location": self.get_victory_item_and_location()[1],
+            "weapon_shuffle": self.options.weapon_shuffle.value,
         }
 
     def get_filler_item_name(self):

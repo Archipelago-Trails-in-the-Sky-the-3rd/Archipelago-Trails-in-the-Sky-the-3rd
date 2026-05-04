@@ -78,6 +78,11 @@ class TitsThe3rdMemoryIO():
         15: "renne",
     }
     RECIPE_ID_TO_NAME = {1: "easy_paella"}
+    LOCATION_ID_TO_FLAG = {
+        "jade_corridor_1": 246,
+        "night_grancel_south": 263,
+        "chapter_2_cleared": 274
+    }
 
     def __init__(self, exit_event: asyncio.Event):
         self.tits_the_3rd_mem: pymem.Pymem = None

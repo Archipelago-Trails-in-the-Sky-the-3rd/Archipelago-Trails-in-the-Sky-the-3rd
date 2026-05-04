@@ -173,6 +173,24 @@ class ItemName:
     ries_progressive_craft = "Ries's Progressive Craft"
     renne_progressive_craft = "Renne's Progressive Craft"
 
+    # Weapon Unlock
+    progressive_scythe = "Progressive Scythe"
+    progressive_whip = "Progressive Whip"
+    progressive_katana = "Progressive Katana"
+    progressive_gauntlets = "Progressive Gauntlets"
+    progressive_twinswords = "Progressive Twinswords"
+    progressive_gun = "Progressive Gun"
+    progressive_greatsword = "Progressive Greatsword"
+    progressive_staff = "Progressive Staff"
+    progressive_crossbow = "Progressive Crossbow"
+    progressive_templar_sword = "Progressive Templar Sword"
+    progressive_orbal_cannon = "Progressive Orbal Cannon"
+    progressive_rapier = "Progressive Rapier"
+    gun_user = "Gun User"
+    katana_user = "Katana User"
+    rapier_user = "Rapier User"
+    greatsword_user = "Greatsword User"
+
     # Key Item
     chapter_1_cleared = "Chapter 1 Cleared"
     chapter_2_cleared = "Chapter 2 Cleared"
@@ -195,3 +213,5 @@ class ItemName:
     recipe_max_id = "Recipe Max ID"
     craft_min_id = "Craft Min ID"
     craft_max_id = "Craft Max ID"
+    progressive_weapon_min_id = "Progressive Weapon Min ID"
+    progressive_weapon_max_id = "Progressive Weapon Max ID"

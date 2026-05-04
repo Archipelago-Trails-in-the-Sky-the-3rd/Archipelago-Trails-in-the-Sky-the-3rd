@@ -49,6 +49,8 @@ meta_data_table: Dict[str, int] = {
     ItemName.recipe_max_id: 81000,
     ItemName.craft_min_id: 400000,
     ItemName.craft_max_id: 400999,
+    ItemName.progressive_weapon_min_id: 401000,
+    ItemName.progressive_weapon_max_id: 401999,
 }
 
 consumable_table: Dict[str, TitsThe3rdItemData] = {
@@ -100,7 +102,13 @@ equipment_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.silver_earring: TitsThe3rdItemData(350, ItemClassification.useful),
     ItemName.tiger_heart: TitsThe3rdItemData(392, ItemClassification.useful),
     ItemName.skull_pendant: TitsThe3rdItemData(368, ItemClassification.useful),
-    # Weapons
+
+    # Armor
+    ItemName.bestia_coat: TitsThe3rdItemData(1553, ItemClassification.useful),
+    ItemName.gaia_greaves: TitsThe3rdItemData(105, ItemClassification.useful),
+}
+
+weapon_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.akashic_heart: TitsThe3rdItemData(1184, ItemClassification.useful),
     ItemName.stun_gb: TitsThe3rdItemData(1274, ItemClassification.useful),
     ItemName.kumo_no_tachi: TitsThe3rdItemData(1230, ItemClassification.useful),
@@ -108,9 +116,6 @@ equipment_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.sting_edges: TitsThe3rdItemData(1049, ItemClassification.useful),
     ItemName.aion_bow: TitsThe3rdItemData(1365, ItemClassification.useful),
     ItemName.silvahn: TitsThe3rdItemData(1455, ItemClassification.useful),
-    # Armor
-    ItemName.bestia_coat: TitsThe3rdItemData(1553, ItemClassification.useful),
-    ItemName.gaia_greaves: TitsThe3rdItemData(105, ItemClassification.useful),
 }
 
 quartz_table: Dict[str, TitsThe3rdItemData] = {
@@ -220,6 +225,25 @@ craft_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 400000 + cha
     ItemName.renne_progressive_craft: TitsThe3rdItemData(meta_data_table[ItemName.craft_min_id] + 15, ItemClassification.useful),
 }
 
+progressive_weapon_table: Dict[str, TitsThe3rdItemData] = {
+    ItemName.progressive_scythe: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id], ItemClassification.progression),
+    ItemName.progressive_whip: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 1, ItemClassification.progression),
+    ItemName.progressive_katana: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 2, ItemClassification.progression),
+    ItemName.progressive_gauntlets: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 3, ItemClassification.progression),
+    ItemName.progressive_twinswords: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 4, ItemClassification.progression),
+    ItemName.progressive_gun: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 5, ItemClassification.progression),
+    ItemName.progressive_greatsword: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 6, ItemClassification.progression),
+    ItemName.progressive_staff: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 7, ItemClassification.progression),
+    ItemName.progressive_crossbow: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 8, ItemClassification.progression),
+    ItemName.progressive_templar_sword: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 1, ItemClassification.progression),
+    ItemName.progressive_orbal_cannon: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 9, ItemClassification.progression),
+    ItemName.progressive_rapier: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 10, ItemClassification.progression),
+    ItemName.gun_user: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 11, ItemClassification.progression),
+    ItemName.rapier_user: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 12, ItemClassification.progression),
+    ItemName.katana_user: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 13, ItemClassification.progression),
+    ItemName.greatsword_user: TitsThe3rdItemData(meta_data_table[ItemName.progressive_weapon_min_id] + 14, ItemClassification.progression),
+}
+
 key_item_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.chapter_1_cleared: TitsThe3rdItemData(500000, ItemClassification.progression),
     ItemName.chapter_2_cleared: TitsThe3rdItemData(500001, ItemClassification.progression),
@@ -237,6 +261,8 @@ item_data_table: Dict[str, TitsThe3rdItemData] = {
     **character_table,
     **area_unlock_table,
     **craft_unlock_table,
+    **weapon_table,
+    **progressive_weapon_table,
 }
 
 item_groups: Dict[str, Set[str]] = {
@@ -263,6 +289,7 @@ default_item_pool: Counter[str] = Counter()
 default_chest_pool: Counter[str] = Counter()
 default_character_quartz_pool: Counter[str] = Counter()
 default_craft_pool: Counter[str] = Counter()
+weapon_shuffle_pool: Counter[str] = Counter()
 # fills the pool counters according to info in location_table
 # obviously ignores commented lines, just uncomment them to add them to the pools
 for location in location_table:
@@ -277,6 +304,8 @@ for location in location_table:
                 default_item_pool.update(item)
             case CheckTypeName.craft:
                 default_craft_pool.update(item)
+            case CheckTypeName.weapon:
+                weapon_shuffle_pool.update(item)
 
 default_character_to_location = {
     ItemName.tita: LocationName.sealing_stone_tita,
@@ -288,3 +317,27 @@ default_character_to_location = {
 
 area_flag_to_name = {area_flag.code - meta_data_table[ItemName.area_min_id]: area_name.replace("Area Expansion: ", "") for area_name, area_flag in area_unlock_table.items()}
 character_id_to_name = {character_id.code - meta_data_table[ItemName.character_min_id]: character_name for character_name, character_id in character_table.items()}
+# character_name_to_id = {character_name: character_id for character_id, character_name in character_id_to_name.items()}
+character_name_to_id = {
+    ItemName.estelle: 0,
+    ItemName.joshua: 1,
+    ItemName.scherazard: 2,
+    ItemName.olivier: 3,
+    ItemName.kloe: 4,
+    ItemName.agate: 5,
+    ItemName.tita: 6,
+    ItemName.zin: 7,
+    ItemName.kevin: 8,
+    ItemName.anelace: 9,
+    ItemName.josette: 10,
+    ItemName.richard: 11,
+    ItemName.mueller: 12,
+    ItemName.julia: 13,
+    ItemName.ries: 14,
+    ItemName.renne: 15,
+}
+
+item_id_to_name = {
+    item_data.code: item_name
+    for item_name, item_data in item_data_table.items()
+}

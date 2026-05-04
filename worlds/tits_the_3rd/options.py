@@ -141,6 +141,14 @@ class CraftPlacement(Choice):
     option_crafts = 1
     option_anywhere = 2
 
+class WeaponShuffle(Toggle):
+    """
+    Shuffle Weapon unlocks into the item pool.
+    Weapon unlocks are progressive based on weapon type.
+    """
+    display_name = "Weapon Shuffle"
+    default_value = False
+
 @dataclass
 class TitsThe3rdOptions(PerGameCommonOptions):
     """Trails in the Sky the 3rd options Definition"""
@@ -154,3 +162,4 @@ class TitsThe3rdOptions(PerGameCommonOptions):
     character_starting_quartz_options: CharacterStartingQuartzOptions
     craft_shuffle: CraftShuffle
     craft_placement: CraftPlacement
+    weapon_shuffle: WeaponShuffle

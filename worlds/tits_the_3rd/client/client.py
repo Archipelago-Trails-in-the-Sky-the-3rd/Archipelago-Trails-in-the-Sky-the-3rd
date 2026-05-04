@@ -22,6 +22,8 @@ from worlds.tits_the_3rd.locations import (
     get_location_id,
     MIN_CRAFT_LOCATION_ID,
     MAX_CRAFT_LOCATION_ID,
+    MIN_WEAPON_UNLOCK_ID,
+    MAX_WEAPON_UNLOCK_ID
 )
 from worlds.tits_the_3rd.tables.location_list import (
     craft_location_id_to_character_id_and_level_threshold,
@@ -37,6 +39,7 @@ from worlds.tits_the_3rd.dt_utils.models import Weapon, WeaponType
 
 from .animation_writer import AnimationWriter
 from .memory_io import TitsThe3rdMemoryIO
+from .weapon_util import has_weapon_unlock_conditions, get_weapon_item_id_and_quantity, get_weapon_progression_mapping
 from CommonClient import (
     CommonContext,
     get_base_parser,
@@ -214,14 +217,29 @@ class TitsThe3rdContext(CommonContext):
             game_items.append(item)
             game_items_text.append(item_text)
 
-        # Add custom weapons
+        # add custom weapons
         for weapon in load_custom_weapons():
             item, item_text = dt_items.create_weapon(weapon)
             game_items.append(item)
             game_items_text.append(item_text)
 
+        if self.slot_data["weapon_shuffle"]:
+            # Get all weapon ids
+            weapon_progression_mapping = get_weapon_progression_mapping()
+            weapon_ids = set()
+            for tier_to_ids in weapon_progression_mapping.values():
+                for ids in tier_to_ids.values():
+                    weapon_ids.update(ids)
+
+            # Set weapon shuffle item properties
+            for item in game_items:
+                if item["item_id"] in weapon_ids:  # Weapon flag
+                    item["item_price"] = 0x10FFFFFF  # Set price high so unbuyable
+                    item["item_type"] = 0x0  # Make unsellable
+
         game_items.append(last_item)
         game_items_text.append(last_text)
+
 
         dt_items.write_item_table(os.path.join(dt_game_mod_folder, "t_item2._dt"), game_items)
         dt_items.write_item_text_table(os.path.join(dt_game_mod_folder, "t_ittxt2._dt"), game_items_text)
@@ -550,6 +568,14 @@ class TitsThe3rdContext(CommonContext):
                 result = self.game_interface.give_craft(character_id, craft_id)
             elif meta_data_table[ItemName.area_min_id] <= item_id <= meta_data_table[ItemName.area_max_id]:
                 result = self.game_interface.unlock_area(item_id - meta_data_table[ItemName.area_min_id])
+            elif meta_data_table[ItemName.progressive_weapon_min_id] <= item_id <= meta_data_table[ItemName.progressive_weapon_max_id]:
+                # Figure out how many of this item we've recieved already
+                weapon_idx = 0
+                for past_item in self.items_received[: self.last_received_item_index + 1]:
+                    if past_item.item == item_id:
+                        weapon_idx += 1
+                item, quantity = get_weapon_item_id_and_quantity(item_id, weapon_idx)
+                result = self.game_interface.give_item(item, quantity)
             # Unlock character
             elif meta_data_table[ItemName.character_min_id] <= item_id <= meta_data_table[ItemName.character_max_id]:
                 result = self.game_interface.unlock_character(item_id - meta_data_table[ItemName.character_min_id])
@@ -635,6 +661,9 @@ class TitsThe3rdContext(CommonContext):
                     await self.check_location(location_id)
             elif self.game_interface.read_flag(location_id):
                 await self.check_location(location_id)
+            elif MIN_WEAPON_UNLOCK_ID <= location_id <= MAX_WEAPON_UNLOCK_ID:
+                if has_weapon_unlock_conditions(self.game_interface, location_id):
+                    await self.check_location(location_id)
         if self.slot_data["default_event_crafts"]:
             # These are not locations in AP, but the client needs to give them manually.
             for location_id in event_craft_location_id_to_character_id_and_craft_id:

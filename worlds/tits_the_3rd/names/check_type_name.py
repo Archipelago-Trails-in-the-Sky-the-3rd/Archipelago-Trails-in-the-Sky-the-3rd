@@ -10,3 +10,4 @@ class CheckTypeName:
     area_unlock = "Area Unlock"
     boss = "Boss"
     craft = "Craft"
+    weapon = "Weapon"

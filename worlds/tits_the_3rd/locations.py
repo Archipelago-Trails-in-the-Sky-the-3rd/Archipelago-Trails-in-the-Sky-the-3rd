@@ -143,7 +143,8 @@ def _get_num_progressive_weapons_required_for_tier(tier: int):
     weapon_to_tier_mapping = json.load(open(os.path.join(os.path.dirname(__file__), "tables/weapon_tier_to_id_list.json")))
     num_progressive_weapons_required = {}
     for weapon_name, tier_to_id_list in weapon_to_tier_mapping.items():
-        num_progressive_weapons_required[weapon_name] = sum(len(id_list) for tier_threshold, id_list in tier_to_id_list.items() if int(tier_threshold) < tier)
+        # subtract 1 for the base game weapon, which doesn't count towards the progressive weapon requirement
+        num_progressive_weapons_required[weapon_name] = (sum(len(id_list) for tier_threshold, id_list in tier_to_id_list.items() if int(tier_threshold) <= tier)) - 1
     return num_progressive_weapons_required
 
 

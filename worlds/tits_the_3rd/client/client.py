@@ -39,7 +39,7 @@ from worlds.tits_the_3rd.dt_utils.models import Weapon, WeaponType
 
 from .animation_writer import AnimationWriter
 from .memory_io import TitsThe3rdMemoryIO
-from .weapon_util import has_weapon_unlock_conditions, get_weapon_item_id_and_quantity
+from .weapon_util import has_weapon_unlock_conditions, get_weapon_item_id_and_quantity, get_weapon_progression_mapping
 from CommonClient import (
     CommonContext,
     get_base_parser,
@@ -224,9 +224,16 @@ class TitsThe3rdContext(CommonContext):
             game_items_text.append(item_text)
 
         if self.slot_data["weapon_shuffle"]:
+            # Get all weapon ids
+            weapon_progression_mapping = get_weapon_progression_mapping()
+            weapon_ids = set()
+            for tier_to_ids in weapon_progression_mapping.values():
+                for ids in tier_to_ids.values():
+                    weapon_ids.update(ids)
+
             # Set weapon shuffle item properties
             for item in game_items:
-                if item["item_type"] == 0xC:  # Weapon flag
+                if item["item_id"] in weapon_ids:  # Weapon flag
                     item["item_price"] = 0x10FFFFFF  # Set price high so unbuyable
                     item["item_type"] = 0x0  # Make unsellable
 

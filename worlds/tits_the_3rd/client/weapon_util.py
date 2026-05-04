@@ -59,7 +59,7 @@ def get_weapon_progression_mapping():
     return weapon_progression_mapping
 
 def get_weapon_item_id_and_quantity(item_id, num_already_recieved):
-    item_name = item_id_to_name[item_id].strip("Progressive ")
+    item_name = item_id_to_name[item_id].replace("Progressive ", "")
     weapon_progression_mapping = get_weapon_progression_mapping()
     progression = None
     for weapon, weapon_progression in weapon_progression_mapping.items():

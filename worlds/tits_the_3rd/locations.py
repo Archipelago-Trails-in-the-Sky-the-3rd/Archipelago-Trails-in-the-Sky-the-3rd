@@ -189,6 +189,10 @@ weapon_to_progressive_weapon_mapping = {
 def _get_boss_requirements(location_name: str, player: int, options: TitsThe3rdOptions):
     if not options.weapon_shuffle.value:
         return None
+
+    # Assert that the player has 4 characters with weapons that meet the standard for the boss's chapter.
+    # E.g. For the chapter 1 boss, the player should logically have at least 4 characters
+    # that each have a (base-game) jade-corridor level weapon.
     gear_tier_required = boss_requirements[location_name]
     num_progressive_weapons_for_tier = _get_num_progressive_weapons_required_for_tier(gear_tier_required)
     if options.name_spoiler_option:

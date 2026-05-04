@@ -668,7 +668,7 @@ for craft in craft_locations:
     character_id = character_name_to_id[character_name]
     level_match = re.search(r'\(Level (\d+)\)', craft)
     if level_match:
-        level_threshold = int(level_match.group(1)) - 2
+        level_threshold = int(level_match.group(1))
         craft_location_id_to_character_id_and_level_threshold[craft_locations[craft].flag] = (character_id, level_threshold)
     else:
         craft_name = craft.split(" - ", 1)[1]

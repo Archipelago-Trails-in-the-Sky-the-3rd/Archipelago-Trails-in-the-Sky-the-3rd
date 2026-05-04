@@ -651,7 +651,8 @@ class TitsThe3rdContext(CommonContext):
                 character_id, level_threshold = craft_location_id_to_character_id_and_level_threshold[location_id]
                 if not self.game_interface.has_character(character_id):
                     continue
-                if self.game_interface.read_character_level(character_id) >= level_threshold:
+                level_offset = self.slot_data["craft_level_offset"]
+                if self.game_interface.read_character_level(character_id) >= (level_threshold + level_offset):
                     await self.check_location(location_id)
                     continue
             elif MIN_CRAFT_LOCATION_ID <= location_id <= MAX_CRAFT_LOCATION_ID and location_id in event_craft_location_id_to_character_id_and_craft_id:

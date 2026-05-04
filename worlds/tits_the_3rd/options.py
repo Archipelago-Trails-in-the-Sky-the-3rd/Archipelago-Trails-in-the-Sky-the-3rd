@@ -1,7 +1,7 @@
 """This module represents options definitions for Trails in the Sky the 3rd"""
 from dataclasses import dataclass
 
-from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle, Visibility
+from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle, Visibility, Range
 
 
 class NameSpoilerOption(Toggle):
@@ -141,6 +141,19 @@ class CraftPlacement(Choice):
     option_crafts = 1
     option_anywhere = 2
 
+class CraftLevelOffset(Range):
+    """
+    Level offset applied to craft unlocks. For example, if set to -2, you will receive
+    all crafts 2 levels earlier that you would otherwise. This reduces grinding.
+
+    Modifying this option to extreme amounts may lead to out of logic location checks.
+    This is because logic assumes that you will get crafts at their default level.
+    """
+    display_name = "Craft Level Offset"
+    default = 0
+    range_start = -50
+    range_end = 0
+
 class WeaponShuffle(Toggle):
     """
     Shuffle Weapon unlocks into the item pool.
@@ -163,3 +176,4 @@ class TitsThe3rdOptions(PerGameCommonOptions):
     craft_shuffle: CraftShuffle
     craft_placement: CraftPlacement
     weapon_shuffle: WeaponShuffle
+    craft_level_offset: CraftLevelOffset

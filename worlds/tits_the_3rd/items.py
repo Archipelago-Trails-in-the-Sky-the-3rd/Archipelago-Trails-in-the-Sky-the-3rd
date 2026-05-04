@@ -186,26 +186,6 @@ character_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.joshua: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 1, ItemClassification.progression),
 }
 
-# character_table: Dict[str, TitsThe3rdItemData] = {
-#     ItemName.estelle: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id], ItemClassification.progression),
-#     ItemName.joshua: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 1, ItemClassification.progression),
-#     ItemName.scherazard: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 2, ItemClassification.progression),
-#     ItemName.olivier: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 3, ItemClassification.progression),
-#     ItemName.kloe: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 4, ItemClassification.progression),
-#     ItemName.agate: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 5, ItemClassification.progression),
-#     ItemName.tita: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 6, ItemClassification.progression),
-#     ItemName.zin: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 7, ItemClassification.progression),
-#     ItemName.kevin: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 8, ItemClassification.progression),
-#     ItemName.anelace: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 9, ItemClassification.progression),
-#     ItemName.josette: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 10, ItemClassification.progression),
-#     ItemName.richard: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 11, ItemClassification.progression),
-#     ItemName.mueller: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 12, ItemClassification.progression),
-#     ItemName.julia: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 13, ItemClassification.progression),
-#     ItemName.ries: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 14, ItemClassification.progression),
-#     ItemName.renne: TitsThe3rdItemData(meta_data_table[ItemName.character_min_id] + 15, ItemClassification.progression),
-# }
-
-
 area_unlock_table: Dict[str, TitsThe3rdItemData] = {  # Item ID is 200000 + flag number
     ItemName.jade_corridor_unlock_1: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 256, ItemClassification.progression),
     ItemName.jade_corridor_unlock_2: TitsThe3rdItemData(meta_data_table[ItemName.area_min_id] + 257, ItemClassification.progression),

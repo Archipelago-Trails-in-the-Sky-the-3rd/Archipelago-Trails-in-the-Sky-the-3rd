@@ -190,7 +190,10 @@ weapon_to_progressive_weapon_mapping = {
 
 def _get_boss_requirements(location_name: str, player: int, options: TitsThe3rdOptions):
     if not options.weapon_shuffle.value:
-        return None
+        return lambda state, loc_name=location_name: sum(
+            1 for character in character_to_weapon.keys()
+            if state.has(scrub_spoiler_data(character) if options.name_spoiler_option else character, player, 1)
+        ) >= 4
 
     # Assert that the player has 4 characters with weapons that meet the standard for the boss's chapter.
     # E.g. For the chapter 1 boss, the player should logically have at least 4 characters

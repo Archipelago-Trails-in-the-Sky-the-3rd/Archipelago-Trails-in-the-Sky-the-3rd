@@ -193,6 +193,7 @@ class ItemName:
 
     # Key Item
     chapter_1_cleared = "Chapter 1 Cleared"
+    grancel_arena_boss_cleared = "Grancel Arena Boss Cleared"
     chapter_2_cleared = "Chapter 2 Cleared"
     entrance_exam_results = "Entrance Exam Results"
 

@@ -34,6 +34,7 @@ class LocationName:
 
     miniboss_day_grancel_east_unlock = "Miniboss - Unlock Day Grancel East"
     miniboss_bobcat_unlock = "Miniboss - Unlock Bobcat"
+    miniboss_grancel_arena = "Miniboss - Grancel Arena"
     chapter2_grancel_basement_unlock = "Grancel Castle - Unlock Basement"
     chapter2_boss_defeated = "Defeat Rostrum (Chapter 2 Boss)"
 

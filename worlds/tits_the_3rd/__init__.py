@@ -230,9 +230,11 @@ class TitsThe3rdWorld(World):
         """Define items for Trails in the Sky the 3rd AP"""
         # For now hard code beating Bennu as victory
         chapter_1_item = self.create_item(ItemName.chapter_1_cleared)
+        grancel_arena_boss_defeated_item = self.create_item(ItemName.grancel_arena_boss_cleared)
         chapter_2_item = self.create_item(ItemName.chapter_2_cleared)
         # TODO: change victory condition
         self.multiworld.get_location(LocationName.chapter1_boss_defeated, self.player).place_locked_item(chapter_1_item)
+        self.multiworld.get_location(LocationName.miniboss_grancel_arena, self.player).place_locked_item(grancel_arena_boss_defeated_item)
         self.multiworld.get_location(LocationName.chapter2_boss_defeated, self.player).place_locked_item(chapter_2_item)
 
         itempool = deepcopy(default_item_pool)

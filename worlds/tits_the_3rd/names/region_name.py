@@ -26,6 +26,7 @@ class RegionName:
     grancel_castle = "Grancel Castle"
     grancel_castle_basement = "Grancel Castle Basement"
     grancel_arena = "Grancel Arena"
+    grancel_arena_post_miniboss = "Grancel Arena Post Miniboss"
     grancel_bobcat = "Grancel Airship Bobcat"
     silver_road = "Silver Road"
     golden_road = "Golden Road"

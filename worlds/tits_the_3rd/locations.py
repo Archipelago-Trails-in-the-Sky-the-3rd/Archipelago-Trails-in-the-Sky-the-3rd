@@ -150,6 +150,7 @@ def _get_num_progressive_weapons_required_for_tier(tier: int):
 
 boss_requirements = {
     LocationName.chapter1_boss_defeated: 2,
+    LocationName.miniboss_grancel_arena: 3,
     LocationName.chapter2_boss_defeated: 3,
 }
 

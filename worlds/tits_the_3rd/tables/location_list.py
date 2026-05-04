@@ -62,16 +62,16 @@ location_table = dict([
     (LocationName.josette_orbment_item_3,                                                       LocationData(1205,      CheckTypeName.character_quartz,     RegionName.grancel_bobcat,                      ItemName.poison)),
     (LocationName.josette_orbment_item_4,                                                       LocationData(1206,      CheckTypeName.character_quartz,     RegionName.grancel_bobcat,                      ItemName.attack_2)),
     ### Joshua
-    (LocationName.joshua_initial_weapon,                                                        LocationData(1110,      CheckTypeName.character_gear,       RegionName.grancel_arena,                       "")),
-    (LocationName.joshua_initial_armor,                                                         LocationData(1111,      CheckTypeName.character_gear,       RegionName.grancel_arena,                       "")),
-    (LocationName.joshua_initial_boots,                                                         LocationData(1112,      CheckTypeName.character_gear,       RegionName.grancel_arena,                       "")),
-    (LocationName.joshua_orbment_item_1,                                                        LocationData(1113,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.action_2)),
-    (LocationName.joshua_orbment_item_2,                                                        LocationData(1114,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.evade_2)),
-    (LocationName.joshua_orbment_item_3,                                                        LocationData(1115,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.ep_cut_1)),
-    (LocationName.joshua_orbment_item_4,                                                        LocationData(1116,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.cast_1)),
-    (LocationName.joshua_orbment_item_5,                                                        LocationData(1117,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.ep_2)),
-    (LocationName.joshua_orbment_item_6,                                                        LocationData(1118,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.mind_2)),
-    (LocationName.joshua_orbment_item_7,                                                        LocationData(1119,      CheckTypeName.character_quartz,     RegionName.grancel_arena,                       ItemName.attack_2)),
+    (LocationName.joshua_initial_weapon,                                                        LocationData(1110,      CheckTypeName.character_gear,       RegionName.grancel_arena_post_miniboss,          "")),
+    (LocationName.joshua_initial_armor,                                                         LocationData(1111,      CheckTypeName.character_gear,       RegionName.grancel_arena_post_miniboss,          "")),
+    (LocationName.joshua_initial_boots,                                                         LocationData(1112,      CheckTypeName.character_gear,       RegionName.grancel_arena_post_miniboss,         "")),
+    (LocationName.joshua_orbment_item_1,                                                        LocationData(1113,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,          ItemName.action_2)),
+    (LocationName.joshua_orbment_item_2,                                                        LocationData(1114,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.evade_2)),
+    (LocationName.joshua_orbment_item_3,                                                        LocationData(1115,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.ep_cut_1)),
+    (LocationName.joshua_orbment_item_4,                                                        LocationData(1116,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.cast_1)),
+    (LocationName.joshua_orbment_item_5,                                                        LocationData(1117,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.ep_2)),
+    (LocationName.joshua_orbment_item_6,                                                        LocationData(1118,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.mind_2)),
+    (LocationName.joshua_orbment_item_7,                                                        LocationData(1119,      CheckTypeName.character_quartz,     RegionName.grancel_arena_post_miniboss,         ItemName.attack_2)),
 
     ## Sealing Stones
     ### Tita
@@ -94,14 +94,15 @@ location_table = dict([
     (LocationName.sealing_stone_night_grancel_port_unlock,                                      LocationData(2271,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.night_grancel_port_unlock)),
     (LocationName.sealing_stone_grancel_arena_unlock,                                           LocationData(2269,      CheckTypeName.area_unlock,          RegionName.grancel_bobcat,                      ItemName.grancel_arena_unlock)),
     ### Joshua
-    (LocationName.sealing_stone_joshua,                                                         LocationData(901,       CheckTypeName.character,            RegionName.grancel_arena,                       ItemName.joshua)),
-    (LocationName.sealing_stone_grancel_castle_unlock,                                          LocationData(2268,      CheckTypeName.area_unlock,          RegionName.grancel_arena,                       ItemName.grancel_castle_unlock)),
+    (LocationName.sealing_stone_joshua,                                                         LocationData(901,       CheckTypeName.character,            RegionName.grancel_arena_post_miniboss,         ItemName.joshua)),
+    (LocationName.sealing_stone_grancel_castle_unlock,                                          LocationData(2268,      CheckTypeName.area_unlock,          RegionName.grancel_arena_post_miniboss,         ItemName.grancel_castle_unlock)),
 
     ## Bosses / Generic Location
     (LocationName.chapter1_boss_defeated,                                                       LocationData(9757,      CheckTypeName.boss,                 RegionName.jade_corridor_expansion_area_2,      ItemName.chapter_1_cleared)),
     (LocationName.chapter1_boss_day_grancel_south_unlock,                                       LocationData(2259,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_south_unlock)),
     (LocationName.chapter1_boss_day_grancel_north_unlock,                                       LocationData(2260,      CheckTypeName.area_unlock,          RegionName.jade_corridor_expansion_area_2,      ItemName.day_grancel_north_unlock)),
     (LocationName.miniboss_day_grancel_east_unlock,                                             LocationData(2261,      CheckTypeName.area_unlock,          RegionName.day_grancel_north,                   ItemName.day_grancel_east_unlock)),
+    (LocationName.miniboss_grancel_arena,                                                       LocationData(10600,     CheckTypeName.boss,                 RegionName.grancel_arena,                       ItemName.grancel_arena_boss_cleared)),
     (LocationName.miniboss_bobcat_unlock,                                                       LocationData(2267,      CheckTypeName.area_unlock,          RegionName.day_grancel_port,                    ItemName.bobcat_unlock)),
     (LocationName.chapter2_grancel_basement_unlock,                                             LocationData(2273,      CheckTypeName.area_unlock,          RegionName.grancel_castle,                      ItemName.grancel_castle_basement_unlock)),
     (LocationName.chapter2_boss_defeated,                                                       LocationData(274,       CheckTypeName.boss,                 RegionName.grancel_castle_basement,             ItemName.chapter_2_cleared)),

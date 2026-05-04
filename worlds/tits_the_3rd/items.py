@@ -246,6 +246,7 @@ progressive_weapon_table: Dict[str, TitsThe3rdItemData] = {
 
 key_item_table: Dict[str, TitsThe3rdItemData] = {
     ItemName.chapter_1_cleared: TitsThe3rdItemData(500000, ItemClassification.progression),
+    ItemName.grancel_arena_boss_cleared: TitsThe3rdItemData(500002, ItemClassification.progression),
     ItemName.chapter_2_cleared: TitsThe3rdItemData(500001, ItemClassification.progression),
     ItemName.entrance_exam_results: TitsThe3rdItemData(831, ItemClassification.progression),
 }

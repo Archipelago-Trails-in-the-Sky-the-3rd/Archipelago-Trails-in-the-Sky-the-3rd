@@ -61,6 +61,7 @@ def create_regions(multiworld: MultiWorld, player: int):
     create_region(multiworld, player, RegionName.night_grancel_port)
     create_region(multiworld, player, RegionName.grancel_bobcat)
     create_region(multiworld, player, RegionName.grancel_arena)
+    create_region(multiworld, player, RegionName.grancel_arena_post_miniboss)
     create_region(multiworld, player, RegionName.grancel_castle)
     create_region(multiworld, player, RegionName.grancel_castle_basement)
 
@@ -399,6 +400,19 @@ def connect_regions(multiworld: MultiWorld, player: int):
         player,
         RegionName.grancel_arena,
         RegionName.night_grancel_east,
+    )
+
+    connect_region(
+        multiworld,
+        player,
+        RegionName.grancel_arena,
+        RegionName.grancel_arena_post_miniboss,
+    )
+    connect_region(
+        multiworld,
+        player,
+        RegionName.grancel_arena_post_miniboss,
+        RegionName.grancel_arena,
     )
 
     connect_region(

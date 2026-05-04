@@ -1,5 +1,6 @@
 import os
 import json
+from functools import lru_cache
 from worlds.tits_the_3rd.tables.location_list import location_id_to_name
 from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.items import character_name_to_id, item_id_to_name
@@ -50,13 +51,17 @@ def has_weapon_unlock_conditions(memory_io, location_id):
         _has_unlock_location(memory_io, location_name)
     )
 
-def get_weapon_item_id_and_quantity(item_id, num_already_recieved):
-    item_name = item_id_to_name[item_id].strip("Progressive ")
+@lru_cache(maxsize=None)
+def get_weapon_progression_mapping():
     weapon_progression_mapping = json.load(open(
         os.path.join(os.path.dirname(__file__), "../tables/weapon_tier_to_id_list.json")
     ))
+    return weapon_progression_mapping
+
+def get_weapon_item_id_and_quantity(item_id, num_already_recieved):
+    item_name = item_id_to_name[item_id].strip("Progressive ")
+    weapon_progression_mapping = get_weapon_progression_mapping()
     progression = None
-    print(item_name.lower())
     for weapon, weapon_progression in weapon_progression_mapping.items():
         if item_name.lower().startswith(weapon.lower()):
             progression = weapon_progression

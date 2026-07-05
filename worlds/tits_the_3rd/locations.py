@@ -29,6 +29,7 @@ from .tables.location_list import (
 from .names.check_type_name import CheckTypeName
 from .options import TitsThe3rdOptions, CraftPlacement
 from .spoiler_mapping import scrub_spoiler_data
+from worlds.tits_the_3rd.util import load_file
 
 MIN_CRAFT_LOCATION_ID = 100000
 MAX_CRAFT_LOCATION_ID = 100000 + 9999
@@ -140,7 +141,7 @@ def _get_num_progressive_weapons_required_for_tier(tier: int):
         "crossbow": ItemName.progressive_crossbow,
         "templar sword": ItemName.progressive_templar_sword
     }
-    weapon_to_tier_mapping = json.load(open(os.path.join(os.path.dirname(__file__), "tables/weapon_tier_to_id_list.json")))
+    weapon_to_tier_mapping = load_file("tables/weapon_tier_to_id_list.json")
     num_progressive_weapons_required = {}
     for weapon_name, tier_to_id_list in weapon_to_tier_mapping.items():
         # subtract 1 for the base game weapon, which doesn't count towards the progressive weapon requirement

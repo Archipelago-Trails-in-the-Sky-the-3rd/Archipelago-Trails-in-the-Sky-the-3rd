@@ -6,6 +6,7 @@ from worlds.tits_the_3rd.names.item_name import ItemName
 from worlds.tits_the_3rd.items import character_name_to_id, item_id_to_name
 from worlds.tits_the_3rd.tables.location_list import location_table
 from worlds.tits_the_3rd.names.region_name import RegionName
+from worlds.tits_the_3rd.util import load_file
 
 region_name_scena_flag = {
     RegionName.jade_corridor_start: 12400,
@@ -54,7 +55,7 @@ def has_weapon_unlock_conditions(memory_io, location_id):
 @lru_cache(maxsize=None)
 def get_weapon_progression_mapping():
     weapon_progression_mapping = json.load(open(
-        os.path.join(os.path.dirname(__file__), "../tables/weapon_tier_to_id_list.json")
+        load_file("tables/weapon_tier_to_id_list.json")
     ))
     return weapon_progression_mapping
 

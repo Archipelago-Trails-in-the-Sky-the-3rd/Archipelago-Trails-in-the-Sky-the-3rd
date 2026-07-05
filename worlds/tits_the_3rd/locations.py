@@ -142,6 +142,7 @@ def _get_num_progressive_weapons_required_for_tier(tier: int):
         "templar sword": ItemName.progressive_templar_sword
     }
     weapon_to_tier_mapping = load_file("tables/weapon_tier_to_id_list.json")
+    weapon_to_tier_mapping = json.loads(weapon_to_tier_mapping)
     num_progressive_weapons_required = {}
     for weapon_name, tier_to_id_list in weapon_to_tier_mapping.items():
         # subtract 1 for the base game weapon, which doesn't count towards the progressive weapon requirement

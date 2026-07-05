@@ -54,9 +54,7 @@ def has_weapon_unlock_conditions(memory_io, location_id):
 
 @lru_cache(maxsize=None)
 def get_weapon_progression_mapping():
-    weapon_progression_mapping = json.load(open(
-        load_file("tables/weapon_tier_to_id_list.json")
-    ))
+    weapon_progression_mapping = json.loads(load_file("tables/weapon_tier_to_id_list.json"))
     return weapon_progression_mapping
 
 def get_weapon_item_id_and_quantity(item_id, num_already_recieved):

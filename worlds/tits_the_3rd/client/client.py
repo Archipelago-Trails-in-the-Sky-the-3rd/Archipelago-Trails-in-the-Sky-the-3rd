@@ -170,7 +170,7 @@ class TitsThe3rdContext(CommonContext):
         current_id = 50000
 
         for location, (player, game, item_id) in self.non_local_locations.items():
-            item_name = f"{player}'s {self.item_ap_id_to_name[game][item_id]}"
+            item_name = f"{player}'s {item_id}"
             item, item_text = dt_items.create_non_local_item(current_id, strip_accents(item_name))
             self.non_local_mapping[location] = current_id
             current_id += 1
@@ -502,7 +502,11 @@ class TitsThe3rdContext(CommonContext):
                 self.player_aliases_to_actual_name[player.alias] = player.name
                 games.add(self.slot_info[player.slot].game)
 
-            asyncio.create_task(self.send_msgs([{"cmd": "GetDataPackage", "games": list(games)}]))
+            package_games = []
+            for game in games:
+                if str(game) == "Trails in the Sky the 3rd":
+                    package_games.append(game)
+            asyncio.create_task(self.send_msgs([{"cmd": "GetDataPackage", "games": list(package_games)}]))
             asyncio.create_task(self.send_msgs([{"cmd": "LocationScouts", "locations": self.location_ids}]))
 
         elif cmd == "LocationInfo":
